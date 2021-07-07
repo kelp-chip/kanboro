@@ -6,5 +6,5 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.listen(PORT, () => {
-  console.log(`server now running on http://localhost:${PORT}`);
+  console.log(`server now running on http://localhost:${PORT}!`);
 });
