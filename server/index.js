@@ -15,8 +15,29 @@ app.post("/signup", async (req, res) => {
 
 app.get("/login", async (req, res) => {
   const { username, password } = req.query;
-  await Users.login(username, password);
-  res.send("ok");
+  await Users.login(username, password, req, (token) => {
+    res.json(token);
+  });
+});
+
+const verifyJWT = (req, res, next) => {
+  const token = req.headers["x-access-token"];
+  if (!token) {
+    res.send("yo, we need a token >:(");
+  } else {
+    jwt.verify(token, "secret", (err, decoded) => {
+      if (err) {
+        res.json({ auth: false, message: "you failed to authenticate" });
+      } else {
+        req.userId = decoded.id;
+        next();
+      }
+    });
+  }
+};
+
+app.get("/protected", verifyJWT, (req, res) => {
+  res.send("Wow, you must be logged in!");
 });
 
 app.listen(PORT, () => {

@@ -1,5 +1,6 @@
 const { User, List, Board, Task } = require("../models");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   Users: {
@@ -17,18 +18,23 @@ module.exports = {
         console.log(hashedPassword);
       });
     },
-    login: async (username, password) => {
+    login: async (username, password, req, cb) => {
       const user = await User.findOne({ where: { username } });
       if (user) {
         const hashedPw = user.dataValues.password;
         const passwordsMatch = await bcrypt.compare(password, hashedPw);
         if (passwordsMatch) {
-          console.log("You logged in!");
+          // req.session.user = user;
+          id = user.id;
+          const token = jwt.sign({ id }, "secret", {
+            expiresIn: 300,
+          });
+          cb({ auth: true, token: token, result: user });
         } else {
-          console.log("wrong username or password");
+          cb("wrong username or password");
         }
       } else {
-        console.log("wrong username or password");
+        cb("wrong username or password");
       }
     },
   },
