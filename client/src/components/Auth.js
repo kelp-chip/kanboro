@@ -9,25 +9,31 @@ function Auth() {
 
   const register = (e) => {
     e.preventDefault();
-    axios
-      .post("/register", {
+    axios({
+      method: "post",
+      data: {
         username: registerUsername,
         password: registerPassword,
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
+      },
+      withCredentials: true,
+      url: "/register",
+    }).then(({ data }) => {
+      console.log(data);
+    });
   };
   const login = (e) => {
     e.preventDefault();
-    axios
-      .post("/login", {
+    axios({
+      method: "post",
+      data: {
         username: loginUsername,
         password: loginPassword,
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
+      },
+      withCredentials: true,
+      url: "/login",
+    }).then(({ data }) => {
+      console.log(data);
+    });
   };
 
   return (
