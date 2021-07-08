@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 8000;
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../", ".env") });
 
+const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const passport = require("passport");
 const passportLocal = require("passport-local").Strategy;
@@ -34,9 +35,22 @@ app.use(
 app.use(cookieParser(process.env.SESSION_SECRET));
 
 //ROUTES
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   const { username, password } = req.body;
-  res.send(username);
+  const user = await User.findOne({ where: { username } });
+  if (user) {
+    res.send("user already exists");
+  } else {
+    bcrypt.hash(password, 12, async (err, hashedPassword) => {
+      if (err) throw err;
+      const newUser = await User.create({
+        username: username,
+        password: hashedPassword,
+        avatar_url: "hey",
+      });
+      res.send(newUser);
+    });
+  }
 });
 
 app.post("/login", async (req, res) => {
