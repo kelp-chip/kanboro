@@ -10,7 +10,7 @@ function Auth() {
   const register = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8000/register", {
+      .post("/register", {
         username: registerUsername,
         password: registerPassword,
       })
@@ -21,7 +21,7 @@ function Auth() {
   const login = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8000/login", {
+      .post("/login", {
         username: loginUsername,
         password: loginPassword,
       })
