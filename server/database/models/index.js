@@ -6,8 +6,8 @@ const lists = require("./Lists");
 const tasks = require("./Tasks");
 
 module.exports = {
-  users: users(db, DataTypes),
-  boards: boards(db, DataTypes),
-  lists: lists(db, DataTypes),
-  tasks: tasks(db, DataTypes),
+  User: users(db, DataTypes),
+  Board: boards(db, DataTypes),
+  List: lists(db, DataTypes),
+  Task: tasks(db, DataTypes),
 };
