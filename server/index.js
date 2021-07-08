@@ -34,9 +34,9 @@ app.use(
 app.use(cookieParser(process.env.SESSION_SECRET));
 
 //ROUTES
-app.post("/signup", async (req, res) => {
-  // const { username, password } = req.body;
-  res.send(req.body);
+app.post("/register", (req, res) => {
+  const { username, password } = req.body;
+  res.send(username);
 });
 
 app.post("/login", async (req, res) => {
