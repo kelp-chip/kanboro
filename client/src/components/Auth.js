@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-function Auth() {
+function Auth({ setUserData }) {
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
@@ -21,9 +21,9 @@ function Auth() {
       console.log(data);
     });
   };
-  const login = (e) => {
+  const login = async (e) => {
     e.preventDefault();
-    axios({
+    await axios({
       method: "post",
       data: {
         username: loginUsername,
@@ -34,6 +34,7 @@ function Auth() {
     }).then(({ data }) => {
       console.log(data);
     });
+    window.location.reload(false);
   };
 
   return (

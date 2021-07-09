@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   List.associate = (models) => {
-    List.belongsTo(models.Board, {
-      foreignKey: "board_id",
+    List.belongsTo(models.User, {
+      foreignKey: "user_id",
     });
 
     List.hasMany(models.Task, {

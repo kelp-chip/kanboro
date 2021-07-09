@@ -22,9 +22,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    User.hasOne(models.Board, {
+    User.hasMany(models.List, {
       onDelete: "cascade",
-      foreignKey: "user_id",
     });
   };
 
