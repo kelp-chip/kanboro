@@ -1,5 +1,6 @@
 import "./App.css";
 import Auth from "./components/Auth";
+import Kanban from "./pages/Kanban";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -31,6 +32,7 @@ function App(locals) {
     <div className="App">
       {userData && `Welcome back, ${userData.username}!`}
       {userData && <button onClick={logout}>logout</button>}
+      {userData && <Kanban userData={userData} />}
       {!userData && <Auth setUserData={setUserData} />}
     </div>
   );

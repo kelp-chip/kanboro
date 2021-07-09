@@ -43,9 +43,8 @@ const verifyJWT = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.SESSION_SECRET, (err, decodedToken) => {
       if (err) {
-        res.send("unable to verify token");
+        res.status(400).json("unable to verify token");
       } else {
-        console.log("DECODED");
         console.log(decodedToken);
         next();
       }
@@ -55,26 +54,6 @@ const verifyJWT = (req, res, next) => {
   }
 };
 
-const checkUser = (req, res, next) => {
-  const token = req.cookies.jwt;
-  if (token) {
-    jwt.verify(token, process.env.SESSION_SECRET, async (err, decodedToken) => {
-      if (err) {
-        console.log(err.message);
-        res.locals.user = null;
-        next();
-      } else {
-        const user = await User.findOne({ where: { id: decodedToken.id } });
-        console.log(user.dataValues);
-        res.locals.user = user.dataValues;
-        next();
-      }
-    });
-  } else {
-    res.locals.user = null;
-    next();
-  }
-};
 //---------------------------End of Middleware--------------------------------
 
 const maxAge = 3 * 24 * 60 * 60;
@@ -85,8 +64,6 @@ const createToken = (id, username) => {
 };
 
 //ROUTES
-
-// app.get("*", checkUser);
 
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -100,7 +77,11 @@ app.post("/register", async (req, res) => {
         avatar_url: "hm",
       });
       const token = createToken(newUser.id, newUser.username);
-      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: maxAge * 1000,
+      });
       res.status(200).json({ user: newUser.id });
     });
   } else {
@@ -117,7 +98,11 @@ app.post("/login", async (req, res) => {
     if (passwordsMatch) {
       const id = user.id;
       const token = createToken(id, username);
-      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: maxAge * 1000,
+      });
       res.status(200).json({ user: id });
     } else {
       res.send("Wrong password");
