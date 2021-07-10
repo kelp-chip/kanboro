@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    interval_time: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   });
 
   User.associate = (models) => {

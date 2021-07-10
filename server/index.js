@@ -74,7 +74,8 @@ app.post("/register", async (req, res) => {
       const newUser = await User.create({
         username: username,
         password: hashedPassword,
-        avatar_url: "hm",
+        avatar_url: "https://image.flaticon.com/icons/png/512/149/149071.png",
+        interval_time: 25,
       });
       const token = createToken(newUser.id, newUser.username);
       res.cookie("jwt", token, {
