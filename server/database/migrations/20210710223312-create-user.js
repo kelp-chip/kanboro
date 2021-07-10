@@ -1,45 +1,47 @@
 "use strict";
-
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface, DataTypes) => {
     return queryInterface.createTable("users", {
       id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        allowNull: false,
         primaryKey: true,
       },
       username: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
       password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       avatar_url: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
+        allowNull: false,
         defaultValue: "https://image.flaticon.com/icons/png/512/149/149071.png",
       },
       interval_time: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 25,
       },
       createdAt: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal(
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.literal(
           "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
         ),
       },
     });
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface, DataTypes) => {
     await queryInterface.dropTable("users");
   },
 };
