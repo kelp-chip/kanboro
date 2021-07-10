@@ -32,6 +32,9 @@ function App(locals) {
   return (
     <div className="App">
       {userData && `Welcome back, ${userData.username}!`}
+      <br />
+      <img src={userData.avatar_url} style={{ width: "20px" }}></img>
+      <br />
       {userData && <button onClick={logout}>logout</button>}
       {userData ? (
         <Kanban userData={userData} />

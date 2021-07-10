@@ -141,6 +141,6 @@ app.post("/logout", (req, res) => {
 
 //START SERVER
 app.listen(PORT, () => {
-  // db.sync({ force: true });
+  db.sync({ force: true });
   console.log(`server now running on http://localhost:${PORT}!`);
 });

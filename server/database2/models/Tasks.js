@@ -10,19 +10,27 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     order: {
       type: DataTypes.INTEGER,
     },
+    intervals: {
+      type: DataTypes.INTEGER,
+    },
+    intervals_completed: {
+      type: DataTypes.INTEGER,
+    },
   });
 
-  Task.associate = (models) => {
-    Task.belongsTo(models.List, {
-      foreignKey: "list_id",
-    });
-  };
+  // Task.associate = (models) => {
+  //   Task.belongsTo(models.List, {
+  //     foreignKey: {
+  //       allowNull: false,
+  //     },
+  //   });
+  // };
 
   return Task;
 };
