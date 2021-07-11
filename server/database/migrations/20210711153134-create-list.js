@@ -3,10 +3,10 @@ module.exports = {
   up: async (queryInterface, DataTypes) => {
     await queryInterface.createTable("Lists", {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
         primaryKey: true,
-        unique: true,
       },
       name: {
         type: DataTypes.STRING,
@@ -14,6 +14,10 @@ module.exports = {
       },
       order: {
         type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      userId: {
+        type: DataTypes.UUID,
         allowNull: false,
       },
 
@@ -28,6 +32,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Lists");
+    await queryInterface.dropTable("lists");
   },
 };

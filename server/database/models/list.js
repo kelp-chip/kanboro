@@ -2,15 +2,12 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class List extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+    static associate({ User }) {
+      //create's foreign key using id from User
+      this.belongsTo(User, { foreignKey: "userId" });
     }
   }
+
   List.init(
     {
       id: {
@@ -34,5 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "List",
     }
   );
+
   return List;
 };
