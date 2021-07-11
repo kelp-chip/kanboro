@@ -1,25 +1,25 @@
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState } from "react";
 
-const itemsFromBackend = [
-  { id: "2343", content: "Shower" },
-  { id: "123", content: "Clean Room" },
-];
+// const itemsFromBackend = [
+//   { id: "2343", content: "Shower" },
+//   { id: "123", content: "Clean Room" },
+// ];
 
-const columnsFromBackend = {
-  backlog: {
-    name: "backlog",
-    items: itemsFromBackend,
-  },
-  progress: {
-    name: "in progress",
-    items: [],
-  },
-  done: {
-    name: "done",
-    items: [],
-  },
-};
+// const columnsFromBackend = {
+//   backlog: {
+//     name: "backlog",
+//     items: itemsFromBackend,
+//   },
+//   progress: {
+//     name: "in progress",
+//     items: [],
+//   },
+//   done: {
+//     name: "done",
+//     items: [],
+//   },
+// };
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -57,9 +57,7 @@ const onDragEnd = (result, columns, setColumns) => {
   }
 };
 
-function Board() {
-  const [columns, setColumns] = useState(columnsFromBackend);
-
+function Board({ listData, setListData }) {
   return (
     <>
       <h1>BOARD</h1>
@@ -68,10 +66,10 @@ function Board() {
       >
         <DragDropContext
           onDragEnd={(result) => {
-            onDragEnd(result, columns, setColumns);
+            onDragEnd(result, listData, setListData);
           }}
         >
-          {Object.entries(columns).map(([id, column]) => {
+          {Object.entries(listData).map(([id, column]) => {
             return (
               <div style={{ marginLeft: "10px" }} key={id}>
                 <h2>{column.name}</h2>
@@ -90,11 +88,11 @@ function Board() {
                           minHeight: 500,
                         }}
                       >
-                        {column.items.map((item, index) => {
+                        {column.tasks.map((task, index) => {
                           return (
                             <Draggable
-                              key={item.id}
-                              draggableId={item.id}
+                              key={task.id}
+                              draggableId={task.id}
                               index={index}
                             >
                               {(provided, snapshot) => {
@@ -115,7 +113,7 @@ function Board() {
                                       ...provided.draggableProps.style,
                                     }}
                                   >
-                                    {item.content}
+                                    {task.content}
                                   </div>
                                 );
                               }}

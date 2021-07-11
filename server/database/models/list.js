@@ -2,17 +2,18 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class List extends Model {
-    static associate({ User }) {
+    static associate({ User, Task }) {
       //create's foreign key using id from User
       this.belongsTo(User, { foreignKey: "userId" });
+      this.hasMany(Task, { foreignKey: "listId" });
     }
   }
 
   List.init(
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         unique: true,
       },
@@ -28,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "List",
-      tableName: "List",
+      tableName: "lists",
     }
   );
 

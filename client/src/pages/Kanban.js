@@ -1,10 +1,10 @@
 import Board from "../components/Board";
 
-function Kanban({ userData }) {
+function Kanban({ userData, listData, setListData }) {
   return (
     <div>
       <h2>{userData.username}'s kanboro board</h2>
-      <Board />
+      <Board listData={listData} setListData={setListData} />
     </div>
   );
 }

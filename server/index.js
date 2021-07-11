@@ -11,10 +11,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
-
-// const db = require("./database2/connect");
-const { sequelize, User } = require("./database/models");
-// const { User, List, Task } = require("./database2/models");
+const { sequelize, User, List } = require("./database/models");
 
 //MIDDLEWARE
 app.use(express.json());
@@ -122,6 +119,25 @@ app.post("/logout", (req, res) => {
   console.log("hey");
   res.clearCookie("jwt");
   res.status(200).json("user logged out");
+});
+
+app.get("/lists", async (req, res) => {
+  const { userId } = req.query;
+  // console.log("------------------");
+  // console.log(req.query);
+  const lists = await List.findAll({ where: { userId } });
+  console.log(lists);
+  res.send(lists);
+});
+
+app.post("/lists", async (req, res) => {
+  const { userId, name } = req.body;
+  const lists = await List.create({
+    name: name,
+    userId: userId,
+    order: 1,
+  });
+  res.send(lists);
 });
 
 //-----------------------------End of Routes----------------------------------
