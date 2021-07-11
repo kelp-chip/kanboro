@@ -1,5 +1,4 @@
 import "./App.css";
-import Auth from "./components/Auth";
 import Kanban from "./pages/Kanban";
 import Login from "./pages/Login";
 import axios from "axios";
@@ -33,7 +32,13 @@ function App(locals) {
     <div className="App">
       {userData && `Welcome back, ${userData.username}!`}
       <br />
-      <img src={userData.avatar_url} style={{ width: "20px" }}></img>
+      {userData && (
+        <img
+          src={userData.avatar_url}
+          alt="user avatar"
+          style={{ width: "20px" }}
+        ></img>
+      )}
       <br />
       {userData && <button onClick={logout}>logout</button>}
       {userData ? (

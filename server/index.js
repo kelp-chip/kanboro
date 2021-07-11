@@ -10,10 +10,11 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const jwt = require("jsonwebtoken");
+const uuid = require("uuid");
 
-const db = require("./database/connect");
-const { User, List, Task } = require("./database/models");
-const e = require("express");
+// const db = require("./database2/connect");
+const { sequelize, User } = require("./database/models");
+// const { User, List, Task } = require("./database2/models");
 
 //MIDDLEWARE
 app.use(express.json());
@@ -66,16 +67,16 @@ const createToken = (id, username) => {
 //ROUTES
 
 app.post("/register", async (req, res) => {
+  // console.log(req.body.username);
   const { username, password } = req.body;
   const user = await User.findOne({ where: { username } });
   if (!user) {
     bcrypt.hash(password, 12, async (err, hashedPassword) => {
       if (err) throw err;
       const newUser = await User.create({
+        id: uuid.v4(),
         username: username,
         password: hashedPassword,
-        avatar_url: "https://image.flaticon.com/icons/png/512/149/149071.png",
-        interval_time: 25,
       });
       const token = createToken(newUser.id, newUser.username);
       res.cookie("jwt", token, {
@@ -83,7 +84,7 @@ app.post("/register", async (req, res) => {
         secure: true,
         maxAge: maxAge * 1000,
       });
-      res.status(200).json({ user: newUser.id });
+      res.status(200).json(newUser);
     });
   } else {
     res.send("User already exists");
@@ -140,7 +141,9 @@ app.post("/logout", (req, res) => {
 //-----------------------------End of Routes----------------------------------
 
 //START SERVER
-app.listen(PORT, () => {
-  db.sync({ force: true });
+app.listen(PORT, async () => {
+  // db.sync({ force: true });
   console.log(`server now running on http://localhost:${PORT}!`);
+  await sequelize.authenticate();
+  console.log("Database connected!");
 });

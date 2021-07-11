@@ -32,7 +32,7 @@ function Auth({ setUserData }) {
       withCredentials: true,
       url: "/login",
     }).then(({ data }) => {
-      console.log(data);
+      setUserData(data);
     });
     window.location.reload(false);
   };

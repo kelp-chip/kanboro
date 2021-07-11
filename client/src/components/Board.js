@@ -1,6 +1,5 @@
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState } from "react";
-import uuid from "uuidv4";
 
 const itemsFromBackend = [
   { id: "2343", content: "Shower" },
