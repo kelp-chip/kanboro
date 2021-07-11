@@ -140,14 +140,11 @@ app.post("/lists", async (req, res) => {
   res.send(lists);
 });
 
-// app.get("/tasks", async (req, res) => {
-//   const { userId } = req.query;
-//   // console.log("------------------");
-//   // console.log(req.query);
-//   const lists = await List.findAll({ where: { userId } });
-//   console.log(lists);
-//   res.send(lists);
-// });
+app.get("/tasks", async (req, res) => {
+  const { listId } = req.query;
+  const tasks = await Task.findAll({ where: { listId } });
+  res.send(tasks);
+});
 
 app.post("/tasks", async (req, res) => {
   const { listId, name, intervals } = req.body;
