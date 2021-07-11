@@ -4,6 +4,7 @@ module.exports = {
     return queryInterface.createTable("users", {
       id: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true,
       },

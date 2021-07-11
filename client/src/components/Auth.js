@@ -23,18 +23,26 @@ function Auth({ setUserData }) {
   };
   const login = async (e) => {
     e.preventDefault();
-    await axios({
-      method: "post",
-      data: {
-        username: loginUsername,
-        password: loginPassword,
-      },
-      withCredentials: true,
-      url: "/login",
-    }).then(({ data }) => {
-      setUserData(data);
-    });
-    window.location.reload(false);
+    try {
+      const res = await axios({
+        method: "post",
+        data: {
+          username: loginUsername,
+          password: loginPassword,
+        },
+        withCredentials: true,
+        url: "/login",
+      });
+
+      if (res.data.verified) {
+        await setUserData(res.data.user);
+      } else {
+        console.log(res.data.message);
+      }
+    } catch (err) {
+      console.log("Sorry, couldn't reach the server");
+      console.log(err);
+    }
   };
 
   return (
