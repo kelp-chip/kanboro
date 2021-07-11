@@ -17,6 +17,7 @@ module.exports = {
       },
       notes: {
         type: DataTypes.TEXT,
+        defaultValue: null,
       },
       intervals: {
         type: DataTypes.INTEGER,

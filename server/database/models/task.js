@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       notes: {
         type: DataTypes.TEXT,
+        defaultValue: null,
       },
       intervals: {
         type: DataTypes.INTEGER,

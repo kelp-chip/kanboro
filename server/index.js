@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
-const { sequelize, User, List } = require("./database/models");
+const { sequelize, User, List, Task } = require("./database/models");
 
 //MIDDLEWARE
 app.use(express.json());
@@ -106,7 +106,7 @@ app.get("/userInfo", (req, res) => {
         res.send({ user: null });
       } else {
         const user = await User.findOne({ where: { id: decodedToken.id } });
-        console.log(user.dataValues);
+        console.log(user);
         res.send({ user: user.dataValues });
       }
     });
@@ -138,6 +138,34 @@ app.post("/lists", async (req, res) => {
     order: 1,
   });
   res.send(lists);
+});
+
+// app.get("/tasks", async (req, res) => {
+//   const { userId } = req.query;
+//   // console.log("------------------");
+//   // console.log(req.query);
+//   const lists = await List.findAll({ where: { userId } });
+//   console.log(lists);
+//   res.send(lists);
+// });
+
+app.post("/tasks", async (req, res) => {
+  const { listId, name, intervals } = req.body;
+  try {
+    const task = await Task.create({
+      name: name,
+      listId: listId,
+      order: 1,
+      intervals: intervals,
+    });
+    res.send(task);
+  } catch (err) {
+    console.log({
+      success: false,
+      message: "Sorry, something went wrong",
+      error: err,
+    });
+  }
 });
 
 //-----------------------------End of Routes----------------------------------
