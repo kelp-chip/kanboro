@@ -3,45 +3,26 @@ import Kanban from "./pages/Kanban";
 import Login from "./pages/Login";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 function App(locals) {
   const [userData, setUserData] = useState(null);
   const [listData, setListData] = useState([]);
 
-  const formatListData = (listData, tasks) => {
-    const lists = {};
-    listData.forEach((list) => {
-      lists[list.id] = { name: list.name, items: [], tasks: tasks };
-    });
-    return lists;
-  };
-
-  const isAuth = async (e) => {
-    const res = await axios({
+  const isUserInfo = async (e) => {
+    const { data } = await axios({
       method: "get",
       url: "http://localhost:8000/userInfo",
       withCredentials: true,
     });
-    const user = res.data.user;
-    await setUserData(user);
-    if (user) {
-      getLists(user);
-    }
+    await setUserData(data.user);
+    await getLists(data.user.id);
   };
 
-  const getLists = async (user) => {
-    await axios.get("/lists", { params: { userId: user.id } }).then((res) => {
-      const lists = formatListData(res.data, getTasks());
-      setListData(lists);
+  const getLists = async (userId) => {
+    let { data: lists } = await axios.get("/lists", {
+      params: { userId: userId },
     });
-  };
-
-  const getTasks = () => {
-    return [
-      { id: uuidv4(), name: "Shower" },
-      { id: uuidv4(), name: "Clean Room" },
-    ];
+    await setListData(lists);
   };
 
   const logout = async (e) => {
@@ -54,7 +35,7 @@ function App(locals) {
   };
 
   useEffect(() => {
-    isAuth();
+    isUserInfo();
   }, []);
 
   return (
@@ -79,7 +60,6 @@ function App(locals) {
       ) : (
         <Login setUserData={setUserData} />
       )}
-      {/* {!userData && <Auth setUserData={setUserData} />} */}
     </div>
   );
 }

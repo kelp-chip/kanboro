@@ -113,6 +113,7 @@ app.get("/userInfo", (req, res) => {
       }
     });
   } else {
+    console.log("no user");
     res.send({ user: null });
   }
 });
@@ -125,8 +126,14 @@ app.post("/logout", (req, res) => {
 
 app.get("/lists", async (req, res) => {
   const { userId } = req.query;
-  const lists = await List.findAll({ where: { userId } });
-  console.log(lists);
+  const lists = await List.findAll({
+    where: { userId },
+    include: [Task],
+    order: [
+      ["order", "ASC"],
+      [Task, "order", "ASC"],
+    ],
+  });
   res.send(lists);
 });
 
@@ -192,6 +199,19 @@ app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
     { where: { id: taskId } }
   );
   res.json({ success: true });
+});
+
+app.get("/join", async (req, res) => {
+  const { userId } = req.query;
+  const lists = await List.findAll({
+    where: { userId },
+    include: [Task],
+    order: [
+      ["order", "ASC"],
+      [Task, "order", "ASC"],
+    ],
+  });
+  res.send(lists);
 });
 
 //-----------------------------End of Routes----------------------------------
