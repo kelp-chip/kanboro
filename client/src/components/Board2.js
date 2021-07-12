@@ -36,7 +36,7 @@ function Board({ listData, setListData }) {
                       ref={provided.innerRef}
                       style={{
                         background: snapshot.isDraggingOver
-                          ? "cyan"
+                          ? "LightCyan"
                           : "lightblue",
                         padding: 4,
                         width: 250,
@@ -44,7 +44,36 @@ function Board({ listData, setListData }) {
                       }}
                     >
                       {list.Tasks.map((task) => {
-                        return <h2 key={task.id}>{task.name}</h2>;
+                        return (
+                          <Draggable
+                            key={task.id}
+                            draggableId={task.id}
+                            index={task.order}
+                          >
+                            {(provided, snapshot) => {
+                              return (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  style={{
+                                    userSelect: "none",
+                                    padding: 16,
+                                    marginBottom: "8px",
+                                    minHeight: "50px",
+                                    backgroundColor: snapshot.isDragging
+                                      ? "PowderBlue"
+                                      : "white",
+                                    color: "black",
+                                    ...provided.draggableProps.style,
+                                  }}
+                                >
+                                  {task.name}
+                                </div>
+                              );
+                            }}
+                          </Draggable>
+                        );
                       })}
 
                       {/* <Draggable

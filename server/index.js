@@ -183,7 +183,6 @@ app.post("/tasks", async (req, res) => {
       error: err,
     });
   }
-  // res.send({ order: order });
 });
 
 app.delete("/tasks", async (req, res) => {
