@@ -1,5 +1,4 @@
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState } from "react";
 
 // const itemsFromBackend = [
 //   { id: "2343", content: "Shower" },
@@ -21,41 +20,83 @@ import { useState } from "react";
 //   },
 // };
 
-const onDragEnd = (result, columns, setColumns) => {
+const onDragEnd = (result, listData, setListData) => {
   if (!result.destination) return;
   const { source, destination } = result;
+  console.log("---------");
+  console.log(destination);
   if (source.droppableId !== destination.droppableId) {
-    const sourceColumn = columns[source.droppableId];
-    const destColumn = columns[destination.droppableId];
-    const sourceItems = [...sourceColumn.items];
-    const destItems = [...destColumn.items];
-    const [removed] = sourceItems.splice(source.index, 1);
-    destItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
+    const sourceColumn = listData[source.droppableId];
+    const destColumn = listData[destination.droppableId];
+    console.log(sourceColumn);
+    console.log(destColumn);
+    const sourceTasks = [...sourceColumn.tasks];
+    const destTasks = [...destColumn.tasks];
+    const [removed] = sourceTasks.splice(source.index, 1);
+    console.log(destTasks);
+    destTasks.splice(destination.index, 0, removed);
+    console.log(destTasks);
+    setListData({
+      ...listData,
       [source.droppableId]: {
         ...sourceColumn,
-        items: sourceItems,
+        tasks: sourceTasks,
       },
       [destination.droppableId]: {
         ...destColumn,
-        items: destItems,
-      },
-    });
-  } else {
-    const column = columns[source.droppableId];
-    const copiedItems = [...column.items];
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...column,
-        items: copiedItems,
+        tasks: destTasks,
       },
     });
   }
+  // } else {
+  //   const column = listData[source.droppableId];
+  //   const copiedItems = [...column.items];
+  //   const [removed] = copiedItems.splice(source.index, 1);
+  //   copiedItems.splice(destination.index, 0, removed);
+  //   setListData({
+  //     ...listData,
+  //     [source.droppableId]: {
+  //       ...column,
+  //       tasks: copiedItems,
+  //     },
+  //   });
+  // }
 };
+// const onDragEnd = (result, column, setColumnData) => {
+//   if (!result.destination) return;
+//   const { source, destination } = result;
+//   if (source.droppableId !== destination.droppableId) {
+//     const sourceColumn = column[source.droppableId];
+//     const destColumn = column[destination.droppableId];
+//     const sourceItems = [...sourceColumn.task];
+//     const destItems = [...destColumn.items];
+//     const [removed] = sourceItems.splice(source.index, 1);
+//     destItems.splice(destination.index, 0, removed);
+//     setColumnData({
+//       ...column,
+//       [source.droppableId]: {
+//         ...sourceColumn,
+//         items: sourceItems,
+//       },
+//       [destination.droppableId]: {
+//         ...destColumn,
+//         items: destItems,
+//       },
+//     });
+//   } else {
+//     const column = listData[source.droppableId];
+//     const copiedItems = [...column.items];
+//     const [removed] = copiedItems.splice(source.index, 1);
+//     copiedItems.splice(destination.index, 0, removed);
+//     setColumnData({
+//       ...listData,
+//       [source.droppableId]: {
+//         ...column,
+//         tasks: copiedItems,
+//       },
+//     });
+//   }
+// };
 
 function Board({ listData, setListData }) {
   return (
@@ -113,7 +154,7 @@ function Board({ listData, setListData }) {
                                       ...provided.draggableProps.style,
                                     }}
                                   >
-                                    {task.content}
+                                    {task.name}
                                   </div>
                                 );
                               }}

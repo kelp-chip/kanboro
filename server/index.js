@@ -41,6 +41,15 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 //   }
 // };
 
+const getOrder = async (listId) => {
+  const tasks = await Task.findOne({
+    where: { listId },
+    order: [["order", "DESC"]],
+  });
+  const order = Math.floor(tasks.order / 100) * 100 + 100;
+  return order;
+};
+
 //---------------------------End of Middleware--------------------------------
 
 const maxAge = 3 * 24 * 60 * 60;
@@ -123,8 +132,6 @@ app.post("/logout", (req, res) => {
 
 app.get("/lists", async (req, res) => {
   const { userId } = req.query;
-  // console.log("------------------");
-  // console.log(req.query);
   const lists = await List.findAll({ where: { userId } });
   console.log(lists);
   res.send(lists);
@@ -148,11 +155,12 @@ app.get("/tasks", async (req, res) => {
 
 app.post("/tasks", async (req, res) => {
   const { listId, name, intervals } = req.body;
+  const order = await getOrder(listId);
   try {
     const task = await Task.create({
       name: name,
       listId: listId,
-      order: 1,
+      order: order,
       intervals: intervals,
     });
     res.send(task);
@@ -163,6 +171,16 @@ app.post("/tasks", async (req, res) => {
       error: err,
     });
   }
+});
+
+app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
+  // const { taskId, listId, order } = req.body;
+  const { taskId, listId, order } = req.params;
+  const updatedTask = await Task.update(
+    { order: order, listId: listId },
+    { where: { id: taskId } }
+  );
+  res.json({ success: true });
 });
 
 //-----------------------------End of Routes----------------------------------

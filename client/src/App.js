@@ -39,8 +39,8 @@ function App(locals) {
 
   const getTasks = () => {
     return [
-      { id: uuidv4(), content: "Shower" },
-      { id: uuidv4(), content: "Clean Room" },
+      { id: uuidv4(), name: "Shower" },
+      { id: uuidv4(), name: "Clean Room" },
     ];
   };
 
