@@ -142,6 +142,7 @@ app.post("/lists", async (req, res) => {
 
 app.delete("/lists", async (req, res) => {
   const { id } = req.body;
+  //this method is the only way we can get cascade to work properly
   const list = await List.findOne({ where: { id } });
   await list.destroy();
 
