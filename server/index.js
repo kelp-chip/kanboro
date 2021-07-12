@@ -13,6 +13,8 @@ const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
 const { sequelize, User, List, Task } = require("./database/models");
 
+const getOrder = require("./helpers/getOrder");
+
 //MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded());
@@ -40,15 +42,6 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 //     res.send("no token found");
 //   }
 // };
-
-const getOrder = async (listId) => {
-  const tasks = await Task.findOne({
-    where: { listId },
-    order: [["order", "DESC"]],
-  });
-  const order = Math.floor(tasks.order / 100) * 100 + 100;
-  return order;
-};
 
 //---------------------------End of Middleware--------------------------------
 
@@ -149,7 +142,10 @@ app.post("/lists", async (req, res) => {
 
 app.get("/tasks", async (req, res) => {
   const { listId } = req.query;
-  const tasks = await Task.findAll({ where: { listId } });
+  const tasks = await Task.findAll({
+    where: { listId },
+    order: [["order", "ASC"]],
+  });
   res.send(tasks);
 });
 
@@ -171,10 +167,10 @@ app.post("/tasks", async (req, res) => {
       error: err,
     });
   }
+  // res.send({ order: order });
 });
 
 app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
-  // const { taskId, listId, order } = req.body;
   const { taskId, listId, order } = req.params;
   const updatedTask = await Task.update(
     { order: order, listId: listId },
