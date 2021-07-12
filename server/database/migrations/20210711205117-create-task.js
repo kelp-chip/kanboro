@@ -33,6 +33,9 @@ module.exports = {
       listId: {
         type: DataTypes.UUID,
         allowNull: false,
+        onDelete: "cascade",
+        onUpdate: "cascade",
+        hooks: true,
       },
       createdAt: {
         allowNull: false,

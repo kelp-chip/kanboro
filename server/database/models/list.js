@@ -4,8 +4,12 @@ module.exports = (sequelize, DataTypes) => {
   class List extends Model {
     static associate({ User, Task }) {
       //create's foreign key using id from User
+      this.hasMany(Task, {
+        foreignKey: { name: "listId", allowNull: false },
+        onDelete: "cascade",
+        hooks: true,
+      });
       this.belongsTo(User, { foreignKey: "userId" });
-      this.hasMany(Task, { foreignKey: "listId" });
     }
   }
 

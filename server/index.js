@@ -140,6 +140,14 @@ app.post("/lists", async (req, res) => {
   res.send(lists);
 });
 
+app.delete("/lists", async (req, res) => {
+  const { id } = req.body;
+  const list = await List.findOne({ where: { id } });
+  await list.destroy();
+
+  res.send("list deleted");
+});
+
 app.get("/tasks", async (req, res) => {
   const { listId } = req.query;
   const tasks = await Task.findAll({
@@ -168,6 +176,12 @@ app.post("/tasks", async (req, res) => {
     });
   }
   // res.send({ order: order });
+});
+
+app.delete("/tasks", async (req, res) => {
+  const { id } = req.body;
+  Task.destroy({ where: { id } });
+  res.send("task deleted");
 });
 
 app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {

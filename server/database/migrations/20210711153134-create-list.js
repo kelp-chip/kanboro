@@ -7,6 +7,8 @@ module.exports = {
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true,
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       name: {
         type: DataTypes.STRING,
