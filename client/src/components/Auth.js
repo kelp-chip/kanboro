@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-function Auth({ setUserData }) {
+function Auth({ setUserData, getLists }) {
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
@@ -36,6 +36,7 @@ function Auth({ setUserData }) {
 
       if (res.data.verified) {
         await setUserData(res.data.user);
+        await getLists(res.data.user.id);
       } else {
         console.log(res.data.message);
       }

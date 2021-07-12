@@ -167,6 +167,7 @@ app.get("/tasks", async (req, res) => {
 
 app.post("/tasks", async (req, res) => {
   const { listId, name, intervals } = req.body;
+
   const order = await getOrder(listId);
   try {
     const task = await Task.create({

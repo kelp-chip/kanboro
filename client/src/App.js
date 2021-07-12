@@ -8,17 +8,20 @@ function App(locals) {
   const [userData, setUserData] = useState(null);
   const [listData, setListData] = useState([]);
 
-  const isUserInfo = async (e) => {
+  const getUserInfo = async (e) => {
     const { data } = await axios({
       method: "get",
       url: "http://localhost:8000/userInfo",
       withCredentials: true,
     });
-    await setUserData(data.user);
-    await getLists(data.user.id);
+    if (data.user) {
+      await setUserData(data.user);
+      await getLists(data.user.id);
+    }
   };
 
   const getLists = async (userId) => {
+    console.log(userData);
     let { data: lists } = await axios.get("/lists", {
       params: { userId: userId },
     });
@@ -35,7 +38,7 @@ function App(locals) {
   };
 
   useEffect(() => {
-    isUserInfo();
+    getUserInfo();
   }, []);
 
   return (
@@ -55,10 +58,10 @@ function App(locals) {
         <Kanban
           userData={userData}
           listData={listData}
-          setListData={setListData}
+          getUserInfo={getUserInfo}
         />
       ) : (
-        <Login setUserData={setUserData} />
+        <Login setUserData={setUserData} getLists={getLists} />
       )}
     </div>
   );

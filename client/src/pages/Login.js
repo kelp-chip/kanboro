@@ -1,9 +1,9 @@
 import Auth from "../components/Auth";
 
-function Login({ setUserData }) {
+function Login({ setUserData, getLists }) {
   return (
     <div>
-      <Auth setUserData={setUserData} />
+      <Auth setUserData={setUserData} getLists={getLists} />
     </div>
   );
 }
