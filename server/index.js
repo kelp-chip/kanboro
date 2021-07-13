@@ -13,7 +13,7 @@ const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
 const { sequelize, User, List, Task } = require("./database/models");
 
-const getOrder = require("./helpers/getOrder");
+const { getTaskOrder, getListOrder } = require("./helpers/getOrder");
 
 //MIDDLEWARE
 app.use(express.json());
@@ -139,10 +139,11 @@ app.get("/lists", async (req, res) => {
 
 app.post("/lists", async (req, res) => {
   const { userId, name } = req.body;
+  const order = await getListOrder(userId);
   const lists = await List.create({
     name: name,
     userId: userId,
-    order: 1,
+    order: order,
   });
   res.send(lists);
 });
@@ -168,7 +169,10 @@ app.get("/tasks", async (req, res) => {
 app.post("/tasks", async (req, res) => {
   const { listId, name, intervals } = req.body;
 
-  const order = await getOrder(listId);
+  console.log("-------------LIST ID---------------");
+  console.log(listId);
+  console.log("-------------======---------------");
+  const order = await getTaskOrder(listId);
   try {
     const task = await Task.create({
       name: name,

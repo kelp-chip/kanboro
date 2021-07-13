@@ -17,11 +17,11 @@ function App(locals) {
     if (data.user) {
       await setUserData(data.user);
       await getLists(data.user.id);
+      console.log(listData);
     }
   };
 
   const getLists = async (userId) => {
-    console.log(userData);
     let { data: lists } = await axios.get("/lists", {
       params: { userId: userId },
     });
@@ -59,6 +59,7 @@ function App(locals) {
           userData={userData}
           listData={listData}
           getUserInfo={getUserInfo}
+          setListData={setListData}
         />
       ) : (
         <Login setUserData={setUserData} getLists={getLists} />

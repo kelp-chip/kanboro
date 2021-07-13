@@ -22,6 +22,10 @@ function List({ list, getUserInfo }) {
   return (
     <div key={list.id} style={{ alignText: "center", margin: "10px" }}>
       <h2>{list.name}</h2>
+      <em>
+        {list.id[0]}
+        {list.id[1]}
+      </em>
 
       <Droppable droppableId={list.id}>
         {(provided, snapshot) => {
