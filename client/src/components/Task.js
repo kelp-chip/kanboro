@@ -1,5 +1,12 @@
 import { Draggable } from "react-beautiful-dnd";
+import axios from "axios";
+import "../styles/Task.scss";
+
 function Task({ task }) {
+  const deleteTask = async (e) => {
+    // console.log(e.target.parentNode.getAttribute("data-rbd-draggable-id"));
+    await axios.delete(`http://localhost:8000/tasks/${task.id}`);
+  };
   return (
     <Draggable key={task.id} draggableId={task.id} index={task.order}>
       {(provided, snapshot) => {
@@ -8,17 +15,18 @@ function Task({ task }) {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
+            className="taskbox"
             style={{
               userSelect: "none",
-              padding: 16,
-              marginBottom: "8px",
-              minHeight: "50px",
-              backgroundColor: snapshot.isDragging ? "PowderBlue" : "white",
-              color: "black",
+              backgroundColor: snapshot.isDragging && "white",
+              border: snapshot.isDragging ? "pink" : "none",
+              boxShadow:
+                snapshot.isDragging && "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
               ...provided.draggableProps.style,
             }}
           >
-            {task.name}
+            <div>{task.name}</div>
+            <button onClick={deleteTask}>delete</button>
           </div>
         );
       }}

@@ -1,0 +1,21 @@
+.taskbox {
+  padding: 10px;
+  margin-bottom: 10px;
+  min-height: 30px;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+
+  div {
+    margin-right: 10px;
+  }
+}
+
+.taskbox:hover {
+  background-color: rgb(250, 250, 250);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  // color: rgb(215, 236, 250);
+}

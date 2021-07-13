@@ -3,6 +3,7 @@ import Kanban from "./pages/Kanban";
 import Login from "./pages/Login";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Navigation from "./components/Navigation";
 
 function App(locals) {
   const [userData, setUserData] = useState(null);
@@ -43,23 +44,15 @@ function App(locals) {
 
   return (
     <div className="App">
-      {userData && `Welcome back, ${userData.username}!`}
-      <br />
-      {userData && (
-        <img
-          src={userData.avatar_url}
-          alt="user avatar"
-          style={{ width: "20px" }}
-        ></img>
-      )}
-      <br />
-      {userData && <button onClick={logout}>logout</button>}
+      <Navigation userData={userData} logout={logout} />
+
       {userData ? (
         <Kanban
           userData={userData}
           listData={listData}
           getUserInfo={getUserInfo}
           setListData={setListData}
+          getLists={getLists}
         />
       ) : (
         <Login setUserData={setUserData} getLists={getLists} />

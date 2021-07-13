@@ -190,8 +190,9 @@ app.post("/tasks", async (req, res) => {
   }
 });
 
-app.delete("/tasks", async (req, res) => {
-  const { id } = req.body;
+app.delete("/tasks/:taskId", async (req, res) => {
+  const { taskId: id } = req.params;
+
   Task.destroy({ where: { id } });
   res.send("task deleted");
 });

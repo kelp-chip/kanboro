@@ -1,0 +1,50 @@
+// $main_color: rgb(47, 112, 155);
+$main_color: rgb(43, 108, 182);
+$font: white;
+$secondary_color: rgb(146, 183, 224);
+
+nav {
+  //   background-color: rgb(47, 112, 155);
+  background-color: $main_color;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8em;
+  color: white;
+  font-weight: 700;
+  //   border-bottom: solid 10px $main_color;
+
+  section {
+    display: flex;
+    align-items: center;
+  }
+
+  h1 {
+    color: $font;
+    user-select: none;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+
+    li {
+      color: $font;
+      margin-left: 2em;
+    }
+  }
+
+  a {
+    border: 0;
+    background: none;
+    font-size: 16px;
+    color: $font;
+    transition-duration: 0.3s;
+    &:hover {
+      cursor: pointer;
+      color: rgb(231, 231, 231);
+    }
+  }
+}
