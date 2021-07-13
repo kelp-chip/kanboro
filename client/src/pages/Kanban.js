@@ -1,4 +1,4 @@
-import Board from "../components/Board2";
+import Board from "../components/Board";
 
 function Kanban({ userData, listData, getUserInfo, setListData }) {
   return (
