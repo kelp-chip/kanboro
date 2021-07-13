@@ -1,8 +1,10 @@
 import { Draggable } from "react-beautiful-dnd";
 import axios from "axios";
+import { useState } from "react";
 import "../styles/Task.scss";
 
 function Task({ task }) {
+  const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   const deleteTask = async (e) => {
     // console.log(e.target.parentNode.getAttribute("data-rbd-draggable-id"));
     await axios.delete(`http://localhost:8000/tasks/${task.id}`);
@@ -24,9 +26,15 @@ function Task({ task }) {
                 snapshot.isDragging && "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
               ...provided.draggableProps.style,
             }}
+            onMouseOver={() => setShowDeleteBtn(true)}
+            onMouseLeave={() => setShowDeleteBtn(false)}
           >
             <div>{task.name}</div>
-            <button onClick={deleteTask}>delete</button>
+            {showDeleteBtn && (
+              <button className="delete-button" onClick={deleteTask}>
+                delete
+              </button>
+            )}
           </div>
         );
       }}

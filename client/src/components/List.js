@@ -7,6 +7,7 @@ import "../styles/List.scss";
 function List({ list, getUserInfo, getLists }) {
   const [addingTask, setAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
+
   const openAddTaskForm = async () => {
     if (addingTask) {
       await setAddingTask(false);
@@ -16,8 +17,11 @@ function List({ list, getUserInfo, getLists }) {
 
   const addTask = async (e) => {
     e.preventDefault();
+    if (taskName === "") return;
     await axios.post("/tasks", { listId: list.id, name: taskName });
     await getUserInfo();
+    await setTaskName("");
+    await setAddingTask(false);
   };
 
   return (
@@ -43,23 +47,31 @@ function List({ list, getUserInfo, getLists }) {
               {list.Tasks.map((task) => {
                 return <Task task={task} key={task.id} />;
               })}
-              {!addingTask && (
-                <button onClick={openAddTaskForm}>add task</button>
-              )}
-              {addingTask && (
-                <form onSubmit={addTask}>
-                  <input
-                    type="text"
-                    value={taskName}
-                    onChange={(e) => {
-                      setTaskName(e.target.value);
-                    }}
-                  ></input>
-                  <button type="submit">add task</button>
-                  <button onClick={openAddTaskForm}>close</button>
-                </form>
-              )}
               {provided.placeholder}
+              <div>
+                {!addingTask && (
+                  <button onClick={openAddTaskForm} className="add-btn">
+                    + add task
+                  </button>
+                )}
+                {addingTask && (
+                  <form onSubmit={addTask}>
+                    <input
+                      type="text"
+                      value={taskName}
+                      onChange={(e) => {
+                        setTaskName(e.target.value);
+                      }}
+                    ></input>
+                    <div>
+                      <button type="submit">add task</button>
+                      <button onClick={openAddTaskForm} className="close">
+                        close
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
             </div>
           );
         }}
