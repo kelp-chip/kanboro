@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import Task from "./Task";
 import "../styles/List.scss";
+import AddTask from "./AddTask";
 
 function List({ list, listData, getUserInfo, index, setListData }) {
   const [addingTask, setAddingTask] = useState(false);
@@ -58,28 +59,14 @@ function List({ list, listData, getUserInfo, index, setListData }) {
               })}
               {provided.placeholder}
               <div>
-                {!addingTask && (
-                  <button onClick={openAddTaskForm} className="add-btn">
-                    + add task
-                  </button>
-                )}
-                {addingTask && (
-                  <form onSubmit={addTask}>
-                    <input
-                      type="text"
-                      value={taskName}
-                      onChange={(e) => {
-                        setTaskName(e.target.value);
-                      }}
-                    ></input>
-                    <div>
-                      <button type="submit">add task</button>
-                      <button onClick={openAddTaskForm} className="close">
-                        close
-                      </button>
-                    </div>
-                  </form>
-                )}
+                <AddTask
+                  addingTask={addingTask}
+                  openAddTaskForm={openAddTaskForm}
+                  addTask={addTask}
+                  taskName={taskName}
+                  setTaskName={setTaskName}
+                  setAddingTask={setAddingTask}
+                />
               </div>
             </div>
           );
