@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
+import "../styles/Auth.scss";
 
-function Auth({ setUserData, getLists }) {
+function Auth({ setUserData, getLists, setPage }) {
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
@@ -37,6 +38,7 @@ function Auth({ setUserData, getLists }) {
       if (res.data.verified) {
         await setUserData(res.data.user);
         await getLists(res.data.user.id);
+        await setPage("board");
       } else {
         console.log(res.data.message);
       }
@@ -47,35 +49,44 @@ function Auth({ setUserData, getLists }) {
   };
 
   return (
-    <div>
-      <h1>Authentication</h1>
-      <h2>Register</h2>
-      <form onSubmit={register}>
-        <label>
-          username
-          <input onChange={(e) => setRegisterUsername(e.target.value)}></input>
-        </label>
-        <br />
-        <label>
-          password
-          <input onChange={(e) => setRegisterPassword(e.target.value)}></input>
-        </label>
-        <button type="submit">submit</button>
-      </form>
+    <div className="outer-container">
+      <div className="auth-container">
+        <h2>Register</h2>
+        <form onSubmit={register} className="auth">
+          <label>
+            username
+            <input
+              className="auth-input"
+              onChange={(e) => setRegisterUsername(e.target.value)}
+            ></input>
+          </label>
+          <br />
+          <label>
+            password
+            <input
+              className="auth-input"
+              onChange={(e) => setRegisterPassword(e.target.value)}
+            ></input>
+          </label>
+          <button type="submit">submit</button>
+        </form>
+      </div>
 
-      <h2>Login</h2>
-      <form onSubmit={login}>
-        <label>
-          username
-          <input onChange={(e) => setLoginUsername(e.target.value)}></input>
-        </label>
-        <br />
-        <label>
-          password
-          <input onChange={(e) => setLoginPassword(e.target.value)}></input>
-        </label>
-        <button type="submit">submit</button>
-      </form>
+      <div className="auth-container">
+        <h2>Login</h2>
+        <form onSubmit={login} className="auth">
+          <label>
+            username
+            <input onChange={(e) => setLoginUsername(e.target.value)}></input>
+          </label>
+          <br />
+          <label>
+            password
+            <input onChange={(e) => setLoginPassword(e.target.value)}></input>
+          </label>
+          <button type="submit">submit</button>
+        </form>
+      </div>
     </div>
   );
 }

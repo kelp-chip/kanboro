@@ -1,18 +1,24 @@
 // $main_color: rgb(47, 112, 155);
-$main_color: rgb(43, 108, 182);
-$font: white;
-$secondary_color: rgb(146, 183, 224);
+@import url("https://fonts.googleapis.com/css2?family=Jura:wght@600&display=swap");
+// $main_color: rgb(43, 108, 182);
+// $main_color: rgb(228, 135, 28);
+$main_color: black;
+$secondary_color: rgb(233, 233, 233);
 
 nav {
   //   background-color: rgb(47, 112, 155);
-  background-color: $main_color;
+  // background-color: $main_color;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 8em;
-  color: white;
-  font-weight: 700;
-  //   border-bottom: solid 10px $main_color;
+  margin: 1em 17em;
+  padding: 0 2em;
+  padding-bottom: 1em;
+  color: black;
+  font-weight: 500;
+  // border-bottom: solid 1px $secondary_color;
+  // border-top: solid 3px $main_color;
+  border-bottom: solid 2px rgb(238, 238, 238);
 
   section {
     display: flex;
@@ -20,8 +26,20 @@ nav {
   }
 
   h1 {
-    color: $font;
+    color: $main_color;
     user-select: none;
+    // font-family: "Jura", sans-serif;
+    position: relative;
+    margin: 0;
+    z-index: 2;
+    font-size: 1.6em;
+    // text-transform: uppercase;
+    // transform: rotate(-10deg);
+    // text-shadow: 1px 1px $color1, 2px 2px $color2, 3px 3px $color3;
+    // 5px 5px hsl(189, 50%, 33%), 6px 6px hsl(182, 50%, 32%);
+    // 7px 7px hsl(177, 50%, 31%), 8px 8px hsl(187, 50%, 30%),
+    // 9px 9px hsl(172, 49%, 41%), 10px 10px hsl(185, 50%, 60%),
+    // 10px 10px 30px rgba(0, 0, 0, 0.7);
   }
 
   ul {
@@ -29,9 +47,12 @@ nav {
     margin: 0;
     padding: 0;
     display: flex;
+    color: black;
 
     li {
-      color: $font;
+      user-select: none;
+      // color: $secondary_color;
+      font-weight: 600;
       margin-left: 2em;
     }
   }
@@ -40,11 +61,11 @@ nav {
     border: 0;
     background: none;
     font-size: 16px;
-    color: $font;
+    color: black;
     transition-duration: 0.3s;
     &:hover {
       cursor: pointer;
-      color: rgb(231, 231, 231);
+      color: rgb(129, 182, 218);
     }
   }
 }

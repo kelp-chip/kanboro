@@ -1,0 +1,25 @@
+.auth {
+  width: 200px;
+}
+
+.outer-container {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-container {
+  background-color: honeydew;
+  padding: 1em 2em;
+}
+
+.auth-input {
+  margin-top: 1em;
+  padding: 8px;
+  min-height: 0;
+}
+
+label {
+  text-align: left;
+}

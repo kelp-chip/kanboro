@@ -1,12 +1,14 @@
 import "./App.css";
 import Kanban from "./pages/Kanban";
 import Login from "./pages/Login";
+import Loading from "./pages/Loading";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Navigation from "./components/Navigation";
 
 function App(locals) {
   const [userData, setUserData] = useState(null);
+  const [page, setPage] = useState(null);
   const [listData, setListData] = useState([]);
 
   const getUserInfo = async (e) => {
@@ -19,6 +21,8 @@ function App(locals) {
       await setUserData(data.user);
       await getLists(data.user.id);
       console.log(listData);
+    } else {
+      await setPage("login");
     }
   };
 
@@ -45,8 +49,9 @@ function App(locals) {
   return (
     <div className="App">
       <Navigation userData={userData} logout={logout} />
+      {!page && <Loading />}
 
-      {userData ? (
+      {page === "board" && (
         <Kanban
           userData={userData}
           listData={listData}
@@ -54,8 +59,13 @@ function App(locals) {
           setListData={setListData}
           getLists={getLists}
         />
-      ) : (
-        <Login setUserData={setUserData} getLists={getLists} />
+      )}
+      {page === "login" && (
+        <Login
+          setUserData={setUserData}
+          getLists={getLists}
+          setPage={setPage}
+        />
       )}
     </div>
   );
