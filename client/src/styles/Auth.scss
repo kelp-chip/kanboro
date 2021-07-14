@@ -10,8 +10,10 @@
 }
 
 .auth-container {
-  background-color: honeydew;
+  background-color: rgb(215, 236, 250);
   padding: 1em 2em;
+  padding-bottom: 2.5em;
+  border-radius: 5px;
 }
 
 .auth-input {
@@ -22,4 +24,10 @@
 
 label {
   text-align: left;
+}
+
+button {
+  border: none;
+  background-color: white;
+  color: black;
 }

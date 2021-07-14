@@ -1,6 +1,6 @@
 import "./App.css";
 import Kanban from "./pages/Kanban";
-import Login from "./pages/Login";
+import Auth from "./pages/Auth";
 import Loading from "./pages/Loading";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -17,13 +17,14 @@ function App(locals) {
       url: "http://localhost:8000/userInfo",
       withCredentials: true,
     });
-    if (data.user) {
-      await setUserData(data.user);
-      await getLists(data.user.id);
+    const { auth, user } = data;
+
+    if (user) {
+      await setUserData(user);
+      await getLists(user.id);
       console.log(listData);
-    } else {
-      await setPage("login");
     }
+    await setPage(auth);
   };
 
   const getLists = async (userId) => {
@@ -47,27 +48,30 @@ function App(locals) {
   }, []);
 
   return (
-    <div className="App">
-      <Navigation userData={userData} logout={logout} />
-      {!page && <Loading />}
+    <>
+      <Navigation userData={userData} logout={logout} listData={listData} />
+      <main className="App">
+        {!page && <Loading />}
 
-      {page === "board" && (
-        <Kanban
-          userData={userData}
-          listData={listData}
-          getUserInfo={getUserInfo}
-          setListData={setListData}
-          getLists={getLists}
-        />
-      )}
-      {page === "login" && (
-        <Login
-          setUserData={setUserData}
-          getLists={getLists}
-          setPage={setPage}
-        />
-      )}
-    </div>
+        {page === "user" && (
+          <Kanban
+            userData={userData}
+            listData={listData}
+            getUserInfo={getUserInfo}
+            setListData={setListData}
+            getLists={getLists}
+          />
+        )}
+        {page === "guest" && (
+          <Auth
+            setUserData={setUserData}
+            getLists={getLists}
+            setPage={setPage}
+          />
+        )}
+        {/* <button onClick={getUserInfo}>authorized?</button> */}
+      </main>
+    </>
   );
 }
 

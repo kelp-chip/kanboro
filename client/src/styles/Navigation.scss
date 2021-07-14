@@ -18,7 +18,7 @@ nav {
   font-weight: 500;
   // border-bottom: solid 1px $secondary_color;
   // border-top: solid 3px $main_color;
-  border-bottom: solid 2px rgb(238, 238, 238);
+  // border-bottom: solid 2px rgb(238, 238, 238);
 
   section {
     display: flex;
@@ -52,7 +52,7 @@ nav {
     li {
       user-select: none;
       // color: $secondary_color;
-      font-weight: 600;
+      font-weight: 500;
       margin-left: 2em;
     }
   }

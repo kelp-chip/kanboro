@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
+const maxAge = 3 * 24 * 60 * 60;
 
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../", ".env") });
@@ -24,35 +25,56 @@ app.use(
     credentials: true,
   })
 );
-app.use(cookieParser(process.env.SESSION_SECRET));
+app.use(cookieParser(process.env.ACCESS_TOKEN_SECRET));
 
-// const verifyJWT = (req, res, next) => {
-//   const token = req.cookies.jwt;
+function authenticateToken(req, res, next) {
+  //If Token doesn't exist, deny access
+  if (!req.cookies.accessToken) res.send({ auth: "guest" }).status(401);
+  const token = req.cookies.accessToken;
 
-//   if (token) {
-//     jwt.verify(token, process.env.SESSION_SECRET, (err, decodedToken) => {
-//       if (err) {
-//         res.status(400).json("unable to verify token");
-//       } else {
-//         console.log(decodedToken);
-//         next();
-//       }
-//     });
-//   } else {
-//     res.send("no token found");
-//   }
-// };
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    //403: Token is no longer valid
+    if (err) res.json({ auth: "guest" }).status(403);
+
+    //user verified
+    req.user = user;
+    next();
+  });
+}
 
 //---------------------------End of Middleware--------------------------------
 
-const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id, username) => {
-  return jwt.sign({ id, username }, process.env.SESSION_SECRET, {
+  return jwt.sign({ id, username }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: maxAge,
   });
 };
 
 //ROUTES
+
+//------------------AUTH ROUTES
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ where: { username } });
+  if (user) {
+    const hashedPw = user.dataValues.password;
+    const passwordsMatch = await bcrypt.compare(password, hashedPw);
+    if (passwordsMatch) {
+      const id = user.id;
+      const token = createToken(id, username);
+      res.cookie("accessToken", token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: maxAge * 1000,
+      });
+      res.send({ auth: "user", user: user }).status(200);
+    } else {
+      res.send({ auth: "guest", user: user, message: "Wrong password" });
+    }
+  } else {
+    res.send({ auth: "guest", user: user, message: "Wrong username" });
+  }
+});
 
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -76,53 +98,18 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ where: { username } });
-  if (user) {
-    const hashedPw = user.dataValues.password;
-    const passwordsMatch = await bcrypt.compare(password, hashedPw);
-    if (passwordsMatch) {
-      const id = user.id;
-      const token = createToken(id, username);
-      res.cookie("jwt", token, {
-        httpOnly: true,
-        secure: true,
-        maxAge: maxAge * 1000,
-      });
-      res.status(200).json({ verified: true, user: user });
-    } else {
-      res.send({ verified: false, message: "Wrong password" });
-    }
-  } else {
-    res.send({ verified: false, message: "Wrong username" });
-  }
-});
-
-app.get("/userInfo", (req, res) => {
-  const token = req.cookies.jwt;
-  if (token) {
-    jwt.verify(token, process.env.SESSION_SECRET, async (err, decodedToken) => {
-      if (err) {
-        console.log(err.message);
-        res.send({ user: null });
-      } else {
-        const user = await User.findOne({ where: { id: decodedToken.id } });
-        console.log(user);
-        res.send({ user: user.dataValues });
-      }
-    });
-  } else {
-    console.log("no user");
-    res.send({ user: null });
-  }
+app.get("/userInfo", authenticateToken, async (req, res) => {
+  const user = req.user;
+  res.send({ auth: "user", user: user });
 });
 
 app.post("/logout", (req, res) => {
-  console.log("hey");
-  res.clearCookie("jwt");
-  res.status(200).json("user logged out");
+  //removes access token cookie
+  res.clearCookie("accessToken");
+  res.status(200).send({ auth: "guest", user: null });
 });
+
+//------------------END OF AUTH ROUTES
 
 app.get("/lists", async (req, res) => {
   const { userId } = req.query;

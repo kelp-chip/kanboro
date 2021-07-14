@@ -30,6 +30,9 @@ function Task({ task }) {
             onMouseLeave={() => setShowDeleteBtn(false)}
           >
             <div>{task.name}</div>
+            <div>
+              {task.intervals_completed}/{task.intervals}
+            </div>
             {showDeleteBtn && (
               <button className="delete-button" onClick={deleteTask}>
                 delete
