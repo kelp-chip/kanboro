@@ -53,6 +53,10 @@ const createToken = (id, username) => {
 //ROUTES
 
 //------------------AUTH ROUTES
+app.get("/wakeup", (req, res) => {
+  res.send(true);
+});
+
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ where: { username } });
@@ -87,6 +91,29 @@ app.post("/register", async (req, res) => {
           username: username,
           password: hashedPassword,
         });
+        console.log(newUser.id);
+        const todoList = await List.create({
+          name: "todo",
+          userId: newUser.id,
+          order: 100,
+        });
+        await Task.create({
+          name: "create your first task",
+          listId: todoList.id,
+          order: 100,
+          intervals: 1,
+        });
+        await List.create({
+          name: "in progress",
+          userId: newUser.id,
+          order: 200,
+        });
+        await List.create({
+          name: "completed",
+          userId: newUser.id,
+          order: 300,
+        });
+
         res.status(200).json(newUser);
       });
     } else {
@@ -156,9 +183,6 @@ app.get("/tasks", async (req, res) => {
 app.post("/tasks", async (req, res) => {
   const { listId, name, intervals } = req.body;
 
-  console.log("-------------LIST ID---------------");
-  console.log(listId);
-  console.log("-------------======---------------");
   const order = await getTaskOrder(listId);
   try {
     const task = await Task.create({

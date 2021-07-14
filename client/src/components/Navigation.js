@@ -1,10 +1,6 @@
 import "../styles/Navigation.scss";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 function Navigation({ userData, logout, listData }) {
-  const onDragEnd = () => {
-    console.log("here");
-  };
   return (
     <nav>
       <a href="/">

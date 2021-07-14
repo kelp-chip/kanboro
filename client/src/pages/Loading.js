@@ -1,5 +1,5 @@
 function Loading({ userData, listData, getUserInfo, setListData, getLists }) {
-  return <div></div>;
+  return <div class="loader"></div>;
 }
 
 export default Loading;
