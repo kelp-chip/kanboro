@@ -44,8 +44,8 @@ function authenticateToken(req, res, next) {
 
 //---------------------------End of Middleware--------------------------------
 
-const createToken = (id, username) => {
-  return jwt.sign({ id, username }, process.env.ACCESS_TOKEN_SECRET, {
+const createToken = (id, username, newUser) => {
+  return jwt.sign({ id, username, newUser }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: maxAge,
   });
 };
@@ -62,7 +62,7 @@ app.post("/login", async (req, res) => {
     const passwordsMatch = await bcrypt.compare(password, hashedPw);
     if (passwordsMatch) {
       const id = user.id;
-      const token = createToken(id, username);
+      const token = createToken(id, username, user.newUser);
       res.cookie("accessToken", token, {
         httpOnly: true,
         secure: true,
@@ -214,9 +214,24 @@ app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
   res.json({ success: true });
 });
 
-// app.post("/newUser", authenticateToken, (req, res) => {
-
-// })
+//NEW USER WELCOME IN PROGRESS
+// app.patch("/newUser/:userId/:username", authenticateToken, async (req, res) => {
+//   const { userId, username } = req.params;
+//   console.log(username);
+//   if (username !== "guest") {
+//     const user = await User.update(
+//       { newUser: false },
+//       { where: { id: userId } }
+//     );
+//     const token = createToken(user.id, user.username, user.newUser);
+//     res.cookie("accessToken", token, {
+//       httpOnly: true,
+//       secure: true,
+//       maxAge: maxAge * 1000,
+//     });
+//   }
+//   res.end();
+// });
 
 // app.get("/join", async (req, res) => {
 //   const { userId } = req.query;
