@@ -3,10 +3,12 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Task.scss";
 
-function Task({ task }) {
+function Task({ task, index, listIndex, setListData, listData }) {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   const deleteTask = async (e) => {
-    // console.log(e.target.parentNode.getAttribute("data-rbd-draggable-id"));
+    const listCopy = JSON.parse(JSON.stringify(listData));
+    listCopy[listIndex].Tasks.splice(index, 1);
+    setListData(listCopy);
     await axios.delete(`http://localhost:8000/tasks/${task.id}`);
   };
   return (

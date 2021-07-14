@@ -7,6 +7,8 @@ module.exports = {
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true,
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       username: {
         type: DataTypes.STRING,
@@ -38,6 +40,11 @@ module.exports = {
         defaultValue: DataTypes.literal(
           "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
         ),
+      },
+      newUser: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
     });
   },

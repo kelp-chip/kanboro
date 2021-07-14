@@ -4,7 +4,7 @@ import axios from "axios";
 import Task from "./Task";
 import "../styles/List.scss";
 
-function List({ list, getUserInfo, getLists }) {
+function List({ list, listData, getUserInfo, index, setListData }) {
   const [addingTask, setAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
 
@@ -44,8 +44,17 @@ function List({ list, getUserInfo, getLists }) {
               }}
             >
               <h3>{list.name}</h3>
-              {list.Tasks.map((task) => {
-                return <Task task={task} key={task.id} />;
+              {list.Tasks.map((task, i) => {
+                return (
+                  <Task
+                    task={task}
+                    index={i}
+                    listIndex={index}
+                    setListData={setListData}
+                    listData={listData}
+                    key={task.id}
+                  />
+                );
               })}
               {provided.placeholder}
               <div>

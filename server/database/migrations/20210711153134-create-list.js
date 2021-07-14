@@ -21,6 +21,8 @@ module.exports = {
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
 
       createdAt: {

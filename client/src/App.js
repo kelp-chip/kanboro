@@ -30,6 +30,7 @@ function App(locals) {
   const getLists = async (userId) => {
     let { data: lists } = await axios.get("/lists", {
       params: { userId: userId },
+      withCredentials: true,
     });
     await setListData(lists);
   };

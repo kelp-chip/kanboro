@@ -42,9 +42,16 @@ function Board({ listData, setListData, getUserInfo }) {
           onDragEnd(result);
         }}
       >
-        {listData.map((list) => {
+        {listData.map((list, i) => {
           return (
-            <List list={list} getUserInfo={getUserInfo} key={list.id}></List>
+            <List
+              list={list}
+              listData={listData}
+              getUserInfo={getUserInfo}
+              key={list.id}
+              index={i}
+              setListData={setListData}
+            ></List>
           );
         })}
       </DragDropContext>

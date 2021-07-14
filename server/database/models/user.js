@@ -9,7 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ List }) {
       // define association here
-      this.hasMany(List, { foreignKey: "userId" });
+      this.hasMany(List, {
+        foreignKey: "userId",
+        onDelete: "cascade",
+        hooks: true,
+      });
     }
     toJSON() {
       return { ...this.get(), password: undefined };
@@ -40,6 +44,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 25,
+      },
+      newUser: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
     },
     {

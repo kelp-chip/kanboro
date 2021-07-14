@@ -53,9 +53,6 @@ const createToken = (id, username) => {
 //ROUTES
 
 //------------------AUTH ROUTES
-app.get("/wakeup", (req, res) => {
-  res.send(true);
-});
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -130,7 +127,7 @@ app.get("/userInfo", authenticateToken, async (req, res) => {
   res.send({ auth: "user", user: user });
 });
 
-app.post("/logout", (req, res) => {
+app.post("/logout", authenticateToken, (req, res) => {
   //removes access token cookie
   res.clearCookie("accessToken");
   res.status(200).send({ auth: "guest", user: null });
@@ -138,7 +135,7 @@ app.post("/logout", (req, res) => {
 
 //------------------END OF AUTH ROUTES
 
-app.get("/lists", async (req, res) => {
+app.get("/lists", authenticateToken, async (req, res) => {
   const { userId } = req.query;
   const lists = await List.findAll({
     where: { userId },
@@ -180,7 +177,7 @@ app.get("/tasks", async (req, res) => {
   res.send(tasks);
 });
 
-app.post("/tasks", async (req, res) => {
+app.post("/tasks", authenticateToken, async (req, res) => {
   const { listId, name, intervals } = req.body;
 
   const order = await getTaskOrder(listId);
@@ -217,18 +214,22 @@ app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
   res.json({ success: true });
 });
 
-app.get("/join", async (req, res) => {
-  const { userId } = req.query;
-  const lists = await List.findAll({
-    where: { userId },
-    include: [Task],
-    order: [
-      ["order", "ASC"],
-      [Task, "order", "ASC"],
-    ],
-  });
-  res.send(lists);
-});
+// app.post("/newUser", authenticateToken, (req, res) => {
+
+// })
+
+// app.get("/join", async (req, res) => {
+//   const { userId } = req.query;
+//   const lists = await List.findAll({
+//     where: { userId },
+//     include: [Task],
+//     order: [
+//       ["order", "ASC"],
+//       [Task, "order", "ASC"],
+//     ],
+//   });
+//   res.send(lists);
+// });
 
 //-----------------------------End of Routes----------------------------------
 
