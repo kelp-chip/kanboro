@@ -8,15 +8,19 @@ function Dashboard({
   setUserData,
 }) {
   return (
-    <div>
-      {/* <h2>{userData.username}'s kanboro board</h2> */}
-      <Board
-        listData={listData}
-        getUserInfo={getUserInfo}
-        setListData={setListData}
-        userData={userData}
-      />
-    </div>
+    // <div>
+    //   {/* <h2>{userData.username}'s kanboro board</h2> */}
+    //   <Board
+    //     listData={listData}
+    //     getUserInfo={getUserInfo}
+    //     setListData={setListData}
+    //     userData={userData}
+    //   />
+    // </div>
+    <>
+      {console.log(userData)}
+      Got here!!
+    </>
   );
 }
 
