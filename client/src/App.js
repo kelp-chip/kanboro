@@ -48,6 +48,7 @@ function App(locals) {
   const getUserInfo = async (e) => {
     const data = await requests.getUser();
     const { auth, user } = data;
+    console.log(user);
     if (user) {
       await setUserData(user);
       await getLists(user.id);

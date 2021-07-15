@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import "../styles/Auth.scss";
+import requests from "../requests";
 
 function Login({ setUserData, getLists, setPage }) {
   const [loginUsername, setLoginUsername] = useState("guest");
@@ -8,30 +8,15 @@ function Login({ setUserData, getLists, setPage }) {
 
   const login = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios({
-        method: "post",
-        data: {
-          username: loginUsername,
-          password: loginPassword,
-        },
-        withCredentials: true,
-        crossDomain: true,
-        url: `${process.env.REACT_APP_SERVER_URL}/login`,
-        origin: "http://localhost:3000",
-      });
+    const data = await requests.login(loginUsername, loginPassword);
 
-      if (res.data.auth) {
-        await setUserData(res.data.user);
-        await getLists(res.data.user.id);
-        await setPage("user");
-      } else {
-        console.log("did not work");
-        console.log(res.data.message);
-      }
-    } catch (err) {
-      console.log("Sorry, couldn't reach the server");
-      console.log(err);
+    if (data.auth) {
+      await setUserData(data.user);
+      await getLists(data.user.id);
+      await setPage("user");
+    } else {
+      console.log("did not work");
+      console.log(data.message);
     }
   };
 

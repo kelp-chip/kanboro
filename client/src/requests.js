@@ -8,10 +8,30 @@ const requests = {
       url: `${process.env.REACT_APP_SERVER_URL}/userInfo`,
       withCredentials: true,
       crossDomain: true,
-      origin: "http://localhost:3000",
+      origin: process.env.REACT_APP_CLIENT_URL,
     });
     console.log(data);
     return data;
+  },
+  login: async (username, password) => {
+    try {
+      const res = await axios({
+        method: "post",
+        data: {
+          username: username,
+          password: password,
+        },
+        withCredentials: true,
+        crossDomain: true,
+        url: `${process.env.REACT_APP_SERVER_URL}/login`,
+        origin: process.env.REACT_APP_CLIENT_URL,
+      });
+      console.log(res);
+      return res.data;
+    } catch (err) {
+      console.log("Sorry, couldn't reach the server");
+      console.log(err);
+    }
   },
   logout: async () => {
     await axios({
@@ -19,7 +39,7 @@ const requests = {
       url: `${process.env.REACT_APP_SERVER_URL}/logout`,
       withCredentials: true,
       crossDomain: true,
-      origin: "http://localhost:3000",
+      origin: process.env.REACT_APP_CLIENT_URL,
     });
     return;
   },
@@ -29,7 +49,7 @@ const requests = {
       url: `${process.env.REACT_APP_SERVER_URL}/lists/${userId}`,
       withCredentials: true,
       crossDomain: true,
-      origin: "http://localhost:3000",
+      origin: process.env.REACT_APP_CLIENT_URL,
     });
     return lists;
   },
@@ -40,7 +60,7 @@ const requests = {
       url: URL,
       withCredentials: true,
       crossDomain: true,
-      origin: "http://localhost:3000",
+      origin: process.env.REACT_APP_CLIENT_URL,
     });
     return;
   },
@@ -51,7 +71,7 @@ const requests = {
       data: { listId: listId, name: taskName, intervals },
       withCredentials: true,
       crossDomain: true,
-      origin: "http://localhost:3000",
+      origin: process.env.REACT_APP_CLIENT_URL,
     });
   },
   deleteTask: async (taskId) => {
@@ -60,7 +80,7 @@ const requests = {
       url: `${process.env.REACT_APP_SERVER_URL}/tasks/${taskId}`,
       withCredentials: true,
       crossDomain: true,
-      origin: "http://localhost:3000",
+      origin: process.env.REACT_APP_CLIENT_URL,
     });
   },
 };

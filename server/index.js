@@ -17,6 +17,29 @@ const { sequelize, User, List, Task } = require("./database/models");
 const { getTaskOrder, getListOrder } = require("./helpers/getOrder");
 
 //MIDDLEWARE
+app.use(function (req, res, next) {
+  // Website you wish to allow to connect
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL2);
+
+  // Request methods you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+
+  // Request headers you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader("Access-Control-Allow-Credentials", true);
+
+  // Pass to next layer of middleware
+  next();
+});
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(
@@ -73,10 +96,11 @@ app.post("/login", async (req, res) => {
       const token = createToken(id, username, newUser, interval_time);
       res.cookie("accessToken", token, {
         httpOnly: true,
-        secure: true,
+        // secure: true,
         maxAge: maxAge * 1000,
       });
-      res.json({ auth: "user", user: user }).status(200);
+      res.status(200).json({ auth: "user", user: user });
+      res.end();
     } else {
       res.json({ auth: "guest", user: user, message: "Wrong password" });
     }
@@ -147,7 +171,7 @@ app.post("/logout", authenticateToken, (req, res) => {
 //------------------END OF AUTH ROUTES
 
 app.get("/lists/:userId", authenticateToken, async (req, res) => {
-  res.set({ "Access-Control-Allow-Origin": CLIENT_URL });
+  res.set({ "Access-Control-Allow-Origin": CLIENT_URL2 });
   res.set({ "Access-Control-Allow-Credentials": "true" });
   const { userId } = req.params;
   const lists = await List.findAll({
