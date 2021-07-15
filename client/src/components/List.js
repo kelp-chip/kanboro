@@ -32,6 +32,7 @@ function List({ list, listData, getUserInfo, index, setListData, userData }) {
       className="list-container"
       // style={{ alignText: "center", margin: "10px" }}
     >
+      {console.log(list)}
       <Droppable droppableId={list.id}>
         {(provided, snapshot) => {
           return (

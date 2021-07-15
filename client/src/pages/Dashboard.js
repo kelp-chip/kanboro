@@ -10,6 +10,7 @@ function Dashboard({
   return (
     <div>
       {/* <h2>{userData.username}'s kanboro board</h2> */}
+      {console.log(listData)}
       <Board
         listData={listData}
         getUserInfo={getUserInfo}
