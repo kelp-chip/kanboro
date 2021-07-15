@@ -1,7 +1,7 @@
 import { Draggable } from "react-beautiful-dnd";
-import axios from "axios";
 import { useState } from "react";
 import "../styles/Task.scss";
+import requests from "../requests";
 
 function Task({ task, index, listIndex, setListData, listData }) {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
@@ -9,7 +9,7 @@ function Task({ task, index, listIndex, setListData, listData }) {
     const listCopy = JSON.parse(JSON.stringify(listData));
     listCopy[listIndex].Tasks.splice(index, 1);
     setListData(listCopy);
-    await axios.delete(`${process.env.REACT_APP_SERVER_URL}/tasks/${task.id}`);
+    await requests.deleteTask(task.id);
   };
   return (
     <Draggable key={task.id} draggableId={task.id} index={task.order}>

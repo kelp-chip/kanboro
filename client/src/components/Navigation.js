@@ -14,7 +14,7 @@ function Navigation({ userData, logout }) {
           <li>{userData.newUser && `welcome, ${userData.username}!`}</li>
         )}
 
-        <li>{userData && <a onClick={logout}>logout</a>}</li>
+        <li>{userData && <button onClick={logout}>logout</button>}</li>
         {!userData && (
           <ul>
             <li>
@@ -37,15 +37,6 @@ function Navigation({ userData, logout }) {
             </li>
           </ul>
         )}
-        {/* <li>
-          {userData && (
-            <img
-              src={userData.avatar_url}
-              alt="user avatar"
-              style={{ width: "30px" }}
-            ></img>
-          )}
-        </li> */}
       </ul>
     </nav>
   );

@@ -1,5 +1,4 @@
 import Board from "../components/Board";
-import NewUserWelcome from "../components/NewUserWelcome";
 
 function Dashboard({
   listData,
@@ -17,9 +16,6 @@ function Dashboard({
         setListData={setListData}
         userData={userData}
       />
-      {/* {userData.newUser && (
-        <NewUserWelcome userData={userData} setUserData={setUserData} />
-      )} */}
     </div>
   );
 }

@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
 const maxAge = 3 * 24 * 60 * 60;
+const CLIENT_URL2 = "https://kanboro.netlify.app";
 const CLIENT_URL = "http://localhost:3000";
 
 const path = require("path");
@@ -10,9 +11,7 @@ require("dotenv").config({ path: path.join(__dirname, "../", ".env") });
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
 const jwt = require("jsonwebtoken");
-const uuid = require("uuid");
 const { sequelize, User, List, Task } = require("./database/models");
 
 const { getTaskOrder, getListOrder } = require("./helpers/getOrder");
@@ -20,7 +19,15 @@ const { getTaskOrder, getListOrder } = require("./helpers/getOrder");
 //MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(cors());
+app.use(
+  cors({
+    origin: [CLIENT_URL, CLIENT_URL2],
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", ""],
+  })
+);
+
 app.use(cookieParser(process.env.ACCESS_TOKEN_SECRET));
 
 function authenticateToken(req, res, next) {
@@ -55,10 +62,9 @@ const createToken = (id, username, newUser, intervalTime) => {
 //------------------AUTH ROUTES
 
 app.post("/login", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", CLIENT_URL);
-  res.set("Access-Control-Allow-Credentials", "true");
   const { username, password } = req.body;
   const user = await User.findOne({ where: { username } });
+  console.log(user);
   if (user) {
     const hashedPw = user.dataValues.password;
     const passwordsMatch = await bcrypt.compare(password, hashedPw);
@@ -70,18 +76,16 @@ app.post("/login", async (req, res) => {
         secure: true,
         maxAge: maxAge * 1000,
       });
-      res.send({ auth: "user", user: user }).status(200);
+      res.json({ auth: "user", user: user }).status(200);
     } else {
-      res.send({ auth: "guest", user: user, message: "Wrong password" });
+      res.json({ auth: "guest", user: user, message: "Wrong password" });
     }
   } else {
-    res.send({ auth: "guest", user: user, message: "Wrong username" });
+    res.json({ auth: "guest", user: user, message: "Wrong username" });
   }
 });
 
 app.post("/register", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", CLIENT_URL);
-  res.set("Access-Control-Allow-Credentials", "true");
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ where: { username } });
@@ -127,24 +131,25 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/userInfo", authenticateToken, async (req, res) => {
-  res.set("Access-Control-Allow-Origin", CLIENT_URL);
-  res.set("Access-Control-Allow-Credentials", "true");
   const user = req.user;
   res.send({ auth: "user", user: user });
 });
 
 app.post("/logout", authenticateToken, (req, res) => {
   //removes access token cookie
-  res.clearCookie("accessToken");
-  res.status(200).send({ auth: "guest", user: null });
+
+  res.clearCookie("accessToken", { path: "/" });
+  res.send({ auth: "guest", user: null });
+  // const user = req.user;
+  // res.json(user);
 });
 
 //------------------END OF AUTH ROUTES
 
-app.get("/lists", authenticateToken, async (req, res) => {
-  res.set("Access-Control-Allow-Origin", CLIENT_URL);
-  res.set("Access-Control-Allow-Credentials", "true");
-  const { userId } = req.query;
+app.get("/lists/:userId", authenticateToken, async (req, res) => {
+  res.set({ "Access-Control-Allow-Origin": CLIENT_URL });
+  res.set({ "Access-Control-Allow-Credentials": "true" });
+  const { userId } = req.params;
   const lists = await List.findAll({
     where: { userId },
     include: [Task],
@@ -220,6 +225,10 @@ app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
     { where: { id: taskId } }
   );
   res.json({ success: true });
+});
+
+app.get("/cats", (req, res) => {
+  res.send({ luka: "you got here" });
 });
 
 //NEW USER WELCOME IN PROGRESS

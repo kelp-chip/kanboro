@@ -16,7 +16,9 @@ function Login({ setUserData, getLists, setPage }) {
           password: loginPassword,
         },
         withCredentials: true,
+        crossDomain: true,
         url: `${process.env.REACT_APP_SERVER_URL}/login`,
+        origin: "http://localhost:3000",
       });
 
       if (res.data.auth) {

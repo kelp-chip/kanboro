@@ -3,7 +3,7 @@ import Navigation from "./components/Navigation";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import Loading from "./pages/Loading";
-import axios from "axios";
+import requests from "./requests.js";
 import { useState, useEffect } from "react";
 require("dotenv").config();
 
@@ -13,13 +13,8 @@ function App(locals) {
   const [listData, setListData] = useState([]);
 
   const getUserInfo = async (e) => {
-    const { data } = await axios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER_URL}/userInfo`,
-      withCredentials: true,
-    });
+    const data = await requests.getUser();
     const { auth, user } = data;
-
     if (user) {
       await setUserData(user);
       await getLists(user.id);
@@ -29,21 +24,13 @@ function App(locals) {
   };
 
   const getLists = async (userId) => {
-    let { data: lists } = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/lists`,
-      {
-        params: { userId: userId },
-        withCredentials: true,
-      }
-    );
+    let lists = await requests.getLists(userId);
     await setListData(lists);
   };
 
   const logout = async (e) => {
     e.preventDefault();
-    await axios.post(`${process.env.REACT_APP_SERVER_URL}/logout`, {
-      withCredentials: true,
-    });
+    await requests.logout();
     window.location.reload(false);
   };
 

@@ -1,6 +1,6 @@
 import { DragDropContext } from "react-beautiful-dnd";
 import List from "./List";
-import axios from "axios";
+import requests from "../requests";
 import getOrder from "../helpers/getOrder";
 import moveTask from "../helpers/moveTask";
 import getMoveDetails from "../helpers/getMoveDetails";
@@ -31,8 +31,7 @@ function Board({ listData, setListData, getUserInfo, userData }) {
     setListData(editedList);
 
     //save moved task in backend
-    const URL = `${process.env.REACT_APP_SERVER_URL}/tasks/${task.id}/${destination.droppableId}/${order}`;
-    await axios.patch(URL);
+    await requests.patchOrder(task.id, destination.droppableId, order);
   };
 
   return (

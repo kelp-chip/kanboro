@@ -1,9 +1,9 @@
 import { Droppable } from "react-beautiful-dnd";
 import { useState } from "react";
-import axios from "axios";
 import Task from "./Task";
 import "../styles/List.scss";
 import AddTask from "./AddTask";
+import requests from "../requests";
 
 function List({ list, listData, getUserInfo, index, setListData, userData }) {
   const [addingTask, setAddingTask] = useState(false);
@@ -20,11 +20,7 @@ function List({ list, listData, getUserInfo, index, setListData, userData }) {
   const addTask = async (e) => {
     e.preventDefault();
     if (taskName === "") return;
-    await axios.post(`${process.env.REACT_APP_SERVER_URL}/tasks`, {
-      listId: list.id,
-      name: taskName,
-      intervals,
-    });
+    await requests.addTask(list.id, taskName, intervals);
     await getUserInfo();
     await setTaskName("");
     await setAddingTask(false);
