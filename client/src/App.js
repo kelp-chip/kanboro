@@ -1,10 +1,11 @@
-import "./App.css";
+import "./App.scss";
 import Navigation from "./components/Navigation";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import Loading from "./pages/Loading";
 import axios from "axios";
 import { useState, useEffect } from "react";
+require("dotenv").config();
 
 function App(locals) {
   const [userData, setUserData] = useState(null);
@@ -14,7 +15,7 @@ function App(locals) {
   const getUserInfo = async (e) => {
     const { data } = await axios({
       method: "get",
-      url: "http://localhost:8000/userInfo",
+      url: `${process.env.REACT_APP_SERVER_URL}/userInfo`,
       withCredentials: true,
     });
     const { auth, user } = data;
@@ -28,18 +29,20 @@ function App(locals) {
   };
 
   const getLists = async (userId) => {
-    let { data: lists } = await axios.get("/lists", {
-      params: { userId: userId },
-      withCredentials: true,
-    });
+    let { data: lists } = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/lists`,
+      {
+        params: { userId: userId },
+        withCredentials: true,
+      }
+    );
     await setListData(lists);
   };
 
   const logout = async (e) => {
     e.preventDefault();
-    await axios.post("/logout", {
+    await axios.post(`${process.env.REACT_APP_SERVER_URL}/logout`, {
       withCredentials: true,
-      domain: "http://localhost:3000",
     });
     window.location.reload(false);
   };
@@ -61,6 +64,7 @@ function App(locals) {
             setListData={setListData}
             userData={userData}
             setUserData={setUserData}
+            userData={userData}
           />
         )}
         {page === "guest" && (

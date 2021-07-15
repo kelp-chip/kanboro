@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
 const maxAge = 3 * 24 * 60 * 60;
+const CLIENT_URL = "http://localhost:3000";
 
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../", ".env") });
@@ -19,12 +20,7 @@ const { getTaskOrder, getListOrder } = require("./helpers/getOrder");
 //MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(cookieParser(process.env.ACCESS_TOKEN_SECRET));
 
 function authenticateToken(req, res, next) {
@@ -44,10 +40,14 @@ function authenticateToken(req, res, next) {
 
 //---------------------------End of Middleware--------------------------------
 
-const createToken = (id, username, newUser) => {
-  return jwt.sign({ id, username, newUser }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: maxAge,
-  });
+const createToken = (id, username, newUser, intervalTime) => {
+  return jwt.sign(
+    { id, username, newUser, intervalTime },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: maxAge,
+    }
+  );
 };
 
 //ROUTES
@@ -55,14 +55,16 @@ const createToken = (id, username, newUser) => {
 //------------------AUTH ROUTES
 
 app.post("/login", async (req, res) => {
+  res.set("Access-Control-Allow-Origin", CLIENT_URL);
+  res.set("Access-Control-Allow-Credentials", "true");
   const { username, password } = req.body;
   const user = await User.findOne({ where: { username } });
   if (user) {
     const hashedPw = user.dataValues.password;
     const passwordsMatch = await bcrypt.compare(password, hashedPw);
     if (passwordsMatch) {
-      const id = user.id;
-      const token = createToken(id, username, user.newUser);
+      const { id, newUser, interval_time } = user;
+      const token = createToken(id, username, newUser, interval_time);
       res.cookie("accessToken", token, {
         httpOnly: true,
         secure: true,
@@ -78,6 +80,8 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
+  res.set("Access-Control-Allow-Origin", CLIENT_URL);
+  res.set("Access-Control-Allow-Credentials", "true");
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ where: { username } });
@@ -123,6 +127,8 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/userInfo", authenticateToken, async (req, res) => {
+  res.set("Access-Control-Allow-Origin", CLIENT_URL);
+  res.set("Access-Control-Allow-Credentials", "true");
   const user = req.user;
   res.send({ auth: "user", user: user });
 });
@@ -136,6 +142,8 @@ app.post("/logout", authenticateToken, (req, res) => {
 //------------------END OF AUTH ROUTES
 
 app.get("/lists", authenticateToken, async (req, res) => {
+  res.set("Access-Control-Allow-Origin", CLIENT_URL);
+  res.set("Access-Control-Allow-Credentials", "true");
   const { userId } = req.query;
   const lists = await List.findAll({
     where: { userId },
@@ -249,7 +257,7 @@ app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
 //-----------------------------End of Routes----------------------------------
 
 //START SERVER
-app.listen(PORT, async () => {
+app.listen(process.env.PORT || PORT, async () => {
   // db.sync({ force: true });
   console.log(`server now running on http://localhost:${PORT}!`);
   await sequelize.authenticate();

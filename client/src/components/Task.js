@@ -9,7 +9,7 @@ function Task({ task, index, listIndex, setListData, listData }) {
     const listCopy = JSON.parse(JSON.stringify(listData));
     listCopy[listIndex].Tasks.splice(index, 1);
     setListData(listCopy);
-    await axios.delete(`http://localhost:8000/tasks/${task.id}`);
+    await axios.delete(`${process.env.REACT_APP_SERVER_URL}/tasks/${task.id}`);
   };
   return (
     <Draggable key={task.id} draggableId={task.id} index={task.order}>
@@ -33,7 +33,18 @@ function Task({ task, index, listIndex, setListData, listData }) {
           >
             <div>{task.name}</div>
             <div>
-              {task.intervals_completed}/{task.intervals}
+              {task.intervals !== 0 && (
+                <span
+                  style={{
+                    color:
+                      task.intervals_completed === task.intervals
+                        ? "green"
+                        : "gray",
+                  }}
+                >
+                  {task.intervals_completed}/{task.intervals}
+                </span>
+              )}
             </div>
             {showDeleteBtn && (
               <button className="delete-button" onClick={deleteTask}>

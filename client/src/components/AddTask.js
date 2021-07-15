@@ -7,6 +7,9 @@ function AddTask({
   addTask,
   taskName,
   setTaskName,
+  userData,
+  setIntervals,
+  intervals,
 }) {
   const addTaskForm = useRef();
   //   const handleClickOutside = (event) => {
@@ -23,10 +26,8 @@ function AddTask({
         await setTaskName("");
       }
     });
-    // return () => {
-    //   document.removeEventListener("click", () => setAddingTask(false));
-    // };
   }, []);
+
   return (
     <div ref={addTaskForm}>
       {!addingTask && (
@@ -36,13 +37,27 @@ function AddTask({
       )}
       {addingTask && (
         <form onSubmit={addTask}>
-          <input
-            type="text"
-            value={taskName}
-            onChange={(e) => {
-              setTaskName(e.target.value);
-            }}
-          ></input>
+          <div className="number-input-container">
+            <input
+              className="task-name-input"
+              type="text"
+              value={taskName}
+              placeholder="task name"
+              onChange={(e) => {
+                setTaskName(e.target.value);
+              }}
+            ></input>
+            <input
+              className="number-input"
+              type="number"
+              // min="0"
+              // max="10"
+              value={intervals}
+              onChange={(e) => setIntervals(e.target.value)}
+            ></input>
+            {/* <span>{userData.intervalTime} minutes</span> */}
+          </div>
+
           <div>
             <button type="submit">add task</button>
             <button onClick={openAddTaskForm} className="close">

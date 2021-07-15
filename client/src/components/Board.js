@@ -6,7 +6,7 @@ import moveTask from "../helpers/moveTask";
 import getMoveDetails from "../helpers/getMoveDetails";
 import "../styles/Board.scss";
 
-function Board({ listData, setListData, getUserInfo }) {
+function Board({ listData, setListData, getUserInfo, userData }) {
   console.log(listData);
   const onDragEnd = async ({ destination, source }) => {
     if (!destination) return;
@@ -31,7 +31,7 @@ function Board({ listData, setListData, getUserInfo }) {
     setListData(editedList);
 
     //save moved task in backend
-    const URL = `/tasks/${task.id}/${destination.droppableId}/${order}`;
+    const URL = `${process.env.REACT_APP_SERVER_URL}/tasks/${task.id}/${destination.droppableId}/${order}`;
     await axios.patch(URL);
   };
 
@@ -51,6 +51,7 @@ function Board({ listData, setListData, getUserInfo }) {
               key={list.id}
               index={i}
               setListData={setListData}
+              userData={userData}
             ></List>
           );
         })}

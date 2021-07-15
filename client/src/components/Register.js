@@ -15,7 +15,7 @@ function Register({ setIsRegistered }) {
         password: registerPassword,
       },
       withCredentials: true,
-      url: "/register",
+      url: `${process.env.REACT_APP_SERVER_URL}/register`,
     })
       .then(({ data }) => {
         setIsRegistered(true);

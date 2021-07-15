@@ -16,7 +16,7 @@ function Login({ setUserData, getLists, setPage }) {
           password: loginPassword,
         },
         withCredentials: true,
-        url: "/login",
+        url: `${process.env.REACT_APP_SERVER_URL}/login`,
       });
 
       if (res.data.auth) {

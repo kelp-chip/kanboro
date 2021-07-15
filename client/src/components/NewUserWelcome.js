@@ -5,7 +5,9 @@ function NewUserWelcome({ userData, setUserData }) {
     const userDataCopy = JSON.parse(JSON.stringify(userData));
     userDataCopy.newUser = false;
     setUserData(userDataCopy);
-    axios.patch(`/newUser/${userData.id}/${userData.username}`);
+    axios.patch(
+      `${process.env.REACT_APP_SERVER_URL}/newUser/${userData.id}/${userData.username}`
+    );
   };
 
   return (

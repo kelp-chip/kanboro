@@ -15,6 +15,7 @@ function Dashboard({
         listData={listData}
         getUserInfo={getUserInfo}
         setListData={setListData}
+        userData={userData}
       />
       {/* {userData.newUser && (
         <NewUserWelcome userData={userData} setUserData={setUserData} />

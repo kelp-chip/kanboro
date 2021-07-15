@@ -5,9 +5,10 @@ import Task from "./Task";
 import "../styles/List.scss";
 import AddTask from "./AddTask";
 
-function List({ list, listData, getUserInfo, index, setListData }) {
+function List({ list, listData, getUserInfo, index, setListData, userData }) {
   const [addingTask, setAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
+  const [intervals, setIntervals] = useState(0);
 
   const openAddTaskForm = async () => {
     if (addingTask) {
@@ -19,7 +20,11 @@ function List({ list, listData, getUserInfo, index, setListData }) {
   const addTask = async (e) => {
     e.preventDefault();
     if (taskName === "") return;
-    await axios.post("/tasks", { listId: list.id, name: taskName });
+    await axios.post(`${process.env.REACT_APP_SERVER_URL}/tasks`, {
+      listId: list.id,
+      name: taskName,
+      intervals,
+    });
     await getUserInfo();
     await setTaskName("");
     await setAddingTask(false);
@@ -66,6 +71,9 @@ function List({ list, listData, getUserInfo, index, setListData }) {
                   taskName={taskName}
                   setTaskName={setTaskName}
                   setAddingTask={setAddingTask}
+                  userData={userData}
+                  setIntervals={setIntervals}
+                  intervals={intervals}
                 />
               </div>
             </div>
