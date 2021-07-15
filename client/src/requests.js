@@ -26,7 +26,6 @@ const requests = {
         url: `${process.env.REACT_APP_SERVER_URL}/login`,
         origin: process.env.REACT_APP_CLIENT_URL,
       });
-      console.log(res);
       return res.data;
     } catch (err) {
       console.log("Sorry, couldn't reach the server");

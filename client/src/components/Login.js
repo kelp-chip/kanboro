@@ -10,13 +10,14 @@ function Login({ setUserData, getLists, setPage }) {
     e.preventDefault();
     const data = await requests.login(loginUsername, loginPassword);
 
-    if (data.auth) {
+    if (data.user) {
       await setUserData(data.user);
       await getLists(data.user.id);
       await setPage("user");
     } else {
       console.log("did not work");
       console.log(data.message);
+      await setPage("guest");
     }
   };
 
