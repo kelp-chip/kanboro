@@ -7,43 +7,45 @@ import requests from "./requests.js";
 import { useState, useEffect } from "react";
 require("dotenv").config();
 
-const fauxData = {
-  createdAt: "2021-07-14T21:38:09.000Z",
-  id: "7b931c8f-e5a8-4745-bb20-0324654cd8a5",
-  name: "todo",
-  order: 100,
-  updatedAt: "2021-07-14T21:38:09.000Z",
-  userId: "4bfd2e3a-befa-4fa9-82a6-1b2fb94a180c",
-  Tasks: [
-    {
-      createdAt: "2021-07-15T01:06:27.000Z",
-      id: "f2388ff1-c19e-4241-b7e1-6496681b75c7",
-      intervals: 2,
-      intervals_completed: 0,
-      listId: "7b931c8f-e5a8-4745-bb20-0324654cd8a5",
-      name: "1",
-      notes: null,
-      order: 100,
-      updatedAt: "2021-07-15T17:08:00.000Z",
-    },
-    {
-      createdAt: "2021-07-15T01:06:27.000Z",
-      id: "f2388ff1-c19e-4241-b7e1-6496681b75c7",
-      intervals: 2,
-      intervals_completed: 2,
-      listId: "7b931c8f-e5a8-4745-bb20-0324654cd8a5",
-      name: "2",
-      notes: null,
-      order: 200,
-      updatedAt: "2021-07-15T17:08:00.000Z",
-    },
-  ],
-};
+// const fauxData = [
+//   {
+//     createdAt: "2021-07-14T21:38:09.000Z",
+//     id: "7b931c8f-e5a8-4745-bb20-0324654cd8a5",
+//     name: "todo",
+//     order: 100,
+//     updatedAt: "2021-07-14T21:38:09.000Z",
+//     userId: "4bfd2e3a-befa-4fa9-82a6-1b2fb94a180c",
+//     Tasks: [
+//       {
+//         createdAt: "2021-07-15T01:06:27.000Z",
+//         id: "f2388ff1-c19e-4241-b7e1-6496681b75c7",
+//         intervals: 2,
+//         intervals_completed: 0,
+//         listId: "7b931c8f-e5a8-4745-bb20-0324654cd8a5",
+//         name: "1",
+//         notes: null,
+//         order: 100,
+//         updatedAt: "2021-07-15T17:08:00.000Z",
+//       },
+//       {
+//         createdAt: "2021-07-15T01:06:27.000Z",
+//         id: "f2388ff1-c19e-4241-b7e1-6496681b75c7",
+//         intervals: 2,
+//         intervals_completed: 2,
+//         listId: "7b931c8f-e5a8-4745-bb20-0324654cd8a5",
+//         name: "2",
+//         notes: null,
+//         order: 200,
+//         updatedAt: "2021-07-15T17:08:00.000Z",
+//       },
+//     ],
+//   },
+// ];
 
 function App(locals) {
   const [userData, setUserData] = useState(null);
   const [page, setPage] = useState(null);
-  const [listData, setListData] = useState([fauxData]);
+  const [listData, setListData] = useState([]);
 
   const getUserInfo = async (e) => {
     const data = await requests.getUser();
@@ -68,12 +70,12 @@ function App(locals) {
   };
 
   useEffect(() => {
-    const getUser = async () => getUserInfo();
+    getUserInfo();
 
     console.log("============");
 
     console.log(listData);
-    getUser();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -89,7 +91,6 @@ function App(locals) {
             setListData={setListData}
             userData={userData}
             setUserData={setUserData}
-            userData={userData}
           />
         )}
         {page === "guest" && (

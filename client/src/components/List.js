@@ -17,7 +17,7 @@ function List({ list, listData, getUserInfo, index, setListData, userData }) {
     } else setAddingTask(true);
   };
 
-  const addTask = async (e) => {
+  const addUserTask = async (e) => {
     e.preventDefault();
     if (taskName === "") return;
     await requests.addTask(list.id, taskName, intervals);
@@ -63,7 +63,7 @@ function List({ list, listData, getUserInfo, index, setListData, userData }) {
                 <AddTask
                   addingTask={addingTask}
                   openAddTaskForm={openAddTaskForm}
-                  addTask={addTask}
+                  addTask={addUserTask}
                   taskName={taskName}
                   setTaskName={setTaskName}
                   setAddingTask={setAddingTask}
