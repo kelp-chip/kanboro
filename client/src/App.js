@@ -1,24 +1,72 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.scss";
+// import Navigation from "./components/Navigation";
+// import Dashboard from "./pages/Dashboard";
+// import Auth from "./pages/Auth";
+// import Loading from "./pages/Loading";
+// import requests from "./requests.js";
+import { useState, useEffect } from "react";
+require("dotenv").config();
 
-function App() {
+function App(locals) {
+  const [userData, setUserData] = useState(null);
+  const [page, setPage] = useState(null);
+  const [listData, setListData] = useState([]);
+
+  // const getUserInfo = async (e) => {
+  //   const data = await requests.getUser();
+  //   const { auth, user } = data;
+  //   if (user) {
+  //     await setUserData(user);
+  //     await getLists(user.id);
+  //     console.log(user);
+  //   }
+  //   await setPage(auth);
+  // };
+
+  // const getLists = async (userId) => {
+  //   let lists = await requests.getLists(userId);
+  //   await setListData(lists);
+  // };
+
+  // const logout = async (e) => {
+  //   e.preventDefault();
+  //   await requests.logout();
+  //   window.location.reload(false);
+  // };
+
+  // useEffect(() => {
+  //   getUserInfo();
+
+  //   console.log("============");
+
+  //   console.log(listData);
+  //   // eslint-disable-next-line
+  // }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* <Navigation userData={userData} logout={logout} /> */}
+      <main className="App">
+        hey
+        {/* {!page && <Loading />} */}
+        {/* {page === "user" && (
+          <Dashboard
+            listData={listData}
+            getUserInfo={getUserInfo}
+            setListData={setListData}
+            userData={userData}
+            setUserData={setUserData}
+          />
+        )} */}
+        {/* {page === "guest" && (
+          <Auth
+            setUserData={setUserData}
+            getLists={getLists}
+            setPage={setPage}
+          />
+        )} */}
+      </main>
+    </>
   );
 }
 
