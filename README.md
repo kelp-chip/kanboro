@@ -5,3 +5,6 @@ A single-page web application that lets you log in and create your own kanban bo
 This application is still in progress - timer has not yet been added.
 
 <img width="600" alt="Screen Shot 2021-07-16 at 9 29 16 AM" src="https://user-images.githubusercontent.com/25832984/125956610-4d62f3b9-04af-4e30-a82d-d5ff830244db.png">
+
+
+![ezgif-1-5cac6aa46d1a](https://user-images.githubusercontent.com/25832984/125956731-083e8455-5681-4aa0-8f41-ebadb87d1ee1.gif)
