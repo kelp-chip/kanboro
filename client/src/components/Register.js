@@ -41,6 +41,7 @@ function Register({ setIsRegistered }) {
           <label>
             password
             <input
+              type="password"
               className="auth-input"
               onChange={(e) => setRegisterPassword(e.target.value)}
             ></input>

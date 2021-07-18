@@ -59,6 +59,7 @@ function App(locals) {
 
   const getLists = async (userId) => {
     let lists = await requests.getLists(userId);
+    console.log(lists);
     await setListData(lists);
   };
 

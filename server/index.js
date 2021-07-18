@@ -15,11 +15,12 @@ const jwt = require("jsonwebtoken");
 const { sequelize, User, List, Task } = require("./database/models");
 
 const { getTaskOrder, getListOrder } = require("./helpers/getOrder");
+const { NONE } = require("sequelize");
 
 //MIDDLEWARE
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL2);
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
 
   // Request methods you wish to allow
   res.setHeader(
@@ -57,6 +58,10 @@ function authenticateToken(req, res, next) {
   //If Token doesn't exist, deny access
   if (!req.cookies.accessToken) res.send({ auth: "guest" }).status(401);
   const token = req.cookies.accessToken;
+  console.log("==============================");
+  console.log("==============================");
+  console.log(req.cookies.accessToken);
+  console.log("==============================");
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     //403: Token is no longer valid
@@ -96,11 +101,13 @@ app.post("/login", async (req, res) => {
       const token = createToken(id, username, newUser, interval_time);
       res.cookie("accessToken", token, {
         httpOnly: true,
-        // secure: true,
+        secure: true,
+        sameSite: "none",
         maxAge: maxAge * 1000,
+        path: "/",
       });
-      res.status(200).json({ auth: "user", user: user });
-      res.end();
+      res.json({ auth: "user", user: user }).status(200);
+      // res.end();
     } else {
       res.json({ auth: "guest", user: user, message: "Wrong password" });
     }
@@ -162,7 +169,13 @@ app.get("/userInfo", authenticateToken, async (req, res) => {
 app.post("/logout", authenticateToken, (req, res) => {
   //removes access token cookie
 
-  res.clearCookie("accessToken", { path: "/" });
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 10,
+    path: "/",
+  });
   res.send({ auth: "guest", user: null });
   // const user = req.user;
   // res.json(user);
@@ -173,6 +186,7 @@ app.post("/logout", authenticateToken, (req, res) => {
 app.get("/lists/:userId", authenticateToken, async (req, res) => {
   res.set({ "Access-Control-Allow-Origin": CLIENT_URL2 });
   res.set({ "Access-Control-Allow-Credentials": "true" });
+
   const { userId } = req.params;
   const lists = await List.findAll({
     where: { userId },
@@ -183,9 +197,10 @@ app.get("/lists/:userId", authenticateToken, async (req, res) => {
     ],
   });
   res.send(lists);
+  // res.send(lists);
 });
 
-app.post("/lists", async (req, res) => {
+app.post("/lists", authenticateToken, async (req, res) => {
   const { userId, name } = req.body;
   const order = await getListOrder(userId);
   const lists = await List.create({

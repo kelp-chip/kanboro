@@ -14,7 +14,7 @@ function Navigation({ userData, logout }) {
           <li>{userData.newUser && `welcome, ${userData.username}!`}</li>
         )}
 
-        <li>{userData && <button onClick={logout}>logout</button>}</li>
+        <li>{userData && <a onClick={logout}>logout</a>}</li>
         {!userData && (
           <ul>
             <li>
