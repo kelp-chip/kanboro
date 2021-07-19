@@ -5,7 +5,15 @@ import "../styles/List.scss";
 import AddTask from "./AddTask";
 import requests from "../requests";
 
-function List({ list, listData, getUserInfo, index, setListData, userData }) {
+function List({
+  list,
+  listData,
+  getUserInfo,
+  index,
+  setListData,
+  userData,
+  setShowTimer,
+}) {
   const [addingTask, setAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [intervals, setIntervals] = useState(0);
@@ -24,6 +32,20 @@ function List({ list, listData, getUserInfo, index, setListData, userData }) {
     await getUserInfo();
     await setTaskName("");
     await setAddingTask(false);
+  };
+
+  const startTask = async (taskIndex) => {
+    //front end changes
+    let listCopy = JSON.parse(JSON.stringify(listData));
+    const task = listCopy[index].Tasks[taskIndex];
+    listCopy[index].Tasks.splice(taskIndex, 1);
+    listCopy[1].Tasks.unshift(task);
+    await setListData(listCopy);
+    await setShowTimer(true);
+
+    //backend changes
+    await requests.deleteTask(task.id);
+    await requests.addTask(listCopy[1].id, task.name, task.intervals, true);
   };
 
   return (
@@ -55,6 +77,7 @@ function List({ list, listData, getUserInfo, index, setListData, userData }) {
                     setListData={setListData}
                     listData={listData}
                     key={task.id}
+                    startTask={startTask}
                   />
                 );
               })}

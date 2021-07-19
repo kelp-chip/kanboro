@@ -3,7 +3,7 @@ import { useState } from "react";
 import "../styles/Task.scss";
 import requests from "../requests";
 
-function Task({ task, index, listIndex, setListData, listData }) {
+function Task({ task, index, listIndex, setListData, listData, startTask }) {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   const deleteTask = async (e) => {
     const listCopy = JSON.parse(JSON.stringify(listData));
@@ -51,15 +51,11 @@ function Task({ task, index, listIndex, setListData, listData }) {
                 <button className="delete-button" onClick={deleteTask}>
                   <i class="fas fa-edit"></i>
                 </button>
-                <button className="delete-button" onClick={deleteTask}>
+                <button
+                  className="delete-button"
+                  onClick={() => startTask(index)}
+                >
                   start task
-                  {/* <i class="far fa-clock"></i> */}
-                  {/* <i class="fas fa-stopwatch"></i> */}
-                  {/* <img
-                    src="https://img.icons8.com/officexs/2x/running-rabbit.png"
-                    alt="timer-btn"
-                    height="14px"
-                  ></img> */}
                 </button>
               </div>
             )}

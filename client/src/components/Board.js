@@ -6,7 +6,7 @@ import moveTask from "../helpers/moveTask";
 import getMoveDetails from "../helpers/getMoveDetails";
 import "../styles/Board.scss";
 
-function Board({ listData, setListData, getUserInfo, userData }) {
+function Board({ listData, setListData, getUserInfo, userData, setShowTimer }) {
   const onDragEnd = async ({ destination, source }) => {
     if (!destination) return;
     let listCopy = JSON.parse(JSON.stringify(listData));
@@ -51,6 +51,7 @@ function Board({ listData, setListData, getUserInfo, userData }) {
                 index={i}
                 setListData={setListData}
                 userData={userData}
+                setShowTimer={setShowTimer}
               ></List>
             );
           })}

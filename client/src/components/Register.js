@@ -1,28 +1,21 @@
 import { useState } from "react";
 import axios from "axios";
 import "../styles/Auth.scss";
+import requests from "../requests";
 
 function Register({ setIsRegistered }) {
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
 
-  const register = (e) => {
+  const register = async (e) => {
     e.preventDefault();
-    axios({
-      method: "post",
-      data: {
-        username: registerUsername,
-        password: registerPassword,
-      },
-      withCredentials: true,
-      url: `${process.env.REACT_APP_SERVER_URL}/register`,
-    })
-      .then(({ data }) => {
-        setIsRegistered(true);
-      })
-      .catch((err) => {
-        console.log("sorry, something went wrong");
-      });
+    const userCreated = await requests.createUser(
+      registerUsername,
+      registerPassword
+    );
+    if (userCreated) {
+      await setIsRegistered(true);
+    }
   };
 
   return (

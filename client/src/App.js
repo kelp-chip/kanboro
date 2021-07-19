@@ -4,7 +4,6 @@ import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import Loading from "./pages/Loading";
 import requests from "./requests.js";
-import Modal from "./components/Modal";
 import { useState, useEffect } from "react";
 require("dotenv").config();
 
@@ -46,7 +45,6 @@ function App(locals) {
       <Navigation userData={userData} logout={logout} />
       <main className="App">
         {!page && <Loading />}
-        <Modal />
         {page === "user" && (
           <Dashboard
             listData={listData}

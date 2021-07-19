@@ -62,11 +62,13 @@ const requests = {
     });
     return;
   },
-  addTask: async (listId, taskName, intervals) => {
+  addTask: async (listId, taskName, intervals, addToTop) => {
+    const data = { listId: listId, name: taskName, intervals };
+    if (addToTop) data.addToTop = true;
     await axios({
       method: "post",
       url: `${process.env.REACT_APP_SERVER_URL}/tasks`,
-      data: { listId: listId, name: taskName, intervals },
+      data: data,
       withCredentials: true,
       crossDomain: true,
       origin: process.env.REACT_APP_CLIENT_URL,
@@ -80,6 +82,18 @@ const requests = {
       crossDomain: true,
       origin: process.env.REACT_APP_CLIENT_URL,
     });
+  },
+  createUser: async (username, password) => {
+    const res = await axios({
+      method: "post",
+      data: {
+        username,
+        password,
+      },
+      withCredentials: true,
+      url: `${process.env.REACT_APP_SERVER_URL}/user`,
+    });
+    return res.data ? true : false;
   },
 };
 

@@ -1,8 +1,8 @@
 import "../styles/Modal.scss";
-function Modal() {
+function Modal({ task }) {
   return (
     <>
-      <div className="overlay-dark"></div>
+      <div className="overlay"></div>
       <div id="modal"></div>
     </>
   );

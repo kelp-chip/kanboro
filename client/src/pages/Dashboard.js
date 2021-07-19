@@ -5,11 +5,7 @@ import { Helmet } from "react-helmet";
 
 function Dashboard({ listData, getUserInfo, setListData, userData }) {
   const [time, setTime] = useState(userData.intervalTime);
-  const [showTimer, setShowTimer] = useState(true);
-
-  // function setTimer(minutes) {
-  //   setTime(userData);
-  // }
+  const [showTimer, setShowTimer] = useState(false);
 
   return (
     <div className="dashboard">
@@ -25,6 +21,7 @@ function Dashboard({ listData, getUserInfo, setListData, userData }) {
         getUserInfo={getUserInfo}
         setListData={setListData}
         userData={userData}
+        setShowTimer={setShowTimer}
       />
     </div>
   );

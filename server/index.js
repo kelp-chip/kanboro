@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
 const maxAge = 3 * 24 * 60 * 60;
-const CLIENT_URL2 = "https://kanboro.netlify.app";
+// const CLIENT_URL2 = "https://kanboro.netlify.app";
 const CLIENT_URL = "http://localhost:3000";
 
 const path = require("path");
@@ -25,7 +25,6 @@ app.use(
   cors({
     origin: CLIENT_URL,
     credentials: true,
-    // allowedHeaders: ["Content-Type", "Authorization", ""],
   })
 );
 app.use(function (req, res, next) {
@@ -67,7 +66,7 @@ const createToken = (id, username, newUser, intervalTime) => {
 
 //ROUTES
 
-//------------------AUTH ROUTES
+//AUTH ROUTES------------------
 
 app.post("/login", async (req, res) => {
   // res.send({ auth: "user", user: "none" });
@@ -87,9 +86,7 @@ app.post("/login", async (req, res) => {
         maxAge: maxAge * 1000,
         path: "/",
       });
-      res.json({ auth: "user", user: user }).status(200);
-      // res.status(200);
-      //   // res.end();
+      res.json({ auth: "user", user: user });
     } else {
       res.json({ auth: "guest", user: user, message: "Wrong password" });
     }
@@ -98,7 +95,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/register", async (req, res) => {
+app.post("/user", async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ where: { username } });
@@ -144,14 +141,12 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/userInfo", authenticateToken, async (req, res) => {
-  // app.get("/userInfo", async (req, res) => {
   const user = req.user;
   res.send({ auth: "user", user: user });
 });
 
 app.post("/logout", authenticateToken, (req, res) => {
-  //removes access token cookie
-
+  //clears access token cookie
   res.clearCookie("accessToken", {
     httpOnly: true,
     secure: true,
@@ -160,11 +155,9 @@ app.post("/logout", authenticateToken, (req, res) => {
     path: "/",
   });
   res.send({ auth: "guest", user: null });
-  // const user = req.user;
-  // res.json(user);
 });
 
-//------------------END OF AUTH ROUTES
+//LIST ROUTES------------------
 
 app.get("/lists/:userId", authenticateToken, async (req, res) => {
   res.set({ "Access-Control-Allow-Origin": CLIENT_URL });
@@ -180,7 +173,6 @@ app.get("/lists/:userId", authenticateToken, async (req, res) => {
     ],
   });
   res.send(lists);
-  // res.send(lists);
 });
 
 app.post("/lists", authenticateToken, async (req, res) => {
@@ -203,6 +195,8 @@ app.delete("/lists", async (req, res) => {
   res.send("list deleted");
 });
 
+//TASK ROUTES------------------
+
 app.get("/tasks", async (req, res) => {
   const { listId } = req.query;
   const tasks = await Task.findAll({
@@ -213,17 +207,36 @@ app.get("/tasks", async (req, res) => {
 });
 
 app.post("/tasks", authenticateToken, async (req, res) => {
-  const { listId, name, intervals } = req.body;
+  const { listId, name, intervals, addToTop } = req.body;
 
   const order = await getTaskOrder(listId);
   try {
-    const task = await Task.create({
-      name: name,
-      listId: listId,
-      order: order,
-      intervals: intervals,
-    });
-    res.send(task);
+    //Adds task to top of list by order
+    if (addToTop) {
+      const prevTask = await Task.findOne({
+        where: { listId },
+        order: [["order", "ASC"]],
+      });
+
+      let order = prevTask ? prevTask.order / 2 : 100;
+      const task = await Task.create({
+        name: name,
+        listId: listId,
+        order: order,
+        intervals: intervals,
+      });
+      res.send(task);
+
+      //Adds task to bottom of list
+    } else {
+      const task = await Task.create({
+        name: name,
+        listId: listId,
+        order: order,
+        intervals: intervals,
+      });
+      res.send(task);
+    }
   } catch (err) {
     console.log({
       success: false,
@@ -235,61 +248,24 @@ app.post("/tasks", authenticateToken, async (req, res) => {
 
 app.delete("/tasks/:taskId", async (req, res) => {
   const { taskId: id } = req.params;
-
   Task.destroy({ where: { id } });
-  res.send("task deleted");
+  res.send("task deleted").status(200);
 });
 
 app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
   const { taskId, listId, order } = req.params;
-  const updatedTask = await Task.update(
+  await Task.update(
     { order: order, listId: listId },
     { where: { id: taskId } }
   );
   res.json({ success: true });
 });
 
-app.get("/cats", (req, res) => {
-  res.send({ luka: "you got here" });
-});
-
-//NEW USER WELCOME IN PROGRESS
-// app.patch("/newUser/:userId/:username", authenticateToken, async (req, res) => {
-//   const { userId, username } = req.params;
-//   console.log(username);
-//   if (username !== "guest") {
-//     const user = await User.update(
-//       { newUser: false },
-//       { where: { id: userId } }
-//     );
-//     const token = createToken(user.id, user.username, user.newUser);
-//     res.cookie("accessToken", token, {
-//       httpOnly: true,
-//       secure: true,
-//       maxAge: maxAge * 1000,
-//     });
-//   }
-//   res.end();
-// });
-
-// app.get("/join", async (req, res) => {
-//   const { userId } = req.query;
-//   const lists = await List.findAll({
-//     where: { userId },
-//     include: [Task],
-//     order: [
-//       ["order", "ASC"],
-//       [Task, "order", "ASC"],
-//     ],
-//   });
-//   res.send(lists);
-// });
-
 //-----------------------------End of Routes----------------------------------
 
 //START SERVER
 app.listen(process.env.PORT || PORT, async () => {
-  // db.sync({ force: true });
+  // db.sync({ force: true }); //drops all db tables before recreating them
   console.log(`server now running on http://localhost:${PORT}!`);
   await sequelize.authenticate();
   console.log("Database connected!");
