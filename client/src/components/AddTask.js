@@ -26,6 +26,7 @@ function AddTask({
         await setTaskName("");
       }
     });
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -39,6 +40,7 @@ function AddTask({
         <form onSubmit={addTask}>
           <div className="number-input-container">
             <input
+              autoFocus
               className="task-name-input"
               type="text"
               value={taskName}
@@ -50,12 +52,11 @@ function AddTask({
             <input
               className="number-input"
               type="number"
-              // min="0"
-              // max="10"
+              min="0"
+              max="20"
               value={intervals}
               onChange={(e) => setIntervals(e.target.value)}
             ></input>
-            {/* <span>{userData.intervalTime} minutes</span> */}
           </div>
 
           <div>

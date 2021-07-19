@@ -1,0 +1,24 @@
+.overlay-dark {
+  //   display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  //   background-color: aqua;
+  background-color: rgba(0, 0, 0, 0.178);
+  z-index: 5;
+}
+
+#modal {
+  //   display: none;
+  position: absolute;
+  background-color: white;
+  width: 30%;
+  height: 30%;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  border-radius: 5px;
+}

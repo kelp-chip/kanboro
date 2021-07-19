@@ -9,7 +9,6 @@ function Login({ setUserData, getLists, setPage }) {
   const login = async (e) => {
     e.preventDefault();
     const data = await requests.login(loginUsername, loginPassword);
-
     if (data.user) {
       await setUserData(data.user);
       await getLists(data.user.id);

@@ -32,7 +32,6 @@ function List({ list, listData, getUserInfo, index, setListData, userData }) {
       className="list-container"
       // style={{ alignText: "center", margin: "10px" }}
     >
-      {console.log(list)}
       <Droppable droppableId={list.id}>
         {(provided, snapshot) => {
           return (
@@ -60,7 +59,7 @@ function List({ list, listData, getUserInfo, index, setListData, userData }) {
                 );
               })}
               {provided.placeholder}
-              <div>
+              <div className="list-option-btns">
                 <AddTask
                   addingTask={addingTask}
                   openAddTaskForm={openAddTaskForm}
@@ -72,6 +71,9 @@ function List({ list, listData, getUserInfo, index, setListData, userData }) {
                   setIntervals={setIntervals}
                   intervals={intervals}
                 />
+                {list.name === "completed" && !addingTask && (
+                  <button className="clear-list-btn">clear list</button>
+                )}
               </div>
             </div>
           );

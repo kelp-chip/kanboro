@@ -47,9 +47,21 @@ function Task({ task, index, listIndex, setListData, listData }) {
               )}
             </div>
             {showDeleteBtn && (
-              <button className="delete-button" onClick={deleteTask}>
-                delete
-              </button>
+              <div className="task-btns-container">
+                <button className="delete-button" onClick={deleteTask}>
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button className="delete-button" onClick={deleteTask}>
+                  start task
+                  {/* <i class="far fa-clock"></i> */}
+                  {/* <i class="fas fa-stopwatch"></i> */}
+                  {/* <img
+                    src="https://img.icons8.com/officexs/2x/running-rabbit.png"
+                    alt="timer-btn"
+                    height="14px"
+                  ></img> */}
+                </button>
+              </div>
             )}
           </div>
         );

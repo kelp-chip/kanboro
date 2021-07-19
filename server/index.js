@@ -18,39 +18,22 @@ const { getTaskOrder, getListOrder } = require("./helpers/getOrder");
 const { NONE } = require("sequelize");
 
 //MIDDLEWARE
-app.use(function (req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
 
-  // Request methods you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-
-  // Request headers you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader("Access-Control-Allow-Credentials", true);
-
-  // Pass to next layer of middleware
-  next();
-});
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(
   cors({
-    origin: [CLIENT_URL, CLIENT_URL2],
+    origin: CLIENT_URL,
     credentials: true,
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", ""],
+    // allowedHeaders: ["Content-Type", "Authorization", ""],
   })
 );
+app.use(function (req, res, next) {
+  res.set("Access-Control-Allow-Origin", CLIENT_URL);
+  res.set("Access-Control-Allow-Credentials", true);
+  next();
+});
+// app.use(cors());
 
 app.use(cookieParser(process.env.ACCESS_TOKEN_SECRET));
 
@@ -58,10 +41,7 @@ function authenticateToken(req, res, next) {
   //If Token doesn't exist, deny access
   if (!req.cookies.accessToken) res.send({ auth: "guest" }).status(401);
   const token = req.cookies.accessToken;
-  console.log("==============================");
-  console.log("==============================");
   console.log(req.cookies.accessToken);
-  console.log("==============================");
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     //403: Token is no longer valid
@@ -90,9 +70,10 @@ const createToken = (id, username, newUser, intervalTime) => {
 //------------------AUTH ROUTES
 
 app.post("/login", async (req, res) => {
+  // res.send({ auth: "user", user: "none" });
   const { username, password } = req.body;
+  console.log(req.body);
   const user = await User.findOne({ where: { username } });
-  console.log(user);
   if (user) {
     const hashedPw = user.dataValues.password;
     const passwordsMatch = await bcrypt.compare(password, hashedPw);
@@ -102,12 +83,13 @@ app.post("/login", async (req, res) => {
       res.cookie("accessToken", token, {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "None",
         maxAge: maxAge * 1000,
         path: "/",
       });
       res.json({ auth: "user", user: user }).status(200);
-      // res.end();
+      // res.status(200);
+      //   // res.end();
     } else {
       res.json({ auth: "guest", user: user, message: "Wrong password" });
     }
@@ -162,6 +144,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/userInfo", authenticateToken, async (req, res) => {
+  // app.get("/userInfo", async (req, res) => {
   const user = req.user;
   res.send({ auth: "user", user: user });
 });
@@ -173,7 +156,7 @@ app.post("/logout", authenticateToken, (req, res) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    maxAge: 10,
+    maxAge: 0,
     path: "/",
   });
   res.send({ auth: "guest", user: null });
@@ -184,7 +167,7 @@ app.post("/logout", authenticateToken, (req, res) => {
 //------------------END OF AUTH ROUTES
 
 app.get("/lists/:userId", authenticateToken, async (req, res) => {
-  res.set({ "Access-Control-Allow-Origin": CLIENT_URL2 });
+  res.set({ "Access-Control-Allow-Origin": CLIENT_URL });
   res.set({ "Access-Control-Allow-Credentials": "true" });
 
   const { userId } = req.params;

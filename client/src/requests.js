@@ -10,7 +10,6 @@ const requests = {
       crossDomain: true,
       origin: process.env.REACT_APP_CLIENT_URL,
     });
-    console.log(data);
     return data;
   },
   login: async (username, password) => {
