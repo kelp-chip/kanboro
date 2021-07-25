@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  margin-top: 4em;
 }
 
 .App-logo {
@@ -35,30 +34,5 @@
   }
   to {
     transform: rotate(360deg);
-  }
-}
-
-.timer-container {
-  display: flex;
-  position: fixed;
-  width: 100%;
-  justify-content: center;
-  @media (max-width: 950px) {
-  }
-}
-
-#timer {
-  margin-top: -2em;
-  min-height: 30px;
-  font-size: 30px;
-  color: rgb(128, 192, 235);
-}
-
-.dashboard {
-  margin-top: 5em;
-  width: 100%;
-  @media (max-width: 950px) {
-    margin-top: 10em;
-    min-width: max-content;
   }
 }
