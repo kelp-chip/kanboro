@@ -79,49 +79,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/user", async (req, res) => {
-  // try {
-  //   const user = await User.findOne({ where: { username } });
-  //   if (!user) {
-  //     bcrypt.hash(password, 12, async (err, hashedPassword) => {
-  //       if (err) throw err;
-  //       const newUser = await User.create({
-  //         username: username,
-  //         password: hashedPassword,
-  //       });
-  //       console.log(newUser.id);
-  //       const todoList = await List.create({
-  //         name: "todo",
-  //         userId: newUser.id,
-  //         order: 100,
-  //       });
-  //       await Task.create({
-  //         name: "create your first task",
-  //         listId: todoList.id,
-  //         order: 100,
-  //         intervals: 1,
-  //       });
-  //       await List.create({
-  //         name: "in progress",
-  //         userId: newUser.id,
-  //         order: 200,
-  //       });
-  //       await List.create({
-  //         name: "completed",
-  //         userId: newUser.id,
-  //         order: 300,
-  //       });
-  //       res.status(200).json(newUser);
-  //     });
-  //   } else {
-  //     res.send("User already exists");
-  //   }
-  // } catch (err) {
-  //   console.log(err);
-  //   return res.status(500).json(err);
-  // }
-});
-
 app.get("/user", authenticateToken, async (req, res) => {
   const user = req.user;
   res.send({ auth: "user", user: user });

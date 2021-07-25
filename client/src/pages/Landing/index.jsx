@@ -1,8 +1,9 @@
 import Login from "components/Auth/Login";
 import Signup from "components/Auth/Signup";
 import { useState } from "react";
+import { withRouter } from "react-router-dom";
 
-export default function Landing() {
+function Landing() {
   const [registered, setRegistered] = useState(true);
 
   return (
@@ -15,3 +16,5 @@ export default function Landing() {
     </>
   );
 }
+
+export default withRouter(Landing);

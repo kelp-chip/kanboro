@@ -3,10 +3,14 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "./styles/GlobalStyles.scss";
 import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter as Router } from "react-router-dom";
+require("dotenv").config();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );
