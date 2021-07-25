@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+@import "./theme.scss";
+
+*,
+*::before,
+*::after {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  // background-color: rgb(176, 194, 202);
+  height: 100vh;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.5s;
+  border: 1px rgb(190, 190, 190) solid;
+  border-radius: 2px;
+  box-sizing: border-box;
+  &:hover {
+    background-color: rgb(231, 231, 231);
+    border: 1px rgb(168, 168, 168) solid;
+  }
+  &:focus {
+    box-shadow: $darker 0px 0px 0px 1px;
+    border-color: $darker;
+    outline: none;
+  }
+}
+
+input {
+  border: 1px rgb(190, 190, 190) solid;
+  border-radius: 2px;
+  font-size: 16px;
+  padding: 10px;
+  &:focus {
+    box-shadow: $darker 0px 0px 0px 1px;
+    border-color: $darker;
+    outline: none;
+  }
+}

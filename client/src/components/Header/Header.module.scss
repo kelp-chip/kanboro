@@ -1,0 +1,22 @@
+.wrapper {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 1em 5em;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+
+  h1 {
+    font-size: 28px;
+  }
+}
+
+.navItems {
+  list-style-type: none;
+  display: flex;
+
+  li {
+    margin: 0 1em;
+  }
+}
