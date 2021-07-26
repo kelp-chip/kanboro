@@ -23,7 +23,7 @@ const createUser = async (username, password) => {
     url: `${process.env.REACT_APP_SERVER_URL}/user`,
   });
   console.log(res.data);
-  return res.data ? true : false;
+  return res.data;
 };
 
 const login = async (username, password) => {

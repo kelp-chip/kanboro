@@ -1,7 +1,7 @@
 import Header from "components/Header";
 import { withRouter } from "react-router-dom";
 
-function Dashboard() {
+function UserSettings() {
   return (
     <>
       <Header />
@@ -10,4 +10,4 @@ function Dashboard() {
   );
 }
 
-export default withRouter(Dashboard);
+export default withRouter(UserSettings);

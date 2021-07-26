@@ -6,7 +6,11 @@ $btn-darkest: rgb(30, 89, 122);
 .wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 5em;
+  position: absolute;
+  top: 15%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
 }
 
 .container {
@@ -72,4 +76,27 @@ $btn-darkest: rgb(30, 89, 122);
     border: none;
     color: $btn-darkest;
   }
+}
+
+.warning {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: rgb(230, 205, 201);
+  color: #9c2819;
+  border: #cc7469 solid 1px;
+
+  li {
+    font-size: 14px;
+    margin-left: 1em;
+  }
+}
+
+.successMessage {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #cee9d9;
+  color: #109548;
+  border: #72bd91 solid 1px;
 }

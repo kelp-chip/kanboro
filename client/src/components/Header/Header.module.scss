@@ -1,20 +1,25 @@
+@import "../../styles/theme.scss";
+
 .wrapper {
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  padding: 1em 5em;
+  padding: 1em 10em;
 }
 
 .container {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  // justify-content: space-between;
 
   h1 {
-    font-size: 28px;
+    font-size: 35px;
   }
 }
 
 .navItems {
   list-style-type: none;
   display: flex;
+  align-items: center;
+  margin-left: 2em;
 
   li {
     margin: 0 1em;
