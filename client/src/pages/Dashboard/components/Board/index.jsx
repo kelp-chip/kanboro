@@ -1,9 +1,37 @@
 import { DragDropContext } from "react-beautiful-dnd";
+import List from "./List";
+import taskRoutes from "api/taskRoutes";
+import getOrder from "helpers/getOrder";
+import moveTask from "helpers/moveTask";
+import getMoveDetails from "helpers/getMoveDetails";
+import styles from "../styles/Board.module.scss";
 
-export default function Board() {
+function Board({ board, setBoard, setTimer }) {
+  const onDragEnd = async ({ destination, source }) => {
+    if (!destination) return;
+    let listCopy = JSON.parse(JSON.stringify(board));
+    const { sourceList, dIndex, sTaskIndex, dListIndex, sListIndex, dTasks } =
+      getMoveDetails(destination, source, listCopy);
+    const order = getOrder(dTasks, dIndex);
+    let task = sourceList.Tasks[sTaskIndex];
+    task.order = order;
+
+    //save moved task in frontend for snappier response
+    const editedList = moveTask(
+      listCopy,
+      dListIndex,
+      sListIndex,
+      dIndex,
+      sTaskIndex,
+      task
+    );
+    setBoard(editedList);
+    await taskRoutes.patchOrder(task.id, destination.droppableId, order);
+  };
+
   return (
-    <div className="board">
-      {/* <DragDropContext
+    <div className={styles.board}>
+      <DragDropContext
         onDragEnd={(result) => {
           onDragEnd(result);
         }}
@@ -21,7 +49,9 @@ export default function Board() {
               ></List>
             );
           })}
-      </DragDropContext> */}
+      </DragDropContext>
     </div>
   );
 }
+
+export default Board;

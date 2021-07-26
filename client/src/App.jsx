@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 
 export default function App() {
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState("checking");
   const providerUser = useMemo(() => ({ user, setUser }), [user, setUser]);
   const history = useHistory();
 
@@ -22,6 +22,8 @@ export default function App() {
       const res = await userRoutes.getUser(token);
       await setUser(res.user);
       history.push("/dashboard");
+    } else {
+      await setUser(false);
     }
   }
   useEffect(() => {
@@ -30,16 +32,23 @@ export default function App() {
 
   return (
     <>
-      <UserContext.Provider value={providerUser}>
-        <Route
-          path="/"
-          exact
-          render={(props) => <Landing {...props} isLoggedIn={isLoggedIn} />}
-        />
-        <ProtectedRoute path="/dashboard" component={Dashboard} />
-        <ProtectedRoute path="/settings" component={UserSettings} />
-        <div onClick={() => setLoggedIn(!loggedin)}>login</div>
-      </UserContext.Provider>
+      {user === "checking" ? (
+        <UserContext.Provider value={providerUser}>
+          <Header />
+          <span>Loading</span>
+        </UserContext.Provider>
+      ) : (
+        <UserContext.Provider value={providerUser}>
+          <Header />
+          <Route
+            path="/"
+            exact
+            render={(props) => <Landing {...props} isLoggedIn={isLoggedIn} />}
+          />
+          <ProtectedRoute path="/dashboard" component={Dashboard} />
+          <ProtectedRoute path="/settings" component={UserSettings} />
+        </UserContext.Provider>
+      )}
     </>
   );
 }
