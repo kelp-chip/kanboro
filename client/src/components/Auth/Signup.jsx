@@ -4,9 +4,9 @@ import validateNewUser from "../../helpers/validateUserInputs";
 import userRoutes from "api/userRoutes";
 
 export default function Signup({ setRegistered }) {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [reenteredPassword, setReenteredPassword] = useState("");
-  const [username, setUsername] = useState("");
   const [warning, setWarning] = useState(null);
   const [validationMessage, setValidationMessage] = useState(null);
 

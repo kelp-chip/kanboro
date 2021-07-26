@@ -60,7 +60,6 @@ const createToken = (id, username, newUser, intervalTime) => {
 //AUTH ROUTES------------------
 
 app.post("/login", async (req, res) => {
-  // res.send({ auth: "user", user: "none" });
   const { username, password } = req.body;
   console.log(req.body);
   const user = await User.findOne({ where: { username } });
@@ -70,12 +69,15 @@ app.post("/login", async (req, res) => {
     if (passwordsMatch) {
       const { id, newUser, interval_time } = user;
       const token = createToken(id, username, newUser, interval_time);
-      res.json({ auth: "user", user: user, accessToken: token });
+      res.send({ success: true, user: user, accessToken: token });
     } else {
-      res.json({ auth: "guest", user: user, message: "Wrong password" });
+      res.send({
+        success: false,
+        message: "username and password do not match",
+      });
     }
   } else {
-    res.json({ auth: "guest", user: user, message: "Wrong username" });
+    res.send({ success: false, message: "username and password do not match" });
   }
 });
 
