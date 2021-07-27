@@ -24,7 +24,6 @@ describe("Move Tasks", () => {
       //list, dListIndex, sListIndex, dTaskIndex, sTaskIndex, task
       let newList = moveTask(list, 0, 1, 1, 1, task);
 
-      // console.log(newList);
       let taskNewIndex = newList[0].Tasks.findIndex(
         (task) => task.id === "eee"
       );

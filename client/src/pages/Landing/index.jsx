@@ -4,6 +4,7 @@ import styles from "./Landing.module.scss";
 import { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+import LoadingServer from "components/LoadingServer";
 
 function Landing({ isLoggedIn }) {
   const [registered, setRegistered] = useState(true);
@@ -38,13 +39,7 @@ function Landing({ isLoggedIn }) {
         </div>
       ) : (
         <div className={styles.container}>
-          <h4>Server is waking up.</h4>
-          {/* <div class="loader"></div> */}
-          <img
-            src="https://media.tenor.com/images/0dcb73b26623579cc110fc7269992898/tenor.gif"
-            alt="loading gif"
-          ></img>
-          <h4>Thank you for your patience!</h4>
+          <LoadingServer />
         </div>
       )}
     </>
