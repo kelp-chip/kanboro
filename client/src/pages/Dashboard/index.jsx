@@ -4,11 +4,33 @@ import Timer from "./components/Timer";
 import { withRouter } from "react-router-dom";
 import listRoutes from "api/listRoutes";
 import { UserContext } from "context/UserContext";
+import taskRoutes from "api/taskRoutes";
+import moveTask from "helpers/moveTask";
 
 function Dashboard() {
   const [board, setBoard] = useState([]);
   const [timer, setTimer] = useState(false);
   const { user, setUser } = useContext(UserContext);
+
+  async function incrementInterval() {
+    let boardCopy = JSON.parse(JSON.stringify(board));
+    let newInterval = Number(boardCopy[1].Tasks[0].intervals_completed) + 1;
+    let intervals = Number(boardCopy[1].Tasks[0].intervals);
+    boardCopy[1].Tasks[0].intervals_completed = newInterval;
+    await setBoard(boardCopy);
+    await taskRoutes.incrementInterval(boardCopy[1].Tasks[0].id, newInterval);
+    if (newInterval === intervals) {
+      let newBoard = await moveTask(
+        boardCopy,
+        2,
+        1,
+        0,
+        0,
+        boardCopy[1].Tasks[0]
+      );
+      await setBoard(newBoard);
+    }
+  }
 
   useEffect(() => {
     async function getBoardData() {
@@ -22,7 +44,12 @@ function Dashboard() {
     <>
       {console.log(board)}
       <div className="dashboard">
-        {timer && <Timer startMins={user.intervalTime} />}
+        {timer && (
+          <Timer
+            startMins={user.intervalTime}
+            incrementInterval={incrementInterval}
+          />
+        )}
         <Board board={board} setBoard={setBoard} setTimer={setTimer} />
         {/* <button onClick={() => setTimer(!timer)}>timer</button> */}
       </div>

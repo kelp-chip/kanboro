@@ -2,7 +2,7 @@ import styles from "../styles/Timer.module.scss";
 import { useState, useEffect } from "react";
 import chime from "sounds/chime.wav";
 
-export default function Timer({ startMins }) {
+export default function Timer({ startMins, incrementInterval }) {
   const [timerOn, setTimerOn] = useState(false);
   const [timeInSeconds, setTimeInSeconds] = useState(startMins * 60);
   const [sound] = useState(new Audio(chime));
@@ -16,6 +16,7 @@ export default function Timer({ startMins }) {
           if (prevTime === 0) {
             setTimerOn(false);
             sound.play();
+            incrementInterval();
             return 0;
           }
           return prevTime - 1;

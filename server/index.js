@@ -249,6 +249,15 @@ app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
   res.json({ success: true });
 });
 
+app.patch("/tasks/:taskId/:intervalsCompleted", async (req, res) => {
+  const { taskId, intervalsCompleted } = req.params;
+  await Task.update(
+    { intervals_completed: intervalsCompleted },
+    { where: { id: taskId } }
+  );
+  res.json({ success: true });
+});
+
 //-----------------------------End of Routes----------------------------------
 
 //START SERVER
