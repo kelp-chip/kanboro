@@ -24,6 +24,19 @@ export default function Login({ setRegistered }) {
     }
   }
 
+  async function loginGuest() {
+    console.log("got here...");
+    // await setWarning(null);
+    // const res = await userRoutes.login("guest2", "Password11!");
+    // if (res.success) {
+    //   localStorage.setItem("accessToken", res.accessToken);
+    //   await setUser(res.user);
+    //   history.push("/dashboard");
+    // } else {
+    //   setWarning([res.message]);
+    // }
+  }
+
   return (
     <main className={styles.wrapper}>
       <div className={styles.container}>
@@ -75,7 +88,7 @@ export default function Login({ setRegistered }) {
             Signup
           </button>
         </span>
-        <button>Login as Guest</button>
+        <p onClick={loginGuest}>Login as Guest</p>
       </div>
     </main>
   );

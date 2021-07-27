@@ -1,3 +1,12 @@
-// .backgroundColor {
-//   background-color: rgb(207, 225, 236);
-// }
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 50vh;
+  align-items: center;
+  flex-direction: column;
+
+  h4 {
+    margin: 2em 0;
+  }
+}

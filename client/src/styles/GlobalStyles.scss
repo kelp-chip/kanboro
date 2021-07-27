@@ -59,11 +59,29 @@ a {
   }
 }
 
-.cats {
-  // -moz-box-shadow: inset 0 0 0 2px $primary,
-  //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  // -webkit-box-shadow: inset 0 0 0 2px $primary,
-  //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  box-shadow: inset 0 0 0 2px $primary, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px !important;
-  // background-color: blue !important;
+// .cats {
+//   // -moz-box-shadow: inset 0 0 0 2px $primary,
+//   //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+//   // -webkit-box-shadow: inset 0 0 0 2px $primary,
+//   //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+//   box-shadow: inset 0 0 0 2px $primary, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px !important;
+//   // background-color: blue !important;
+// }
+
+.loader {
+  border: 10px solid rgb(230, 230, 230); /* Light grey */
+  border-top: 16px solid rgb(199, 199, 199); /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

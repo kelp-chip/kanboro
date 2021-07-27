@@ -14,18 +14,6 @@ export default function App() {
   const providerUser = useMemo(() => ({ user, setUser }), [user, setUser]);
   const history = useHistory();
 
-  const [loggedin, setLoggedIn] = useState(true);
-
-  async function test() {
-    let getRes = await axios.get("https://kanboro-server.herokuapp.com/test");
-    let postRes = await axios.post(
-      "https://kanboro-server.herokuapp.com/test",
-      { cat: "luka" }
-    );
-    console.log(getRes.data);
-    console.log(postRes.data);
-  }
-
   async function isLoggedIn() {
     let token = localStorage.getItem("accessToken");
     if (token) {
@@ -45,12 +33,10 @@ export default function App() {
       {user === "checking" ? (
         <UserContext.Provider value={providerUser}>
           <Header />
-          <span>Loading</span>
         </UserContext.Provider>
       ) : (
         <UserContext.Provider value={providerUser}>
           <Header />
-          <button onClick={test}>TEST API</button>
           <Route
             path="/"
             exact
