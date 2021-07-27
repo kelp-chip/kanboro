@@ -5,8 +5,6 @@ const getUser = async (token) => {
     method: "get",
     params: { token },
     url: `${process.env.REACT_APP_SERVER_URL}/user`,
-    withCredentials: true,
-    crossDomain: true,
     origin: process.env.REACT_APP_CLIENT_URL,
   });
   return data;
@@ -19,7 +17,6 @@ const createUser = async (username, password) => {
       username,
       password,
     },
-    withCredentials: true,
     url: `${process.env.REACT_APP_SERVER_URL}/user`,
   });
   console.log(res.data);
@@ -34,8 +31,6 @@ const login = async (username, password) => {
         username: username,
         password: password,
       },
-      withCredentials: true,
-      crossDomain: true,
       url: `${process.env.REACT_APP_SERVER_URL}/login`,
       origin: process.env.REACT_APP_CLIENT_URL,
     });
@@ -50,7 +45,6 @@ const logout = async () => {
   await axios({
     method: "post",
     url: `${process.env.REACT_APP_SERVER_URL}/logout`,
-    withCredentials: true,
     crossDomain: true,
     origin: process.env.REACT_APP_CLIENT_URL,
   });

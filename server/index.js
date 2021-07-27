@@ -27,8 +27,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.use(cookieParser(process.env.ACCESS_TOKEN_SECRET));
-
 function authenticateToken(req, res, next) {
   //If Token doesn't exist, deny access
   if (!req.query.token) res.send({ auth: "guest" }).status(401);

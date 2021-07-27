@@ -40,8 +40,6 @@ const deleteTask = async (taskId) => {
   await axios({
     method: "delete",
     url: `${process.env.REACT_APP_SERVER_URL}/tasks/${taskId}`,
-    withCredentials: true,
-    crossDomain: true,
     origin: process.env.REACT_APP_CLIENT_URL,
   });
 };
