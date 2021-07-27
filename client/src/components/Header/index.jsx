@@ -13,8 +13,6 @@ export default function Header() {
   async function logout() {
     await localStorage.removeItem("accessToken");
     await setUser(null);
-    console.log("=========");
-    console.log(user);
     history.push("/");
   }
 

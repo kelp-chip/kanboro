@@ -28,7 +28,6 @@ export default function Signup({ setRegistered }) {
           setRegistered(true);
         }, 3000);
       } else {
-        console.log(res.message);
         await setWarning(res.message);
       }
     }

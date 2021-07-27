@@ -7,6 +7,7 @@ import userRoutes from "api/userRoutes";
 import { useState, useMemo, useEffect } from "react";
 import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
+import axios from "axios";
 
 export default function App() {
   const [user, setUser] = useState("checking");
@@ -15,15 +16,24 @@ export default function App() {
 
   const [loggedin, setLoggedIn] = useState(true);
 
+  async function test() {
+    let getRes = await axios.get("https://kanboro-server.herokuapp.com/test");
+    let postRes = await axios.post(
+      "https://kanboro-server.herokuapp.com/test",
+      { cat: "luka" }
+    );
+    console.log(getRes.data);
+    console.log(postRes.data);
+  }
+
   async function isLoggedIn() {
-    console.log("checking local storage");
     let token = localStorage.getItem("accessToken");
     if (token) {
       const res = await userRoutes.getUser(token);
       await setUser(res.user);
       history.push("/dashboard");
     } else {
-      await setUser(false);
+      await setUser(null);
     }
   }
   useEffect(() => {
@@ -40,6 +50,7 @@ export default function App() {
       ) : (
         <UserContext.Provider value={providerUser}>
           <Header />
+          <button onClick={test}>TEST API</button>
           <Route
             path="/"
             exact

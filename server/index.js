@@ -15,26 +15,21 @@ const { getTaskOrder, getListOrder } = require("./helpers/getOrder");
 //MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
-app.use(function (req, res, next) {
-  res.set("Access-Control-Allow-Origin", process.env.CLIENT_URL);
-  res.set("Access-Control-Allow-Credentials", true);
-  next();
-});
+app.use(cors(["https://kanboro.netlify.app/", "http://localhost:3000"]));
+// app.use(function (req, res, next) {
+//   res.set("Access-Control-Allow-Origin", process.env.CLIENT_URL);
+//   res.set("Access-Control-Allow-Credentials", true);
+//   next();
+// });
 
 function authenticateToken(req, res, next) {
   //If Token doesn't exist, deny access
-  if (!req.query.token) res.send({ auth: "guest" }).status(401);
+  if (!req.query.token) res.send({ success: false }).status(401);
   const { token } = req.query;
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     //403: Token is no longer valid
-    if (err) res.json({ auth: "guest" }).status(403);
+    if (err) res.json({ success: false }).status(403);
 
     //user verified
     req.user = user;
@@ -57,9 +52,18 @@ const createToken = (id, username, newUser, intervalTime) => {
 
 //AUTH ROUTES------------------
 
+app.get("/test", async (req, res) => {
+  const user = await User.findOne({ where: { username: "lexy" } });
+  res.send(user);
+});
+
+app.post("/test", (req, res) => {
+  const { cat } = req.body;
+  res.send({ cat: cat, message: "hey" });
+});
+
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  console.log(req.body);
   const user = await User.findOne({ where: { username } });
   if (user) {
     const hashedPw = user.dataValues.password;
@@ -81,7 +85,6 @@ app.post("/login", async (req, res) => {
 
 app.post("/user", async (req, res) => {
   const { username, password } = req.body;
-  console.log(username);
   try {
     const user = await User.findOne({ where: { username } });
     if (!user) {
@@ -91,7 +94,6 @@ app.post("/user", async (req, res) => {
           username: username,
           password: hashedPassword,
         });
-        console.log(newUser.id);
         const todoList = await List.create({
           name: "todo",
           userId: newUser.id,
@@ -128,26 +130,26 @@ app.post("/user", async (req, res) => {
 
 app.get("/user", authenticateToken, async (req, res) => {
   const user = req.user;
-  res.send({ auth: "user", user: user });
+  res.send({ success: false, user: user });
 });
 
-app.post("/logout", (req, res) => {
-  //clears access token cookie
-  res.clearCookie("accessToken", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 0,
-    path: "/",
-  });
-  res.send({ auth: "guest", user: null });
-});
+// app.post("/logout", (req, res) => {
+//   //clears access token cookie
+//   res.clearCookie("accessToken", {
+//     httpOnly: true,
+//     secure: true,
+//     sameSite: "none",
+//     maxAge: 0,
+//     path: "/",
+//   });
+//   res.send({ auth: "guest", user: null });
+// });
 
 //LIST ROUTES------------------
 
 app.get("/lists/:userId", async (req, res) => {
-  res.set({ "Access-Control-Allow-Origin": process.env.CLIENT_URL });
-  res.set({ "Access-Control-Allow-Credentials": "true" });
+  // res.set({ "Access-Control-Allow-Origin": process.env.CLIENT_URL });
+  // res.set({ "Access-Control-Allow-Credentials": "true" });
 
   const { userId } = req.params;
   const lists = await List.findAll({

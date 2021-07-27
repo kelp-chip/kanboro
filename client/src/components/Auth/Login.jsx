@@ -20,7 +20,7 @@ export default function Login({ setRegistered }) {
       await setUser(res.user);
       history.push("/dashboard");
     } else {
-      setWarning(["username and password do not match"]);
+      setWarning([res.message]);
     }
   }
 

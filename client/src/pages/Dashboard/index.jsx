@@ -42,7 +42,6 @@ function Dashboard() {
 
   return (
     <>
-      {console.log(board)}
       <div className="dashboard">
         {timer && (
           <Timer

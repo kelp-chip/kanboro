@@ -1,53 +1,34 @@
 import axios from "axios";
 
 const getUser = async (token) => {
-  const { data } = await axios({
-    method: "get",
-    params: { token },
-    url: `${process.env.REACT_APP_SERVER_URL}/user`,
-    origin: process.env.REACT_APP_CLIENT_URL,
-  });
+  const URL = `${process.env.REACT_APP_SERVER_URL}/user`;
+  const PARAMS = { params: { token } };
+  const { data } = await axios.get(URL, PARAMS);
   return data;
 };
 
 const createUser = async (username, password) => {
-  const res = await axios({
-    method: "post",
-    data: {
-      username,
-      password,
-    },
-    url: `${process.env.REACT_APP_SERVER_URL}/user`,
-  });
-  console.log(res.data);
-  return res.data;
+  const URL = `${process.env.REACT_APP_SERVER_URL}/user`;
+  const DATA = { username, password };
+  const { data } = await axios.post(URL, DATA);
+  return data;
 };
 
 const login = async (username, password) => {
+  const URL = `${process.env.REACT_APP_SERVER_URL}/login`;
+  const DATA = { username, password };
   try {
-    const res = await axios({
-      method: "post",
-      data: {
-        username: username,
-        password: password,
-      },
-      url: `${process.env.REACT_APP_SERVER_URL}/login`,
-      origin: process.env.REACT_APP_CLIENT_URL,
-    });
-    return res.data;
+    const { data } = await axios.post(URL, DATA);
+    return data;
   } catch (err) {
-    console.log("Sorry, couldn't reach the server");
     console.log(err);
+    return { success: false, message: "Sorry, couldn't reach the server" };
   }
 };
 
 const logout = async () => {
-  await axios({
-    method: "post",
-    url: `${process.env.REACT_APP_SERVER_URL}/logout`,
-    crossDomain: true,
-    origin: process.env.REACT_APP_CLIENT_URL,
-  });
+  const URL = `${process.env.REACT_APP_SERVER_URL}/logout`;
+  await axios.post(URL);
   return;
 };
 
