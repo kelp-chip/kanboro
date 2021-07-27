@@ -58,3 +58,12 @@ a {
     text-decoration: none;
   }
 }
+
+.cats {
+  // -moz-box-shadow: inset 0 0 0 2px $primary,
+  //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  // -webkit-box-shadow: inset 0 0 0 2px $primary,
+  //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: inset 0 0 0 2px $primary, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px !important;
+  // background-color: blue !important;
+}

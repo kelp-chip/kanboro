@@ -22,8 +22,6 @@ function Task({ task, index, listIndex, setBoard, board, startTask }) {
             className={styles.taskbox}
             style={{
               userSelect: "none",
-              backgroundColor: snapshot.isDragging && "white",
-              border: snapshot.isDragging ? "pink" : "none",
               boxShadow:
                 snapshot.isDragging && "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
               ...provided.draggableProps.style,
@@ -48,17 +46,19 @@ function Task({ task, index, listIndex, setBoard, board, startTask }) {
             </div>
             {showDeleteBtn && (
               <div className={styles["task-btns-container"]}>
+                {task.intervals > 0 && (
+                  <button
+                    className={styles["delete-button"]}
+                    onClick={(e) => startTask(e, index)}
+                  >
+                    start task
+                  </button>
+                )}
                 <button
                   className={styles["delete-button"]}
                   onClick={deleteTask}
                 >
-                  <i className="fas fa-edit"></i>
-                </button>
-                <button
-                  className={styles["delete-button"]}
-                  onClick={() => startTask(index)}
-                >
-                  start task
+                  edit
                 </button>
               </div>
             )}

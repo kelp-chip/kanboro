@@ -30,7 +30,7 @@ function List({ list, board, index, setBoard, setTimer }) {
     await setAddingTask(false);
   };
 
-  const startTask = async (taskIndex) => {
+  const startTask = async (e, taskIndex) => {
     //front end changes
     let boardCopy = JSON.parse(JSON.stringify(board));
     const task = boardCopy[index].Tasks[taskIndex];
@@ -38,64 +38,58 @@ function List({ list, board, index, setBoard, setTimer }) {
     task.order = order;
     const editedList = moveTask(boardCopy, 1, index, 0, taskIndex, task);
     await setBoard(editedList);
-    console.log(user);
+    await setTimer(true);
 
-    //backend changes
+    // backend changes
     await taskRoutes.patchOrder(task.id, boardCopy[1].id, order);
-
-    await setTimer(`${user.intervalTime}:00`);
   };
 
   return (
-    <div
-      key={list.id}
-      className={styles.container}
-      // style={{ alignText: "center", margin: "10px" }}
-    >
+    <div key={list.id} className={styles.container}>
       <Droppable droppableId={list.id}>
         {(provided, snapshot) => {
           return (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className={styles.list}
-              style={{
-                // background: snapshot.isDraggingOver && "rgb(184, 226, 251)",
-                background: snapshot.isDraggingOver && "rgb(215, 236, 250)",
-                // background: snapshot.isDraggingOver && "rgb(229, 188, 160)",
-              }}
-            >
+            <div className={styles.wrapper}>
               <h3>{list.name}</h3>
-              {list.Tasks.map((task, i) => {
-                return (
-                  <Task
-                    task={task}
-                    index={i}
-                    listIndex={index}
-                    setBoard={setBoard}
-                    board={board}
-                    key={task.id}
-                    startTask={startTask}
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className={styles.list}
+                style={{
+                  background: snapshot.isDraggingOver && "rgb(215, 236, 250)",
+                }}
+              >
+                {list.Tasks.map((task, i) => {
+                  return (
+                    <Task
+                      task={task}
+                      index={i}
+                      listIndex={index}
+                      setBoard={setBoard}
+                      board={board}
+                      key={task.id}
+                      startTask={startTask}
+                    />
+                  );
+                })}
+                {provided.placeholder}
+                <div className={styles["list-option-btns"]}>
+                  <TaskForm
+                    addingTask={addingTask}
+                    openAddTaskForm={openAddTaskForm}
+                    addTask={addUserTask}
+                    taskName={taskName}
+                    setTaskName={setTaskName}
+                    setAddingTask={setAddingTask}
+                    setIntervals={setIntervals}
+                    intervals={intervals}
                   />
-                );
-              })}
-              {provided.placeholder}
-              <div className={styles["list-option-btns"]}>
-                <TaskForm
-                  addingTask={addingTask}
-                  openAddTaskForm={openAddTaskForm}
-                  addTask={addUserTask}
-                  taskName={taskName}
-                  setTaskName={setTaskName}
-                  setAddingTask={setAddingTask}
-                  setIntervals={setIntervals}
-                  intervals={intervals}
-                />
-                {list.name === "completed" && !addingTask && (
-                  <button className={styles["clear-list-btn"]}>
-                    clear list
-                  </button>
-                )}
+                  {list.name === "completed" && !addingTask && (
+                    <button className={styles["clear-list-btn"]}>
+                      clear list
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           );
