@@ -11,10 +11,21 @@ const patchOrder = async (taskId, destinationId, order) => {
   });
   return;
 };
+const incrementInterval = async (taskId, intervalsCompleted) => {
+  const URL = `${process.env.REACT_APP_SERVER_URL}/tasks/${taskId}/${intervalsCompleted}`;
+  await axios({
+    method: "patch",
+    url: URL,
+    withCredentials: true,
+    crossDomain: true,
+    origin: process.env.REACT_APP_CLIENT_URL,
+  });
+  return;
+};
 const addTask = async (listId, taskName, intervals, addToTop) => {
   const data = { listId: listId, name: taskName, intervals };
-  if (addToTop) data.addToTop = true;
-  await axios({
+  // if (addToTop) data.addToTop = true;
+  let { data: task } = await axios({
     method: "post",
     url: `${process.env.REACT_APP_SERVER_URL}/tasks`,
     data: data,
@@ -22,6 +33,7 @@ const addTask = async (listId, taskName, intervals, addToTop) => {
     crossDomain: true,
     origin: process.env.REACT_APP_CLIENT_URL,
   });
+  return task;
 };
 
 const deleteTask = async (taskId) => {
@@ -34,6 +46,6 @@ const deleteTask = async (taskId) => {
   });
 };
 
-const taskRoutes = { patchOrder, addTask, deleteTask };
+const taskRoutes = { patchOrder, addTask, deleteTask, incrementInterval };
 
 export default taskRoutes;

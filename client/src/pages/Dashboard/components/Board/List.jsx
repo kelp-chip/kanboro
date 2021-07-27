@@ -7,6 +7,7 @@ import getOrder from "helpers/getOrder";
 import taskRoutes from "api/taskRoutes";
 import { UserContext } from "context/UserContext";
 import styles from "../styles/List.module.scss";
+import listRoutes from "api/listRoutes";
 
 function List({ list, board, index, setBoard, setTimer }) {
   const { user, setUser } = useContext(UserContext);
@@ -24,8 +25,10 @@ function List({ list, board, index, setBoard, setTimer }) {
   const addUserTask = async (e) => {
     e.preventDefault();
     if (taskName === "") return;
-    await taskRoutes.addTask(list.id, taskName, intervals);
-    // await getUserInfo();
+    let task = await taskRoutes.addTask(list.id, taskName, intervals);
+    let boardCopy = JSON.parse(JSON.stringify(board));
+    boardCopy[index].Tasks.push(task);
+    await setBoard(boardCopy);
     await setTaskName("");
     await setAddingTask(false);
   };

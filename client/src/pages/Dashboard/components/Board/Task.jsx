@@ -60,6 +60,12 @@ function Task({ task, index, listIndex, setBoard, board, startTask }) {
                 >
                   edit
                 </button>
+                <button
+                  className={styles["delete-button"]}
+                  onClick={deleteTask}
+                >
+                  delete
+                </button>
               </div>
             )}
           </div>
