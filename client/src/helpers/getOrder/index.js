@@ -1,5 +1,6 @@
 module.exports = (tasks, dTaskIndex) => {
   let order;
+  if (tasks.length === 0) return 100;
   if (dTaskIndex === 0) {
     order = tasks[dTaskIndex].order / 2;
   } else if (dTaskIndex === -1) {

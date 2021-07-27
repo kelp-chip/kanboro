@@ -2,3 +2,4 @@
 .env
 /client2
 /client4
+.DS_Store

@@ -1,0 +1,102 @@
+@import "styles/theme.scss";
+$btn: rgb(54, 130, 173);
+$btn-darker: rgb(50, 122, 163);
+$btn-darkest: rgb(30, 89, 122);
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 15%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+}
+
+.container {
+  background-color: white;
+  width: 550px;
+  padding: 3em 5em;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 5px;
+  h2 {
+    margin-bottom: 1em;
+    text-align: center;
+  }
+
+  form {
+    label {
+      color: rgb(105, 105, 105);
+    }
+    input {
+      margin-top: 8px;
+      margin-bottom: 25px;
+      width: 100%;
+    }
+  }
+
+  span {
+    text-align: center;
+    font-size: 14px;
+  }
+}
+
+.submitBtn {
+  padding: 13px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.5s;
+  border: 1px $btn-darker solid;
+  border-radius: 2px;
+  background-color: $btn;
+  color: white;
+
+  &:hover {
+    background-color: $btn-darker;
+    border: 1px $btn-darkest solid;
+  }
+  &:focus {
+    box-shadow: rgb(164, 204, 219) 0px 0px 0px 1px;
+    border-color: rgb(139, 198, 221) 0px 0px 0px 1px;
+    outline: none;
+  }
+}
+
+.btnLink {
+  color: $btn;
+  font-size: 14px;
+  background: none;
+  border: none;
+  padding: 5px;
+  &:hover {
+    background: none;
+    border: none;
+    color: $btn-darkest;
+  }
+}
+
+.warning {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: rgb(230, 205, 201);
+  color: #9c2819;
+  border: #cc7469 solid 1px;
+
+  li {
+    font-size: 14px;
+    margin-left: 1em;
+  }
+}
+
+.successMessage {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #cee9d9;
+  color: #109548;
+  border: #72bd91 solid 1px;
+}

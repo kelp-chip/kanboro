@@ -1,0 +1,47 @@
+@import "../../styles/theme.scss";
+
+.wrapper {
+  padding: 1em 10em;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // justify-content: space-between;
+
+  h1 {
+    font-size: 35px;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
+
+.navItems {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  margin-left: 2em;
+
+  li {
+    margin: 0 1em;
+
+    .navLink {
+      text-decoration: none;
+      color: black;
+      cursor: pointer;
+      transition: color 0.5s;
+      padding: 7px 3px;
+
+      &:hover {
+        color: rgb(39, 39, 39);
+      }
+    }
+  }
+}
+
+.focus {
+  border-bottom: 4px #d4d4d4 solid;
+  border-radius: 1px;
+}

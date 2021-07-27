@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+@import "./theme.scss";
+
+*,
+*::before,
+*::after {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background-color: #faf9f8;
+  height: 100vh;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.5s;
+  border: 1px rgb(190, 190, 190) solid;
+  border-radius: 2px;
+  box-sizing: border-box;
+  &:hover {
+    background-color: rgb(231, 231, 231);
+    border: 1px rgb(168, 168, 168) solid;
+  }
+  &:focus {
+    box-shadow: $darker 0px 0px 0px 1px;
+    border-color: $darker;
+    outline: none;
+  }
+}
+
+input {
+  border: 1px rgb(190, 190, 190) solid;
+  border-radius: 2px;
+  font-size: 16px;
+  padding: 10px;
+  &:focus {
+    box-shadow: $darker 0px 0px 0px 1px;
+    border-color: $darker;
+    outline: none;
+  }
+}
+
+a {
+  text-decoration: none;
+  &:visited {
+    text-decoration: none;
+  }
+}
+
+.cats {
+  // -moz-box-shadow: inset 0 0 0 2px $primary,
+  //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  // -webkit-box-shadow: inset 0 0 0 2px $primary,
+  //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: inset 0 0 0 2px $primary, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px !important;
+  // background-color: blue !important;
+}

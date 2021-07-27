@@ -2,45 +2,37 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
 const maxAge = 3 * 24 * 60 * 60;
-// const CLIENT_URL2 = "https://kanboro.netlify.app";
-const CLIENT_URL = "http://localhost:3000";
 
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../", ".env") });
-
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
+
 const jwt = require("jsonwebtoken");
 const { sequelize, User, List, Task } = require("./database/models");
-
 const { getTaskOrder, getListOrder } = require("./helpers/getOrder");
-const { NONE } = require("sequelize");
 
 //MIDDLEWARE
-
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(
   cors({
-    origin: CLIENT_URL,
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
 app.use(function (req, res, next) {
-  res.set("Access-Control-Allow-Origin", CLIENT_URL);
+  res.set("Access-Control-Allow-Origin", process.env.CLIENT_URL);
   res.set("Access-Control-Allow-Credentials", true);
   next();
 });
-// app.use(cors());
 
-app.use(cookieParser(process.env.ACCESS_TOKEN_SECRET));
+// app.use(cookieParser(process.env.ACCESS_TOKEN_SECRET));
 
 function authenticateToken(req, res, next) {
   //If Token doesn't exist, deny access
-  if (!req.cookies.accessToken) res.send({ auth: "guest" }).status(401);
-  const token = req.cookies.accessToken;
-  console.log(req.cookies.accessToken);
+  if (!req.query.token) res.send({ auth: "guest" }).status(401);
+  const { token } = req.query;
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     //403: Token is no longer valid
@@ -51,7 +43,6 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
-
 //---------------------------End of Middleware--------------------------------
 
 const createToken = (id, username, newUser, intervalTime) => {
@@ -69,7 +60,6 @@ const createToken = (id, username, newUser, intervalTime) => {
 //AUTH ROUTES------------------
 
 app.post("/login", async (req, res) => {
-  // res.send({ auth: "user", user: "none" });
   const { username, password } = req.body;
   console.log(req.body);
   const user = await User.findOne({ where: { username } });
@@ -79,24 +69,21 @@ app.post("/login", async (req, res) => {
     if (passwordsMatch) {
       const { id, newUser, interval_time } = user;
       const token = createToken(id, username, newUser, interval_time);
-      res.cookie("accessToken", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: maxAge * 1000,
-        path: "/",
-      });
-      res.json({ auth: "user", user: user });
+      res.send({ success: true, user: user, accessToken: token });
     } else {
-      res.json({ auth: "guest", user: user, message: "Wrong password" });
+      res.send({
+        success: false,
+        message: "username and password do not match",
+      });
     }
   } else {
-    res.json({ auth: "guest", user: user, message: "Wrong username" });
+    res.send({ success: false, message: "username and password do not match" });
   }
 });
 
 app.post("/user", async (req, res) => {
   const { username, password } = req.body;
+  console.log(username);
   try {
     const user = await User.findOne({ where: { username } });
     if (!user) {
@@ -128,24 +115,25 @@ app.post("/user", async (req, res) => {
           userId: newUser.id,
           order: 300,
         });
-
-        res.status(200).json(newUser);
+        res.status(200).send({ success: true, user: newUser });
       });
     } else {
-      res.send("User already exists");
+      res.send({ success: false, message: ["sorry, username already exists"] });
     }
   } catch (err) {
-    console.log(err);
-    return res.status(500).json(err);
+    return res.status(500).send({
+      success: false,
+      message: ["sorry, couldn't connect to server", "please try again later"],
+    });
   }
 });
 
-app.get("/userInfo", authenticateToken, async (req, res) => {
+app.get("/user", authenticateToken, async (req, res) => {
   const user = req.user;
   res.send({ auth: "user", user: user });
 });
 
-app.post("/logout", authenticateToken, (req, res) => {
+app.post("/logout", (req, res) => {
   //clears access token cookie
   res.clearCookie("accessToken", {
     httpOnly: true,
@@ -159,8 +147,8 @@ app.post("/logout", authenticateToken, (req, res) => {
 
 //LIST ROUTES------------------
 
-app.get("/lists/:userId", authenticateToken, async (req, res) => {
-  res.set({ "Access-Control-Allow-Origin": CLIENT_URL });
+app.get("/lists/:userId", async (req, res) => {
+  res.set({ "Access-Control-Allow-Origin": process.env.CLIENT_URL });
   res.set({ "Access-Control-Allow-Credentials": "true" });
 
   const { userId } = req.params;
@@ -175,7 +163,7 @@ app.get("/lists/:userId", authenticateToken, async (req, res) => {
   res.send(lists);
 });
 
-app.post("/lists", authenticateToken, async (req, res) => {
+app.post("/lists", async (req, res) => {
   const { userId, name } = req.body;
   const order = await getListOrder(userId);
   const lists = await List.create({
@@ -206,7 +194,7 @@ app.get("/tasks", async (req, res) => {
   res.send(tasks);
 });
 
-app.post("/tasks", authenticateToken, async (req, res) => {
+app.post("/tasks", async (req, res) => {
   const { listId, name, intervals, addToTop } = req.body;
 
   const order = await getTaskOrder(listId);

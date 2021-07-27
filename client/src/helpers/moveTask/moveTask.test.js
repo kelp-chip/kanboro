@@ -98,9 +98,18 @@ describe("Move Tasks", () => {
       taskIndex = newList[0].Tasks.findIndex((task) => task.id === "ddd");
       expect(taskIndex).toBe(0);
     });
+
+    test("moves task to top of same list correctly", () => {
+      let list = list1();
+      let task = list[0].Tasks[2];
+      let newList = moveTask(list, 0, 0, 0, 2, task);
+
+      let taskIndex = newList[0].Tasks.findIndex((task) => task.id === "ccc");
+      expect(taskIndex).toBe(0);
+    });
   });
   describe("moving tasks to bottom of lists", () => {
-    test("inserts task to top of list correctly", () => {
+    test("inserts task to bottom of list correctly", () => {
       //Move task with id: "ccc" to bottom of the second list
 
       //moveTask parameters:
@@ -119,6 +128,15 @@ describe("Move Tasks", () => {
       newList = moveTask(list, 0, 1, -1, 0, task);
 
       taskIndex = newList[0].Tasks.findIndex((task) => task.id === "ddd");
+      expect(taskIndex).toBe(newList[0].Tasks.length - 1);
+    });
+
+    test("moves task to bottom of same list correctly", () => {
+      let list = list1();
+      let task = list[0].Tasks[0];
+      let newList = moveTask(list, 0, 0, -1, 0, task);
+
+      let taskIndex = newList[0].Tasks.findIndex((task) => task.id === "aaa");
       expect(taskIndex).toBe(newList[0].Tasks.length - 1);
     });
   });
