@@ -2,9 +2,12 @@ $main_color: rgb(43, 108, 182);
 
 .list {
   padding: 8px;
+  padding-top: 0px;
   width: 350px;
+  margin-top: 20px;
   // background-color: white;
-  background-color: rgb(238, 238, 238);
+  // background-color: rgb(238, 238, 238);
+  background: none;
   max-height: min-content;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -55,7 +58,8 @@ form {
 
 .wrapper {
   border-radius: 5px;
-  background-color: rgb(238, 238, 238);
+  // background-color: rgb(238, 238, 238);
+  background: none;
   padding-top: 0.5em;
 
   h3 {

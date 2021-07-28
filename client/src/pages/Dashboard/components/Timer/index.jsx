@@ -2,9 +2,9 @@ import styles from "../styles/Timer.module.scss";
 import { useState, useEffect } from "react";
 import chime from "sounds/chime.wav";
 
-export default function Timer({ startMins, incrementInterval, setTimer }) {
+export default function Timer({ incrementInterval, setTimer, interval_time }) {
   const [timerOn, setTimerOn] = useState(false);
-  const [timeInSeconds, setTimeInSeconds] = useState(Number(startMins) * 60);
+  const [timeInSeconds, setTimeInSeconds] = useState(interval_time * 60);
   const [sound] = useState(new Audio(chime));
 
   useEffect(() => {
@@ -27,18 +27,16 @@ export default function Timer({ startMins, incrementInterval, setTimer }) {
     }
 
     return () => clearInterval(interval);
-  }, [timerOn]);
+  }, [timerOn, incrementInterval, sound]);
 
   async function reset() {
     await setTimerOn(false);
     await setTimeInSeconds(4);
   }
 
-  //   let minutes = Math.floor(timeInSeconds / 60);
-  //   let seconds = timeInSeconds % 60;
-
   return (
     <div className={styles.wrapper}>
+      {console.log(interval_time)}
       <div className={styles.container}>
         <button className={styles.close} onClick={() => setTimer(false)}>
           ✕

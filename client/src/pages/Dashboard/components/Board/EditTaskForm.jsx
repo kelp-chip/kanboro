@@ -1,5 +1,5 @@
 import styles from "../styles/Form.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function EditTaskForm({
   setToggleEditTask,
@@ -8,18 +8,35 @@ export default function EditTaskForm({
 }) {
   const [taskName, setTaskName] = useState(taskData.task.name);
   const [intervals, setIntervals] = useState(taskData.task.intervals);
+  const [notes, setNotes] = useState(taskData.task.notes);
 
+  // useEffect(() => {
+  //   window.scrollTo(0, document.body.scrollHeight);
+  // }, []);
   return (
     <div>
-      edit task
+      {console.log(taskData.task)}
       <form
         className={styles.form}
         onSubmit={(e) =>
-          editTask(e, taskData.task.id, taskData.index, taskName, intervals)
+          editTask(
+            e,
+            taskData.task.id,
+            taskData.index,
+            taskName,
+            intervals,
+            notes
+          )
         }
       >
-        <div className={styles.inputContainer}>
+        <h3 className={styles.formName}>Edit Task</h3>
+        <div className={styles.gridContainer}>
+          <label for="taskName">task name</label>
+          <label for="intervals">intervals</label>
+        </div>
+        <div className={styles.gridContainer}>
           <input
+            name="taskName"
             autoFocus
             className="task-name-input"
             type="text"
@@ -31,6 +48,7 @@ export default function EditTaskForm({
           ></input>
           <input
             className="number-input"
+            name="intervals"
             type="number"
             min="0"
             max="20"
@@ -38,7 +56,14 @@ export default function EditTaskForm({
             onChange={(e) => setIntervals(e.target.value)}
           ></input>
         </div>
-
+        <label for="notes">notes</label>
+        <br />
+        <textarea
+          className={styles.notesInput}
+          name="notes"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+        ></textarea>
         <div className={styles.BtnContainer}>
           <button
             className={styles.clearBtn}

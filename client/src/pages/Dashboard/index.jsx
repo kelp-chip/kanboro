@@ -48,9 +48,9 @@ function Dashboard() {
       <div className="dashboard">
         {timer && (
           <Timer
-            startMins={user.intervalTime}
             incrementInterval={incrementInterval}
             setTimer={setTimer}
+            interval_time={user.interval_time}
           />
         )}
         <Board board={board} setBoard={setBoard} setTimer={setTimer} />

@@ -17,7 +17,8 @@ html {
 }
 
 body {
-  background-color: #faf9f8;
+  // background-image: linear-gradient($primary, $darker);
+  background-color: rgb(245, 245, 245);
   height: 100vh;
 }
 
@@ -40,7 +41,8 @@ button {
   }
 }
 
-input {
+input,
+textarea {
   border: 1px rgb(190, 190, 190) solid;
   border-radius: 2px;
   font-size: 16px;

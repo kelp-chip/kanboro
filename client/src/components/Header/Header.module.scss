@@ -2,6 +2,8 @@
 
 .wrapper {
   padding: 1em 10em;
+  background-color: white;
+  border-bottom: 2px rgba(161, 161, 161, 0.205) solid;
 }
 
 .container {
@@ -42,6 +44,6 @@
 }
 
 .focus {
-  border-bottom: 4px #d4d4d4 solid;
+  border-bottom: 4px #89c5e0 solid;
   border-radius: 1px;
 }

@@ -15,25 +15,44 @@
 
 .form {
   width: 100%;
-  // grid-template-rows: 1fr 1fr;
+  background-color: rgb(255, 255, 255);
+  padding: 10px 1em;
+  border-radius: 3px;
+  margin-top: 1em;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  input {
+    margin-bottom: 1em;
+
+    &:focus {
+      border: solid 1px $darker;
+      box-shadow: $darker 0px 0px 0px 1px;
+    }
+  }
+
+  label {
+    color: gray;
+    margin-bottom: 0.4em;
+  }
+
+  .formName {
+    margin: 5px 0;
+    padding: 0;
+  }
+
+  .notesInput {
+    width: 100%;
+    resize: vertical;
+    min-height: 80px;
+    max-height: 200px;
+  }
 }
 
-.inputContainer {
+.gridContainer {
   display: grid;
   grid-template-columns: 3fr 1fr;
   column-gap: 10px;
   row-gap: 1em;
-  margin-bottom: 1em;
-
-  input {
-    border: solid 2px rgb(168, 168, 168);
-    border-radius: 8px;
-
-    &:focus {
-      border: solid 2px $darker;
-      box-shadow: $darker 0px 0px 0px 1px;
-    }
-  }
 }
 
 .BtnContainer {

@@ -31,7 +31,11 @@ function AddTask({
       )}
       {addingTask && (
         <form onSubmit={addTask} className={styles.form}>
-          <div className={styles.inputContainer}>
+          <div className={styles.gridContainer}>
+            <label>task name</label>
+            <label>intervals</label>
+          </div>
+          <div className={styles.gridContainer}>
             <input
               autoFocus
               className="task-name-input"

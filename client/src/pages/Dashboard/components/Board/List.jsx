@@ -29,7 +29,8 @@ function List({ list, board, index, setBoard, setTimer }) {
     taskId,
     taskIndex,
     editedTaskName,
-    editedIntervals
+    editedIntervals,
+    notes
   ) => {
     e.preventDefault();
     let boardCopy = JSON.parse(JSON.stringify(board));
@@ -37,6 +38,7 @@ function List({ list, board, index, setBoard, setTimer }) {
       id: taskId,
       name: editedTaskName,
       intervals: editedIntervals,
+      notes: notes,
     });
     console.log(task);
     boardCopy[index].Tasks[taskIndex] = task;
@@ -81,7 +83,7 @@ function List({ list, board, index, setBoard, setTimer }) {
                 ref={provided.innerRef}
                 className={styles.list}
                 style={{
-                  background: snapshot.isDraggingOver && "rgb(215, 236, 250)",
+                  background: snapshot.isDraggingOver && "#EFEFEF",
                 }}
               >
                 {list.Tasks.map((task, i) => {
@@ -98,6 +100,15 @@ function List({ list, board, index, setBoard, setTimer }) {
                     />
                   );
                 })}
+                {list.Tasks.length < 1 && (
+                  <div
+                    style={{
+                      height: "8px",
+                      background: "#EFEFEF",
+                      borderRadius: "1px",
+                    }}
+                  ></div>
+                )}
                 {provided.placeholder}
                 {!!toggleEditTask ? (
                   <EditTaskForm

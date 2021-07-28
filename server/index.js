@@ -29,9 +29,9 @@ function authenticateToken(req, res, next) {
 }
 //---------------------------End of Middleware--------------------------------
 
-const createToken = (id, username, newUser, intervalTime) => {
+const createToken = (id, username, newUser, interval_time) => {
   return jwt.sign(
-    { id, username, newUser, intervalTime },
+    { id, username, newUser, interval_time },
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: maxAge,

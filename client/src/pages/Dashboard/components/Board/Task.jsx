@@ -1,7 +1,9 @@
 import { Draggable } from "react-beautiful-dnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import taskRoutes from "api/taskRoutes";
 import styles from "../styles/Task.module.scss";
+import edit from "images/edit.svg";
+import clock from "images/clock.svg";
 
 function Task({
   task,
@@ -13,12 +15,20 @@ function Task({
   setToggleEditTask,
 }) {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
+  const [taskChosen, setTaskChosen] = useState(false);
   const deleteTask = async (e) => {
     const boardCopy = JSON.parse(JSON.stringify(board));
     boardCopy[listIndex].Tasks.splice(index, 1);
     setBoard(boardCopy);
     await taskRoutes.deleteTask(task.id);
   };
+
+  const editTask = async () => {
+    await setToggleEditTask(false);
+    await setToggleEditTask({ task, index });
+    await window.scrollTo(0, document.body.scrollHeight);
+  };
+
   return (
     <Draggable key={task.id} draggableId={task.id} index={task.order}>
       {(provided, snapshot) => {
@@ -37,45 +47,53 @@ function Task({
             onMouseOver={() => setShowDeleteBtn(true)}
             onMouseLeave={() => setShowDeleteBtn(false)}
           >
-            <div>{task.name}</div>
-            <div>
-              {task.intervals !== 0 && (
-                <span
-                  style={{
-                    color:
-                      task.intervals_completed === task.intervals
-                        ? "green"
-                        : "gray",
-                  }}
-                >
-                  {task.intervals_completed}/{task.intervals}
-                </span>
-              )}
+            <div className={styles.header}>
+              <div className={styles.title}>{task.name}</div>
             </div>
-            {showDeleteBtn && (
-              <div className={styles["task-btns-container"]}>
-                {task.intervals > 0 && (
-                  <button
-                    className={styles["delete-button"]}
+            {task.notes && <div className={styles.notes}>{task.notes}</div>}
+            <div className={styles.options}>
+              <img
+                src={edit}
+                className={styles.edit}
+                alt="edit"
+                onClick={editTask}
+              ></img>
+
+              {task.intervals !== 0 && (
+                <div className={styles.time}>
+                  <img
+                    src={clock}
+                    className={styles.edit}
+                    alt="clock"
+                    onClick={(e) => startTask(e, index)}
+                  ></img>
+                  <span
+                    className={styles.intervals}
                     onClick={(e) => startTask(e, index)}
                   >
-                    start task
-                  </button>
-                )}
-                <button
-                  className={styles["delete-button"]}
+                    {task.intervals_completed}/{task.intervals}
+                  </span>
+                </div>
+              )}
+            </div>
+            {/* {showDeleteBtn && (
+              <div className={styles.taskBtnsContainer}>
+                <img
+                  src={clock}
+                  className={styles.edit}
+                  width="20px"
+                  alt="clock"
+                  onClick={(e) => startTask(e, index)}
+                ></img>{" "}
+                <img
+                  src={edit}
+                  className={styles.edit}
+                  width="20px"
+                  alt="edit"
                   onClick={() => setToggleEditTask({ task, index })}
-                >
-                  edit
-                </button>
-                <button
-                  className={styles["delete-button"]}
-                  onClick={deleteTask}
-                >
-                  delete
-                </button>
+                ></img>
               </div>
-            )}
+            )} */}
           </div>
         );
       }}
