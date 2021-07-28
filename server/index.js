@@ -235,6 +235,13 @@ app.patch("/tasks/:taskId/:listId/:order", async (req, res) => {
   res.json({ success: true });
 });
 
+app.patch("/tasks", async (req, res) => {
+  const updatedTask = req.body;
+  await Task.update(updatedTask, { where: { id: updatedTask.id } });
+  const task = await Task.findOne({ where: { id: updatedTask.id } });
+  res.send({ success: true, task: task });
+});
+
 app.patch("/tasks/:taskId/:intervalsCompleted", async (req, res) => {
   const { taskId, intervalsCompleted } = req.params;
   await Task.update(
@@ -246,7 +253,11 @@ app.patch("/tasks/:taskId/:intervalsCompleted", async (req, res) => {
 
 app.patch("/edittasks/:taskId/:taskName/:intervals", async (req, res) => {
   const { taskId, taskName, intervals } = req.params;
-  await Task.update({ intervals, name: taskName }, { where: { id: taskId } });
+  intervals = Number(intervals);
+  await Task.update(
+    { intervals: intervals, name: taskName },
+    { where: { id: taskId } }
+  );
   const task = await Task.findOne({ where: { id: taskId } });
   res.send(task);
 });

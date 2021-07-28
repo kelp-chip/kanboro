@@ -18,9 +18,15 @@ const addTask = async (listId, taskName, intervals, addToTop) => {
   return task;
 };
 
-const patchTask = async (taskId, taskName, intervals) => {
+const patchTask2 = async (taskId, taskName, intervals) => {
   const URL = `${process.env.REACT_APP_SERVER_URL}/edittasks/${taskId}/${taskName}/${intervals}`;
   const { data } = await axios.patch(URL);
+  return data;
+};
+
+const patchTask = async (updatedTask) => {
+  const URL = `${process.env.REACT_APP_SERVER_URL}/tasks`;
+  const { data } = await axios.patch(URL, updatedTask);
   return data;
 };
 

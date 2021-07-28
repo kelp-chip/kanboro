@@ -4,7 +4,7 @@ import chime from "sounds/chime.wav";
 
 export default function Timer({ startMins, incrementInterval, setTimer }) {
   const [timerOn, setTimerOn] = useState(false);
-  const [timeInSeconds, setTimeInSeconds] = useState(startMins * 60);
+  const [timeInSeconds, setTimeInSeconds] = useState(Number(startMins) * 60);
   const [sound] = useState(new Audio(chime));
 
   useEffect(() => {

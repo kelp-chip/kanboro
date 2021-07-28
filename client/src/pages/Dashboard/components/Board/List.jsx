@@ -28,16 +28,16 @@ function List({ list, board, index, setBoard, setTimer }) {
     e,
     taskId,
     taskIndex,
-    editedTaskNames,
+    editedTaskName,
     editedIntervals
   ) => {
     e.preventDefault();
     let boardCopy = JSON.parse(JSON.stringify(board));
-    const task = await taskRoutes.patchTask(
-      taskId,
-      editedTaskNames,
-      editedIntervals
-    );
+    const task = await taskRoutes.patchTask({
+      id: taskId,
+      name: editedTaskName,
+      intervals: editedIntervals,
+    });
     console.log(task);
     boardCopy[index].Tasks[taskIndex] = task;
     await setBoard(boardCopy);

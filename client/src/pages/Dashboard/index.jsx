@@ -18,7 +18,10 @@ function Dashboard() {
     let intervals = Number(boardCopy[1].Tasks[0].intervals);
     boardCopy[1].Tasks[0].intervals_completed = newInterval;
     await setBoard(boardCopy);
-    await taskRoutes.incrementInterval(boardCopy[1].Tasks[0].id, newInterval);
+    await taskRoutes.incrementInterval({
+      id: boardCopy[1].Tasks[0].id,
+      intervals_completed: newInterval,
+    });
     if (newInterval === intervals) {
       let newBoard = await moveTask(
         boardCopy,

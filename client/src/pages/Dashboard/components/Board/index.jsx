@@ -26,7 +26,11 @@ function Board({ board, setBoard, setTimer }) {
       task
     );
     setBoard(editedList);
-    await taskRoutes.patchOrder(task.id, destination.droppableId, order);
+    await taskRoutes.patchTask({
+      id: task.id,
+      listId: destination.droppableId,
+      order: order,
+    });
   };
 
   return (
