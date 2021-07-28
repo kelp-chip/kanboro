@@ -2,7 +2,7 @@ import styles from "../styles/Timer.module.scss";
 import { useState, useEffect } from "react";
 import chime from "sounds/chime.wav";
 
-export default function Timer({ startMins, incrementInterval }) {
+export default function Timer({ startMins, incrementInterval, setTimer }) {
   const [timerOn, setTimerOn] = useState(false);
   const [timeInSeconds, setTimeInSeconds] = useState(startMins * 60);
   const [sound] = useState(new Audio(chime));
@@ -40,8 +40,10 @@ export default function Timer({ startMins, incrementInterval }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
+        <button className={styles.close} onClick={() => setTimer(false)}>
+          ✕
+        </button>
         <h1>
-          {/* {timeInSeconds} */}
           {Math.floor(timeInSeconds / 60)}:
           {timeInSeconds % 60 < 10
             ? `0${timeInSeconds % 60}`

@@ -3,7 +3,15 @@ import { useState } from "react";
 import taskRoutes from "api/taskRoutes";
 import styles from "../styles/Task.module.scss";
 
-function Task({ task, index, listIndex, setBoard, board, startTask }) {
+function Task({
+  task,
+  index,
+  listIndex,
+  setBoard,
+  board,
+  startTask,
+  setToggleEditTask,
+}) {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   const deleteTask = async (e) => {
     const boardCopy = JSON.parse(JSON.stringify(board));
@@ -56,7 +64,7 @@ function Task({ task, index, listIndex, setBoard, board, startTask }) {
                 )}
                 <button
                   className={styles["delete-button"]}
-                  onClick={deleteTask}
+                  onClick={() => setToggleEditTask({ task, index })}
                 >
                   edit
                 </button>

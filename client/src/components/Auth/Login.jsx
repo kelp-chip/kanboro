@@ -88,7 +88,7 @@ export default function Login({ setRegistered }) {
             Signup
           </button>
         </span>
-        <p onClick={loginGuest}>Login as Guest</p>
+        <button onClick={loginGuest}>Login as Guest</button>
       </div>
     </main>
   );

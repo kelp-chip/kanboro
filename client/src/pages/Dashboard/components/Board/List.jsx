@@ -2,6 +2,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { useState, useContext } from "react";
 import Task from "./Task";
 import TaskForm from "./TaskForm";
+import EditTaskForm from "./EditTaskForm";
 import moveTask from "helpers/moveTask";
 import getOrder from "helpers/getOrder";
 import taskRoutes from "api/taskRoutes";
@@ -14,12 +15,33 @@ function List({ list, board, index, setBoard, setTimer }) {
   const [addingTask, setAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [intervals, setIntervals] = useState(0);
+  const [toggleEditTask, setToggleEditTask] = useState(null);
 
   const openAddTaskForm = async () => {
     if (addingTask) {
       await setAddingTask(false);
       await setTaskName("");
     } else setAddingTask(true);
+  };
+
+  const editTask = async (
+    e,
+    taskId,
+    taskIndex,
+    editedTaskNames,
+    editedIntervals
+  ) => {
+    e.preventDefault();
+    let boardCopy = JSON.parse(JSON.stringify(board));
+    const task = await taskRoutes.patchTask(
+      taskId,
+      editedTaskNames,
+      editedIntervals
+    );
+    console.log(task);
+    boardCopy[index].Tasks[taskIndex] = task;
+    await setBoard(boardCopy);
+    await setToggleEditTask(null);
   };
 
   const addUserTask = async (e) => {
@@ -72,27 +94,36 @@ function List({ list, board, index, setBoard, setTimer }) {
                       board={board}
                       key={task.id}
                       startTask={startTask}
+                      setToggleEditTask={setToggleEditTask}
                     />
                   );
                 })}
                 {provided.placeholder}
-                <div className={styles["list-option-btns"]}>
-                  <TaskForm
-                    addingTask={addingTask}
-                    openAddTaskForm={openAddTaskForm}
-                    addTask={addUserTask}
-                    taskName={taskName}
-                    setTaskName={setTaskName}
-                    setAddingTask={setAddingTask}
-                    setIntervals={setIntervals}
-                    intervals={intervals}
+                {!!toggleEditTask ? (
+                  <EditTaskForm
+                    setToggleEditTask={setToggleEditTask}
+                    taskData={toggleEditTask}
+                    editTask={editTask}
                   />
-                  {list.name === "completed" && !addingTask && (
-                    <button className={styles["clear-list-btn"]}>
-                      clear list
-                    </button>
-                  )}
-                </div>
+                ) : (
+                  <div className={styles["list-option-btns"]}>
+                    <TaskForm
+                      addingTask={addingTask}
+                      openAddTaskForm={openAddTaskForm}
+                      addTask={addUserTask}
+                      taskName={taskName}
+                      setTaskName={setTaskName}
+                      setAddingTask={setAddingTask}
+                      setIntervals={setIntervals}
+                      intervals={intervals}
+                    />
+                    {list.name === "completed" && !addingTask && (
+                      <button className={styles["clear-list-btn"]}>
+                        clear list
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           );

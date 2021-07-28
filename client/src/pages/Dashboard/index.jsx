@@ -47,6 +47,7 @@ function Dashboard() {
           <Timer
             startMins={user.intervalTime}
             incrementInterval={incrementInterval}
+            setTimer={setTimer}
           />
         )}
         <Board board={board} setBoard={setBoard} setTimer={setTimer} />

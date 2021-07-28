@@ -1,0 +1,58 @@
+@import "styles/theme.scss";
+
+.clearBtn {
+  border: none;
+  background: none;
+  color: gray;
+  padding: 0.8em 5px;
+  margin-right: 2em;
+
+  &:hover {
+    border: none;
+    background: none;
+  }
+}
+
+.form {
+  width: 100%;
+  // grid-template-rows: 1fr 1fr;
+}
+
+.inputContainer {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  column-gap: 10px;
+  row-gap: 1em;
+  margin-bottom: 1em;
+
+  input {
+    border: solid 2px rgb(168, 168, 168);
+    border-radius: 8px;
+
+    &:focus {
+      border: solid 2px $darker;
+      box-shadow: $darker 0px 0px 0px 1px;
+    }
+  }
+}
+
+.BtnContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.test {
+  width: 100%;
+}
+
+.Btn {
+  border: none;
+  background-color: white;
+  border-radius: 6px;
+  padding: 10px 50px;
+
+  &:hover {
+    border: none;
+    background-color: white;
+  }
+}

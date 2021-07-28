@@ -244,6 +244,13 @@ app.patch("/tasks/:taskId/:intervalsCompleted", async (req, res) => {
   res.json({ success: true });
 });
 
+app.patch("/edittasks/:taskId/:taskName/:intervals", async (req, res) => {
+  const { taskId, taskName, intervals } = req.params;
+  await Task.update({ intervals, name: taskName }, { where: { id: taskId } });
+  const task = await Task.findOne({ where: { id: taskId } });
+  res.send(task);
+});
+
 //-----------------------------End of Routes----------------------------------
 
 //START SERVER

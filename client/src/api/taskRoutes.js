@@ -18,11 +18,23 @@ const addTask = async (listId, taskName, intervals, addToTop) => {
   return task;
 };
 
+const patchTask = async (taskId, taskName, intervals) => {
+  const URL = `${process.env.REACT_APP_SERVER_URL}/edittasks/${taskId}/${taskName}/${intervals}`;
+  const { data } = await axios.patch(URL);
+  return data;
+};
+
 const deleteTask = async (taskId) => {
   const URL = `${process.env.REACT_APP_SERVER_URL}/tasks/${taskId}`;
   await axios.delete(URL);
 };
 
-const taskRoutes = { patchOrder, addTask, deleteTask, incrementInterval };
+const taskRoutes = {
+  patchOrder,
+  addTask,
+  deleteTask,
+  incrementInterval,
+  patchTask,
+};
 
 export default taskRoutes;
