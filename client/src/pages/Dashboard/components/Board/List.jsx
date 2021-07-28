@@ -15,7 +15,7 @@ function List({ list, board, index, setBoard, setTimer }) {
   const [addingTask, setAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [intervals, setIntervals] = useState(0);
-  const [toggleEditTask, setToggleEditTask] = useState(null);
+  const [toggleEditTask, setToggleEditTask] = useState(false);
 
   const openAddTaskForm = async () => {
     if (addingTask) {
@@ -34,16 +34,15 @@ function List({ list, board, index, setBoard, setTimer }) {
   ) => {
     e.preventDefault();
     let boardCopy = JSON.parse(JSON.stringify(board));
-    const task = await taskRoutes.patchTask({
+    const { task } = await taskRoutes.patchTask({
       id: taskId,
       name: editedTaskName,
       intervals: editedIntervals,
       notes: notes,
     });
-    console.log(task);
     boardCopy[index].Tasks[taskIndex] = task;
     await setBoard(boardCopy);
-    await setToggleEditTask(null);
+    await setToggleEditTask(false);
   };
 
   const addUserTask = async (e) => {
@@ -118,18 +117,23 @@ function List({ list, board, index, setBoard, setTimer }) {
                   />
                 ) : (
                   <div className={styles["list-option-btns"]}>
-                    <TaskForm
-                      addingTask={addingTask}
-                      openAddTaskForm={openAddTaskForm}
-                      addTask={addUserTask}
-                      taskName={taskName}
-                      setTaskName={setTaskName}
-                      setAddingTask={setAddingTask}
-                      setIntervals={setIntervals}
-                      intervals={intervals}
-                    />
+                    {index !== 2 && (
+                      <TaskForm
+                        addingTask={addingTask}
+                        openAddTaskForm={openAddTaskForm}
+                        addTask={addUserTask}
+                        taskName={taskName}
+                        setTaskName={setTaskName}
+                        setAddingTask={setAddingTask}
+                        setIntervals={setIntervals}
+                        intervals={intervals}
+                      />
+                    )}
                     {list.name === "completed" && !addingTask && (
-                      <button className={styles["clear-list-btn"]}>
+                      <button
+                        className={styles.clearListBtn}
+                        style={{ color: list.length < 1 && "#e0e0e0" }}
+                      >
                         clear list
                       </button>
                     )}

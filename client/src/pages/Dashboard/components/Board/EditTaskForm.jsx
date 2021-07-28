@@ -1,5 +1,6 @@
 import styles from "../styles/Form.module.scss";
 import { useState, useEffect } from "react";
+import taskRoutes from "api/taskRoutes";
 
 export default function EditTaskForm({
   setToggleEditTask,
@@ -10,12 +11,8 @@ export default function EditTaskForm({
   const [intervals, setIntervals] = useState(taskData.task.intervals);
   const [notes, setNotes] = useState(taskData.task.notes);
 
-  // useEffect(() => {
-  //   window.scrollTo(0, document.body.scrollHeight);
-  // }, []);
   return (
     <div>
-      {console.log(taskData.task)}
       <form
         className={styles.form}
         onSubmit={(e) =>

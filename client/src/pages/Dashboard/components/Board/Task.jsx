@@ -16,7 +16,8 @@ function Task({
 }) {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   const [taskChosen, setTaskChosen] = useState(false);
-  const deleteTask = async (e) => {
+
+  const deleteTask = async () => {
     const boardCopy = JSON.parse(JSON.stringify(board));
     boardCopy[listIndex].Tasks.splice(index, 1);
     setBoard(boardCopy);
@@ -25,7 +26,7 @@ function Task({
 
   const editTask = async () => {
     await setToggleEditTask(false);
-    await setToggleEditTask({ task, index });
+    await setToggleEditTask({ task, index, listIndex, setBoard, board });
     await window.scrollTo(0, document.body.scrollHeight);
   };
 
@@ -52,25 +53,28 @@ function Task({
             </div>
             {task.notes && <div className={styles.notes}>{task.notes}</div>}
             <div className={styles.options}>
-              <img
-                src={edit}
-                className={styles.edit}
-                alt="edit"
-                onClick={editTask}
-              ></img>
-
+              <button className={styles.optionBtn}>
+                <img
+                  src={edit}
+                  className={styles.edit}
+                  alt="edit"
+                  onClick={editTask}
+                ></img>
+              </button>
+              <button onClick={deleteTask} className={styles.delete}>
+                ✕
+              </button>
               {task.intervals !== 0 && (
                 <div className={styles.time}>
-                  <img
-                    src={clock}
-                    className={styles.edit}
-                    alt="clock"
-                    onClick={(e) => startTask(e, index)}
-                  ></img>
-                  <span
-                    className={styles.intervals}
-                    onClick={(e) => startTask(e, index)}
-                  >
+                  <button>
+                    <img
+                      src={clock}
+                      className={styles.edit}
+                      alt="clock"
+                      onClick={(e) => startTask(e, index)}
+                    ></img>
+                  </button>
+                  <span className={styles.intervals}>
                     {task.intervals_completed}/{task.intervals}
                   </span>
                 </div>
