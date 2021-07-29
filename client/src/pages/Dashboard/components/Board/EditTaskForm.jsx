@@ -1,6 +1,5 @@
 import styles from "../styles/Form.module.scss";
-import { useState, useEffect } from "react";
-import taskRoutes from "api/taskRoutes";
+import { useState, useEffect, useRef } from "react";
 
 export default function EditTaskForm({
   setToggleEditTask,
@@ -11,9 +10,23 @@ export default function EditTaskForm({
   const [intervals, setIntervals] = useState(taskData.task.intervals);
   const [notes, setNotes] = useState(taskData.task.notes);
 
+  const editTaskForm = useRef();
+  useEffect(() => {
+    document.addEventListener("mousedown", async (event) => {
+      if (
+        editTaskForm.current &&
+        !editTaskForm.current.contains(event.target)
+      ) {
+        await setToggleEditTask(false);
+      }
+    });
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div>
       <form
+        ref={editTaskForm}
         className={styles.form}
         onSubmit={(e) =>
           editTask(

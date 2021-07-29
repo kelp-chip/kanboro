@@ -19,10 +19,9 @@ function List({ list, board, index, setBoard, setTimer }) {
   const [toggleEditTask, setToggleEditTask] = useState(false);
 
   const openAddTaskForm = async () => {
-    if (addingTask) {
-      await setAddingTask(false);
-      await setTaskName("");
-    } else setAddingTask(true);
+    await setTaskName("");
+    await setNotes("");
+    await setAddingTask(true);
   };
 
   const editTask = async (

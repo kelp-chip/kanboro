@@ -27,7 +27,6 @@ function Task({
   const editTask = async () => {
     await setToggleEditTask(false);
     await setToggleEditTask({ task, index, listIndex, setBoard, board });
-    await window.scrollTo(0, document.body.scrollHeight);
   };
 
   return (

@@ -164,7 +164,6 @@ app.delete("/tasks/:taskId", async (req, res) => {
 app.patch("/tasks/:taskId", async (req, res) => {
   const { taskId: id } = req.params;
   const updatedTask = req.body;
-
   await Task.update(updatedTask, { where: { id } });
   const task = await Task.findOne({ where: { id } });
   res.send({ success: true, task: task });

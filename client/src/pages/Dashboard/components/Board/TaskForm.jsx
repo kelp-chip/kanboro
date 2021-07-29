@@ -15,6 +15,7 @@ function AddTask({
 }) {
   const addTaskForm = useRef();
   useEffect(() => {
+    // addTaskForm.current.scrollIntoView();
     document.addEventListener("mousedown", async (event) => {
       if (addTaskForm.current && !addTaskForm.current.contains(event.target)) {
         await setAddingTask(false);
@@ -25,7 +26,7 @@ function AddTask({
   }, []);
 
   return (
-    <div ref={addTaskForm} className={styles.test}>
+    <div ref={addTaskForm} className={styles.container}>
       {!addingTask && (
         <button onClick={openAddTaskForm} className={styles.clearBtn}>
           + add task
@@ -33,6 +34,7 @@ function AddTask({
       )}
       {addingTask && (
         <form onSubmit={addTask} className={styles.form}>
+          <h3 className={styles.formName}>Add Task</h3>
           <div className={styles.gridContainer}>
             <label>task name</label>
             <label>intervals</label>
@@ -66,7 +68,10 @@ function AddTask({
             onChange={(e) => setNotes(e.target.value)}
           ></textarea>
           <div className={styles.BtnContainer}>
-            <button onClick={openAddTaskForm} className={styles.clearBtn}>
+            <button
+              onClick={() => setAddingTask(false)}
+              className={styles.clearBtn}
+            >
               close
             </button>
             <button type="submit" className={styles.Btn}>
