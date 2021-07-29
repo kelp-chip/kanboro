@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import LoadingServer from "components/LoadingServer";
 
-function Landing({ isLoggedIn }) {
+function Landing({ isLoggedIn, setUserWelcome }) {
   const [registered, setRegistered] = useState(true);
   const [serverAwake, setServerAwake] = useState(false);
 
@@ -32,7 +32,10 @@ function Landing({ isLoggedIn }) {
       {serverAwake ? (
         <div>
           {registered ? (
-            <Login setRegistered={setRegistered} />
+            <Login
+              setRegistered={setRegistered}
+              setUserWelcome={setUserWelcome}
+            />
           ) : (
             <Signup setRegistered={setRegistered} />
           )}

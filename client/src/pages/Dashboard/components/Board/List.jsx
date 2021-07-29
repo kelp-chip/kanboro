@@ -14,6 +14,7 @@ function List({ list, board, index, setBoard, setTimer }) {
   const { user, setUser } = useContext(UserContext);
   const [addingTask, setAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
+  const [notes, setNotes] = useState("");
   const [intervals, setIntervals] = useState(0);
   const [toggleEditTask, setToggleEditTask] = useState(false);
 
@@ -48,7 +49,7 @@ function List({ list, board, index, setBoard, setTimer }) {
   const addUserTask = async (e) => {
     e.preventDefault();
     if (taskName === "") return;
-    let task = await taskRoutes.addTask(list.id, taskName, intervals);
+    let task = await taskRoutes.addTask(list.id, taskName, intervals, notes);
     let boardCopy = JSON.parse(JSON.stringify(board));
     boardCopy[index].Tasks.push(task);
     await setBoard(boardCopy);
@@ -127,6 +128,8 @@ function List({ list, board, index, setBoard, setTimer }) {
                         setAddingTask={setAddingTask}
                         setIntervals={setIntervals}
                         intervals={intervals}
+                        notes={notes}
+                        setNotes={setNotes}
                       />
                     )}
                     {list.name === "completed" && !addingTask && (

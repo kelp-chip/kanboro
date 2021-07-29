@@ -10,6 +10,8 @@ function AddTask({
   userData,
   setIntervals,
   intervals,
+  notes,
+  setNotes,
 }) {
   const addTaskForm = useRef();
   useEffect(() => {
@@ -55,6 +57,14 @@ function AddTask({
               onChange={(e) => setIntervals(e.target.value)}
             ></input>
           </div>
+          <label for="notes">notes</label>
+          <br />
+          <textarea
+            className={styles.notesInput}
+            name="notes"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+          ></textarea>
           <div className={styles.BtnContainer}>
             <button onClick={openAddTaskForm} className={styles.clearBtn}>
               close
@@ -63,7 +73,6 @@ function AddTask({
               add task
             </button>
           </div>
-          {/* </div> */}
         </form>
       )}
     </div>

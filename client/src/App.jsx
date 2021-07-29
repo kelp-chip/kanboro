@@ -13,6 +13,7 @@ export default function App() {
   const [user, setUser] = useState("checking");
   const providerUser = useMemo(() => ({ user, setUser }), [user, setUser]);
   const history = useHistory();
+  const [userWelcome, setUserWelcome] = useState(false);
 
   async function isLoggedIn() {
     let token = localStorage.getItem("accessToken");
@@ -37,10 +38,19 @@ export default function App() {
       ) : (
         <UserContext.Provider value={providerUser}>
           <Header />
+          {userWelcome && (
+            <div className="welcomePopup">Welcome, {user.username}!</div>
+          )}
           <Route
             path="/"
             exact
-            render={(props) => <Landing {...props} isLoggedIn={isLoggedIn} />}
+            render={(props) => (
+              <Landing
+                {...props}
+                isLoggedIn={isLoggedIn}
+                setUserWelcome={setUserWelcome}
+              />
+            )}
           />
           <ProtectedRoute path="/dashboard" component={Dashboard} />
           <ProtectedRoute path="/settings" component={UserSettings} />

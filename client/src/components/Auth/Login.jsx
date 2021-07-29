@@ -4,7 +4,7 @@ import userRoutes from "api/userRoutes";
 import { UserContext } from "context/UserContext";
 import { useHistory } from "react-router-dom";
 
-export default function Login({ setRegistered }) {
+export default function Login({ setRegistered, setUserWelcome }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [warning, setWarning] = useState(null);
@@ -24,17 +24,19 @@ export default function Login({ setRegistered }) {
     }
   }
 
-  async function loginGuest() {
-    console.log("got here...");
-    // await setWarning(null);
-    // const res = await userRoutes.login("guest2", "Password11!");
-    // if (res.success) {
-    //   localStorage.setItem("accessToken", res.accessToken);
-    //   await setUser(res.user);
-    //   history.push("/dashboard");
-    // } else {
-    //   setWarning([res.message]);
-    // }
+  async function loginGuest(e) {
+    e.preventDefault();
+    await setWarning(null);
+    const res = await userRoutes.login("guest", "Password11!");
+    if (res.success) {
+      localStorage.setItem("accessToken", res.accessToken);
+      await setUser(res.user);
+      await setUserWelcome(true);
+      history.push("/dashboard");
+      await setTimeout(() => setUserWelcome(false), 4000);
+    } else {
+      setWarning([res.message]);
+    }
   }
 
   return (

@@ -10,16 +10,15 @@ const incrementInterval = async (taskId, intervalsCompleted) => {
   await axios.patch(URL);
   return;
 };
-const addTask = async (listId, taskName, intervals, addToTop) => {
+const addTask = async (listId, taskName, intervals, notes) => {
   const URL = `${process.env.REACT_APP_SERVER_URL}/tasks`;
-  const data = { listId: listId, name: taskName, intervals };
+  const data = { listId: listId, name: taskName, intervals, notes };
   let { data: task } = await axios.post(URL, data);
-
   return task;
 };
 
 const patchTask = async (updatedTask) => {
-  const URL = `${process.env.REACT_APP_SERVER_URL}/tasks`;
+  const URL = `${process.env.REACT_APP_SERVER_URL}/tasks/${updatedTask.id}`;
   const { data } = await axios.patch(URL, updatedTask);
   return data;
 };

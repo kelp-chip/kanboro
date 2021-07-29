@@ -61,14 +61,13 @@ a {
   }
 }
 
-// .cats {
-//   // -moz-box-shadow: inset 0 0 0 2px $primary,
-//   //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-//   // -webkit-box-shadow: inset 0 0 0 2px $primary,
-//   //   rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-//   box-shadow: inset 0 0 0 2px $primary, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px !important;
-//   // background-color: blue !important;
-// }
+.welcomePopup {
+  background-color: rgba(145, 214, 185, 0.459);
+  width: max-content;
+  padding: 0.7em 2em;
+  margin: 1em auto;
+  transition: ease-in-out 500s;
+}
 
 .loader {
   border: 10px solid rgb(230, 230, 230); /* Light grey */
