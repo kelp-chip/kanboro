@@ -55,8 +55,11 @@ export default function Header() {
           </ul>
         ) : (
           <ul className={styles.navItems}>
-            <li>source code</li>
-            {/* <li>logout</li> */}
+            <li className={styles.navLink}>
+              <a href="https://github.com/lexykio/kanboro" alt="github repo">
+                source code
+              </a>
+            </li>
           </ul>
         )}
       </div>

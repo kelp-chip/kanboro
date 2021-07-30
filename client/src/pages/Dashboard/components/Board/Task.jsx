@@ -1,5 +1,4 @@
 import { Draggable } from "react-beautiful-dnd";
-import { useState, useEffect } from "react";
 import taskRoutes from "api/taskRoutes";
 import styles from "../styles/Task.module.scss";
 import edit from "images/edit.svg";
@@ -14,9 +13,6 @@ function Task({
   startTask,
   setToggleEditTask,
 }) {
-  const [showDeleteBtn, setShowDeleteBtn] = useState(false);
-  const [taskChosen, setTaskChosen] = useState(false);
-
   const deleteTask = async () => {
     const boardCopy = JSON.parse(JSON.stringify(board));
     boardCopy[listIndex].Tasks.splice(index, 1);
@@ -44,8 +40,6 @@ function Task({
                 snapshot.isDragging && "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
               ...provided.draggableProps.style,
             }}
-            onMouseOver={() => setShowDeleteBtn(true)}
-            onMouseLeave={() => setShowDeleteBtn(false)}
           >
             <div className={styles.header}>
               <div className={styles.title}>{task.name}</div>
@@ -79,24 +73,6 @@ function Task({
                 </div>
               )}
             </div>
-            {/* {showDeleteBtn && (
-              <div className={styles.taskBtnsContainer}>
-                <img
-                  src={clock}
-                  className={styles.edit}
-                  width="20px"
-                  alt="clock"
-                  onClick={(e) => startTask(e, index)}
-                ></img>{" "}
-                <img
-                  src={edit}
-                  className={styles.edit}
-                  width="20px"
-                  alt="edit"
-                  onClick={() => setToggleEditTask({ task, index })}
-                ></img>
-              </div>
-            )} */}
           </div>
         );
       }}

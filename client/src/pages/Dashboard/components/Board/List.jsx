@@ -1,22 +1,23 @@
 import { Droppable } from "react-beautiful-dnd";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Task from "./Task";
 import TaskForm from "./TaskForm";
 import EditTaskForm from "./EditTaskForm";
 import moveTask from "helpers/moveTask";
 import getOrder from "helpers/getOrder";
 import taskRoutes from "api/taskRoutes";
-import { UserContext } from "context/UserContext";
+import click from "sounds/click.wav";
+// import { UserContext } from "context/UserContext";
 import styles from "../styles/List.module.scss";
-import listRoutes from "api/listRoutes";
 
 function List({ list, board, index, setBoard, setTimer }) {
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
   const [addingTask, setAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [notes, setNotes] = useState("");
   const [intervals, setIntervals] = useState(0);
   const [toggleEditTask, setToggleEditTask] = useState(false);
+  const [clickSound] = useState(new Audio(click));
 
   const openAddTaskForm = async () => {
     await setTaskName("");
@@ -63,6 +64,7 @@ function List({ list, board, index, setBoard, setTimer }) {
     const order = await getOrder(boardCopy[1].Tasks, 0);
     task.order = order;
     const editedList = moveTask(boardCopy, 1, index, 0, taskIndex, task);
+    await clickSound.play();
     await setBoard(editedList);
     await setTimer(true);
 

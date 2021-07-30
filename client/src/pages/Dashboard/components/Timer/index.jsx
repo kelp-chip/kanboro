@@ -1,11 +1,13 @@
 import styles from "../styles/Timer.module.scss";
 import { useState, useEffect } from "react";
 import chime from "sounds/chime.wav";
+import click from "sounds/click.wav";
 
 export default function Timer({ incrementInterval, setTimer, interval_time }) {
-  const [timerOn, setTimerOn] = useState(false);
+  const [timerOn, setTimerOn] = useState(true);
   const [timeInSeconds, setTimeInSeconds] = useState(interval_time * 60);
   const [sound] = useState(new Audio(chime));
+  const [clickSound] = useState(new Audio(click));
 
   useEffect(() => {
     let interval = null;
@@ -29,6 +31,10 @@ export default function Timer({ incrementInterval, setTimer, interval_time }) {
     return () => clearInterval(interval);
   }, [timerOn, incrementInterval, sound]);
 
+  async function closeTimer() {
+    await clickSound.play();
+    await setTimer(false);
+  }
   async function reset() {
     await setTimerOn(false);
     await setTimeInSeconds(4);
@@ -38,15 +44,15 @@ export default function Timer({ incrementInterval, setTimer, interval_time }) {
     <div className={styles.wrapper}>
       {console.log(interval_time)}
       <div className={styles.container}>
-        <button className={styles.close} onClick={() => setTimer(false)}>
+        <button className={styles.close} onClick={closeTimer}>
           ✕
         </button>
-        <h1>
+        <h2>
           {Math.floor(timeInSeconds / 60)}:
           {timeInSeconds % 60 < 10
             ? `0${timeInSeconds % 60}`
             : timeInSeconds % 60}
-        </h1>
+        </h2>
         <div className={styles.btnContainer}>
           {timerOn ? (
             <button

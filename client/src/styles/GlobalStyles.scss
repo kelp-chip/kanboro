@@ -57,8 +57,13 @@ textarea {
 
 a {
   text-decoration: none;
+  transition: 0.3s;
   &:visited {
     text-decoration: none;
+    color: black;
+  }
+  &:hover {
+    color: $darker;
   }
 }
 

@@ -7,7 +7,6 @@ function AddTask({
   addTask,
   taskName,
   setTaskName,
-  userData,
   setIntervals,
   intervals,
   notes,
