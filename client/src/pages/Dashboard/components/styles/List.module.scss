@@ -40,14 +40,15 @@ form {
 
 .clearListBtn {
   border: none;
-  background: none;
-  color: gray;
+  background: rgba(255, 255, 255, 0.794);
+  width: 100%;
+  color: rgb(0, 0, 0);
   padding: 12.8px 5px;
-  text-align: left;
+  text-align: center;
 
   &:hover {
     border: none;
-    background: none;
+    background: rgba(255, 255, 255, 0.966);
   }
 
   &:focus {

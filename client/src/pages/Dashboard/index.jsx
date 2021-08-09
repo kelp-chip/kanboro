@@ -40,6 +40,7 @@ function Dashboard() {
       const boardData = await listRoutes.getLists(user.id);
       setBoard(boardData);
     }
+    document.body.classList.add("uwu");
     getBoardData();
   }, [user.id]);
 

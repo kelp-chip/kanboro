@@ -79,6 +79,7 @@ export default function Login({ setRegistered, setUserWelcome }) {
           )}
           <input type="submit" className={styles.submitBtn}></input>
         </form>
+        <button onClick={loginGuest}>Login as Guest</button>
         <span>
           new user?{" "}
           <button
@@ -90,7 +91,6 @@ export default function Login({ setRegistered, setUserWelcome }) {
             Signup
           </button>
         </span>
-        <button onClick={loginGuest}>Login as Guest</button>
       </div>
     </main>
   );

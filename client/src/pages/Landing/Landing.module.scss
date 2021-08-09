@@ -1,4 +1,4 @@
-.container {
+.loadingContainer {
   display: flex;
   justify-content: center;
   width: 100vw;
@@ -8,5 +8,27 @@
 
   h4 {
     margin: 2em 0;
+  }
+}
+
+.container {
+  display: flex;
+  height: 430px;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  width: 60%;
+  margin: 10% auto;
+}
+
+.taskContainer {
+  width: 350px;
+  margin: 0 auto;
+  margin-top: -7rem;
+  p {
+    margin-top: 1rem;
+    margin-bottom: -0.5rem;
   }
 }

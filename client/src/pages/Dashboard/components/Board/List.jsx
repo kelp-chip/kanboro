@@ -84,7 +84,7 @@ function List({ list, board, index, setBoard, setTimer }) {
                 ref={provided.innerRef}
                 className={styles.list}
                 style={{
-                  background: snapshot.isDraggingOver && "#EFEFEF",
+                  background: snapshot.isDraggingOver && "#efefef97",
                 }}
               >
                 {list.Tasks.map((task, i) => {

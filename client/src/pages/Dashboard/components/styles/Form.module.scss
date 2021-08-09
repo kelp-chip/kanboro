@@ -2,14 +2,16 @@
 
 .clearBtn {
   border: none;
-  background: none;
-  color: gray;
+  background: rgba(255, 255, 255, 0.794);
+  width: 100%;
+  color: rgb(0, 0, 0);
   padding: 0.8em 5px;
   margin-right: 2em;
+  margin-top: 1rem;
 
   &:hover {
     border: none;
-    background: none;
+    background: rgba(255, 255, 255, 0.966);
   }
 }
 

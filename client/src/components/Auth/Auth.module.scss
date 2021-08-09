@@ -1,27 +1,23 @@
 @import "styles/theme.scss";
-$btn: rgb(54, 130, 173);
-$btn-darker: rgb(50, 122, 163);
+$btn: rgb(76, 80, 82);
+$btn-darker: rgb(92, 92, 92);
 $btn-darkest: rgb(30, 89, 122);
 
 .wrapper {
   display: flex;
   justify-content: center;
-  position: absolute;
-  top: 15%;
-  left: 0;
-  right: 0;
-  margin-left: auto;
+  width: 50%;
 }
 
 .container {
-  background-color: white;
-  width: 550px;
-  padding: 3em 5em;
+  background-color: rgba(255, 255, 255, 0.911);
   display: flex;
   justify-content: center;
   flex-direction: column;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 100%;
+  padding: 2rem;
   border-radius: 5px;
+
   h2 {
     margin-bottom: 1em;
     text-align: center;
@@ -33,7 +29,7 @@ $btn-darkest: rgb(30, 89, 122);
     }
     input {
       margin-top: 8px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       width: 100%;
     }
   }

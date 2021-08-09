@@ -10,10 +10,10 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border-radius: 3px;
   background-color: white;
   position: relative;
   font-size: 16px;
+  border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   // transition: 0.5s;
@@ -38,7 +38,6 @@
 
     .title {
       font-weight: 600;
-      // background-color: blue;
     }
   }
   .notes {
