@@ -71,10 +71,26 @@
   border: none;
   background-color: white;
   border-radius: 6px;
-  padding: 10px 50px;
+  // padding: 10px 20px;
+  margin-top: 5px;
+  white-space: nowrap;
+  // background-color: red;
+}
 
+.cancelBtn {
+  background-color: rgba(0, 0, 0, 0.068);
+  width: 30%;
   &:hover {
+    background-color: rgba(0, 0, 0, 0.055);
     border: none;
-    background-color: white;
+  }
+}
+
+.saveBtn {
+  background-color: rgba(0, 0, 0, 0.192);
+  width: 65%;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.198);
+    border: none;
   }
 }

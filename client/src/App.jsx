@@ -11,9 +11,10 @@ import axios from "axios";
 
 export default function App() {
   const [user, setUser] = useState("checking");
+  const [width, setWidth] = useState(false);
   const providerUser = useMemo(() => ({ user, setUser }), [user, setUser]);
   const history = useHistory();
-  const [userWelcome, setUserWelcome] = useState(false);
+  const [userWelcome, setUserWelcome] = useState(window.innerWidth);
 
   async function isLoggedIn() {
     let token = localStorage.getItem("accessToken");
@@ -29,6 +30,14 @@ export default function App() {
     isLoggedIn();
   }, []);
 
+  useEffect(() => {
+    const handleWindowResize = async () => {
+      await setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
+
   return (
     <>
       {user === "checking" ? (
@@ -38,9 +47,9 @@ export default function App() {
       ) : (
         <UserContext.Provider value={providerUser}>
           <Header />
-          {userWelcome && (
+          {/* {userWelcome && (
             <div className="welcomePopup">Welcome, {user.username}!</div>
-          )}
+          )} */}
           <Route
             path="/"
             exact
@@ -59,3 +68,5 @@ export default function App() {
     </>
   );
 }
+
+//1090

@@ -76,12 +76,12 @@ export default function EditTaskForm({
         ></textarea>
         <div className={styles.BtnContainer}>
           <button
-            className={styles.clearBtn}
+            className={`${styles.Btn} ${styles.cancelBtn}`}
             onClick={() => setToggleEditTask(null)}
           >
             cancel
           </button>
-          <button type="submit" className={styles.Btn}>
+          <button type="submit" className={`${styles.Btn} ${styles.saveBtn}`}>
             save changes
           </button>
         </div>

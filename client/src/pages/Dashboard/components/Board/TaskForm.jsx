@@ -69,11 +69,11 @@ function AddTask({
           <div className={styles.BtnContainer}>
             <button
               onClick={() => setAddingTask(false)}
-              className={styles.clearBtn}
+              className={`${styles.Btn} ${styles.cancelBtn}`}
             >
               close
             </button>
-            <button type="submit" className={styles.Btn}>
+            <button type="submit" className={`${styles.Btn} ${styles.saveBtn}`}>
               add task
             </button>
           </div>
