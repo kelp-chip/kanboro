@@ -63,13 +63,28 @@ function List({ list, board, index, setBoard, setTimer }) {
     const task = boardCopy[index].Tasks[taskIndex];
     const order = await getOrder(boardCopy[1].Tasks, 0);
     task.order = order;
+    task.listId = boardCopy[1].id;
     const editedList = moveTask(boardCopy, 1, index, 0, taskIndex, task);
     await clickSound.play();
     await setBoard(editedList);
     await setTimer(true);
 
     // backend changes
-    await taskRoutes.patchOrder(task.id, boardCopy[1].id, order);
+    await taskRoutes.patchTask(task);
+  };
+
+  const finishTask = async (e, taskIndex) => {
+    //front end changes
+    let boardCopy = JSON.parse(JSON.stringify(board));
+    const task = boardCopy[index].Tasks[taskIndex];
+    const order = await getOrder(boardCopy[2].Tasks, 0);
+    task.order = order;
+    task.listId = boardCopy[2].id;
+    const editedList = moveTask(boardCopy, 2, index, 0, taskIndex, task);
+    await setBoard(editedList);
+
+    // backend changes
+    await taskRoutes.patchTask(task);
   };
 
   return (
@@ -78,7 +93,9 @@ function List({ list, board, index, setBoard, setTimer }) {
         {(provided, snapshot) => {
           return (
             <div className={styles.wrapper}>
-              <h3>{list.name}</h3>
+              <div className={styles.listNameWrapper}>
+                <h3 className={styles.listName}>{list.name}</h3>
+              </div>
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
@@ -97,19 +114,11 @@ function List({ list, board, index, setBoard, setTimer }) {
                       board={board}
                       key={task.id}
                       startTask={startTask}
+                      finishTask={finishTask}
                       setToggleEditTask={setToggleEditTask}
                     />
                   );
                 })}
-                {list.Tasks.length < 1 && (
-                  <div
-                    style={{
-                      height: "8px",
-                      background: "#EFEFEF",
-                      borderRadius: "1px",
-                    }}
-                  ></div>
-                )}
                 {provided.placeholder}
                 {!!toggleEditTask ? (
                   <EditTaskForm

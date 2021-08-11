@@ -5,14 +5,21 @@ const patchOrder = async (taskId, destinationId, order) => {
   await axios.patch(URL);
   return;
 };
-const incrementInterval = async (taskId, intervalsCompleted) => {
-  const URL = `${process.env.REACT_APP_SERVER_URL}/tasks/${taskId}/${intervalsCompleted}`;
-  await axios.patch(URL);
-  return;
-};
-const addTask = async (listId, taskName, intervals, notes) => {
+const addTask = async (
+  listId,
+  taskName,
+  intervals,
+  notes,
+  intervals_completed
+) => {
   const URL = `${process.env.REACT_APP_SERVER_URL}/tasks`;
-  const data = { listId: listId, name: taskName, intervals, notes };
+  const data = {
+    listId: listId,
+    name: taskName,
+    intervals,
+    notes,
+    intervals_completed,
+  };
   let { data: task } = await axios.post(URL, data);
   return task;
 };
@@ -33,7 +40,6 @@ const taskRoutes = {
   patchOrder,
   addTask,
   deleteTask,
-  incrementInterval,
   patchTask,
 };
 

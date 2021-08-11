@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: path.join(__dirname, "../", ".env") });
 
 const { sequelize, User, List, Task } = require("./database/models");
-const { getTaskOrder } = require("./helpers/getOrder");
+const { getTaskOrder, getTaskTopOrder } = require("./helpers/getOrder");
 
 //MIDDLEWARE
 app.use(express.json());
@@ -29,9 +29,25 @@ function authenticateToken(req, res, next) {
 }
 //---------------------------End of Middleware--------------------------------
 
-const createToken = (id, username, newUser, interval_time) => {
+const createToken = (
+  id,
+  username,
+  newUser,
+  interval_time,
+  short_break_time,
+  long_break_time,
+  background_url
+) => {
   return jwt.sign(
-    { id, username, newUser, interval_time },
+    {
+      id,
+      username,
+      newUser,
+      interval_time,
+      short_break_time,
+      long_break_time,
+      background_url,
+    },
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: maxAge,
@@ -54,8 +70,23 @@ app.post("/login", async (req, res) => {
     const hashedPw = user.dataValues.password;
     const passwordsMatch = await bcrypt.compare(password, hashedPw);
     if (passwordsMatch) {
-      const { id, newUser, interval_time } = user;
-      const token = createToken(id, username, newUser, interval_time);
+      const {
+        id,
+        newUser,
+        interval_time,
+        short_break_time,
+        long_break_time,
+        background_url,
+      } = user;
+      const token = createToken(
+        id,
+        username,
+        newUser,
+        interval_time,
+        short_break_time,
+        long_break_time,
+        background_url
+      );
       res.send({ success: true, user: user, accessToken: token });
     } else {
       res.send({
@@ -143,15 +174,36 @@ app.get("/tasks", async (req, res) => {
 });
 
 app.post("/tasks", async (req, res) => {
-  const { listId, name, intervals, notes } = req.body;
-  const order = await getTaskOrder(listId);
-  const task = await Task.create({
-    name: name,
-    listId: listId,
-    order: order,
-    intervals: intervals,
-    notes: notes,
-  });
+  const { listId, name, intervals, notes, intervals_completed } = req.body;
+  let task;
+  console.log("--------------------");
+  console.log("ADDING COMPLETED");
+  console.log("--------------------");
+  console.log(intervals_completed);
+  console.log(!!intervals_completed);
+  if (!!intervals_completed) {
+    const order = await getTaskTopOrder(listId);
+    task = await Task.create({
+      name: name,
+      listId: listId,
+      order: order,
+      intervals: intervals,
+      intervals_completed: intervals_completed,
+      notes: notes,
+    });
+  } else {
+    console.log("--------------------");
+    console.log("ADDING");
+    console.log("--------------------");
+    const order = await getTaskOrder(listId);
+    task = await Task.create({
+      name: name,
+      listId: listId,
+      order: order,
+      intervals: intervals,
+      notes: notes,
+    });
+  }
   res.send(task);
 });
 

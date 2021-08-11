@@ -14,6 +14,19 @@ module.exports = {
       return 100;
     }
   },
+  getTaskTopOrder: async (listId) => {
+    const task = await Task.findOne({
+      where: { listId },
+      order: [["order", "DESC"]],
+    });
+    if (task) {
+      let order = task.dataValues.order;
+      order = Math.floor(task.order / 100);
+      return order;
+    } else {
+      return 100;
+    }
+  },
   getListOrder: async (userId) => {
     const list = await List.findOne({
       where: { userId },

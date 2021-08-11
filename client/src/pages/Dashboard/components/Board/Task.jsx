@@ -3,6 +3,8 @@ import taskRoutes from "api/taskRoutes";
 import styles from "../styles/Task.module.scss";
 import edit from "images/edit.svg";
 import clock from "images/clock.svg";
+import check from "images/check.svg";
+import checked from "images/checked.svg";
 
 function Task({
   task,
@@ -12,6 +14,7 @@ function Task({
   board,
   startTask,
   setToggleEditTask,
+  finishTask,
 }) {
   const deleteTask = async () => {
     const boardCopy = JSON.parse(JSON.stringify(board));
@@ -68,7 +71,17 @@ function Task({
                     ></img>
                   </button>
                   <span className={styles.intervals}>
-                    {task.intervals_completed}/{task.intervals}
+                    {task.intervals_completed < task.intervals ? (
+                      `${task.intervals_completed}/${task.intervals}`
+                    ) : (
+                      <button onClick={(e) => finishTask(e, index)}>
+                        <img
+                          src={listIndex === 2 ? checked : check}
+                          className={styles.checkmark}
+                          alt="check"
+                        ></img>
+                      </button>
+                    )}
                   </span>
                 </div>
               )}

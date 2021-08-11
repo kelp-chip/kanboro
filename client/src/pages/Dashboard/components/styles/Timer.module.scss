@@ -8,6 +8,7 @@
 
 .container {
   position: relative;
+  width: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,13 +48,12 @@
 
 .btnContainer {
   display: flex;
+  width: 100%;
 }
 
 .timerBtn {
-  // padding: 4px 20px;
-  width: 100px;
+  width: 100%;
   border-radius: 5px;
-  margin: 0 5px;
   transition: none;
   border: solid #d8d8d8 1px;
   transition: 0.5s;
@@ -68,5 +68,15 @@
   &:hover {
     background-color: #e9e9e9;
     border: solid #a5a5a5 1px;
+  }
+}
+
+.btnWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  button {
+    padding: 5px 8px;
+    border-color: rgb(209, 209, 209);
   }
 }

@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import listRoutes from "api/listRoutes";
 import { UserContext } from "context/UserContext";
 import taskRoutes from "api/taskRoutes";
-import moveTask from "helpers/moveTask";
+import Helmet from "react-helmet";
 
 function Dashboard() {
   const [board, setBoard] = useState([]);
@@ -15,24 +15,10 @@ function Dashboard() {
   async function incrementInterval() {
     let boardCopy = JSON.parse(JSON.stringify(board));
     let newInterval = Number(boardCopy[1].Tasks[0].intervals_completed) + 1;
-    let intervals = Number(boardCopy[1].Tasks[0].intervals);
     boardCopy[1].Tasks[0].intervals_completed = newInterval;
+    let task = boardCopy[1].Tasks[0];
+    taskRoutes.patchTask(task);
     await setBoard(boardCopy);
-    await taskRoutes.incrementInterval({
-      id: boardCopy[1].Tasks[0].id,
-      intervals_completed: newInterval,
-    });
-    if (newInterval === intervals) {
-      let newBoard = await moveTask(
-        boardCopy,
-        2,
-        1,
-        0,
-        0,
-        boardCopy[1].Tasks[0]
-      );
-      await setBoard(newBoard);
-    }
   }
 
   useEffect(() => {
@@ -45,16 +31,21 @@ function Dashboard() {
 
   return (
     <>
+      <Helmet>
+        <title>Kanboro</title>
+      </Helmet>
       <div className="dashboard">
         {timer && (
           <Timer
             incrementInterval={incrementInterval}
             setTimer={setTimer}
-            interval_time={user.interval_time}
+            intervalTime={user.interval_time}
+            shortBreakTime={user.short_break_time}
+            longBreakTime={user.long_break_time}
+            alarmSound={user.alarm_sound}
           />
         )}
         <Board board={board} setBoard={setBoard} setTimer={setTimer} />
-        {/* <button onClick={() => setTimer(!timer)}>timer</button> */}
       </div>
     </>
   );

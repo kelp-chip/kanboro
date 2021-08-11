@@ -1,58 +1,74 @@
 import styles from "../styles/Timer.module.scss";
 import { useState, useEffect } from "react";
-import chime from "sounds/chime.wav";
+import chime from "sounds/bell.mp3";
 import click from "sounds/click.wav";
+import Pomodoro from "./components/Pomodoro";
+import Break from "./components/Break";
 
-export default function Timer({ incrementInterval, setTimer, interval_time }) {
-  const [timerOn, setTimerOn] = useState(true);
-  const [timeInSeconds, setTimeInSeconds] = useState(interval_time * 60);
+export default function Timer({
+  incrementInterval,
+  setTimer,
+  intervalTime,
+  shortBreakTime,
+  longBreakTime,
+}) {
+  const timerOptions = {
+    pomodoro: 0.05,
+    short: shortBreakTime,
+    long: longBreakTime,
+  };
+  const [currentTimer, setCurrentTimer] = useState("pomodoro");
+  const [timerOn, setTimerOn] = useState(false);
+  const [cycles, setCycles] = useState(0);
   const [sound] = useState(new Audio(chime));
   const [clickSound] = useState(new Audio(click));
-
-  useEffect(() => {
-    let interval = null;
-
-    if (timerOn) {
-      interval = setInterval(() => {
-        setTimeInSeconds((prevTime) => {
-          if (prevTime === 0) {
-            setTimerOn(false);
-            sound.play();
-            incrementInterval();
-            return 0;
-          }
-          return prevTime - 1;
-        });
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
-
-    return () => clearInterval(interval);
-  }, [timerOn, incrementInterval, sound]);
+  const [timeInSeconds, setTimeInSeconds] = useState(
+    timerOptions[currentTimer] * 60
+  );
 
   async function closeTimer() {
     await clickSound.play();
     await setTimer(false);
   }
-  async function reset() {
+  // async function reset() {
+  //   await setTimerOn(false);
+  //   await setTimeInSeconds(timerOptions[currentTimer] * 60);
+  // }
+  async function handleTimerOption(time) {
+    await setCurrentTimer(time);
+    await setTimeInSeconds(timerOptions[time] * 60);
     await setTimerOn(false);
-    await setTimeInSeconds(4);
   }
 
   return (
     <div className={styles.wrapper}>
-      {console.log(interval_time)}
       <div className={styles.container}>
         <button className={styles.close} onClick={closeTimer}>
           ✕
         </button>
-        <h2>
-          {Math.floor(timeInSeconds / 60)}:
-          {timeInSeconds % 60 < 10
-            ? `0${timeInSeconds % 60}`
-            : timeInSeconds % 60}
-        </h2>
+
+        {currentTimer === "pomodoro" ? (
+          <Pomodoro
+            timeInSeconds={timeInSeconds}
+            timerOn={timerOn}
+            setTimerOn={setTimerOn}
+            setTimeInSeconds={setTimeInSeconds}
+            sound={sound}
+            incrementInterval={incrementInterval}
+            handleTimerOption={handleTimerOption}
+            cycles={cycles}
+            setCycles={setCycles}
+          />
+        ) : (
+          <Break
+            timeInSeconds={timeInSeconds}
+            timerOn={timerOn}
+            setTimerOn={setTimerOn}
+            setTimeInSeconds={setTimeInSeconds}
+            sound={sound}
+            handleTimerOption={handleTimerOption}
+          />
+        )}
         <div className={styles.btnContainer}>
           {timerOn ? (
             <button
@@ -69,13 +85,16 @@ export default function Timer({ incrementInterval, setTimer, interval_time }) {
               start
             </button>
           )}
-          <button
-            className={`${styles.timerBtn} ${styles.raisedBtn}`}
-            onClick={reset}
-          >
-            reset
-          </button>
         </div>
+        <section className={styles.btnWrapper}>
+          <button onClick={() => handleTimerOption("pomodoro")}>
+            pomodoro
+          </button>
+          <button onClick={() => handleTimerOption("short")}>
+            short break
+          </button>
+          <button onClick={() => handleTimerOption("long")}>long break</button>
+        </section>
       </div>
     </div>
   );

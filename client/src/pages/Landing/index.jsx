@@ -5,8 +5,6 @@ import taskStyle from "../Dashboard/components/styles/Task.module.scss";
 import { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
-import back from "../../images/desert.png";
-import task from "../../images/task.svg";
 import LoadingServer from "components/LoadingServer";
 import edit from "images/edit.svg";
 import clock from "images/clock.svg";
@@ -16,17 +14,15 @@ function Landing({ isLoggedIn, setUserWelcome }) {
   const [serverAwake, setServerAwake] = useState(false);
 
   async function wakeServer() {
-    try {
-      let res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/wakeserver`
-      );
-      if (res) {
-        await setServerAwake(true);
-        await isLoggedIn();
-      }
-    } catch {
-      console.log("something went wrong");
+    // try {
+    let res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/wakeserver`);
+    if (res) {
+      await setServerAwake(true);
+      await isLoggedIn();
     }
+    // } catch {
+    //   console.log("something went wrong");
+    // }
   }
   useEffect(() => {
     wakeServer();

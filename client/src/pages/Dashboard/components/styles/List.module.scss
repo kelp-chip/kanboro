@@ -71,9 +71,21 @@ form {
   padding-top: 0.5em;
 
   h3 {
-    margin: 8px 15px;
-    font-size: 16px;
+    // margin: 8px 15px;
+    font-size: 18px;
     font-weight: 600;
     user-select: none;
   }
+}
+
+.listName {
+  background-color: rgba(255, 255, 255, 0.623);
+  // width: max-content;
+  padding: 5px 15px;
+  border-radius: 3px;
+  margin: 0;
+}
+
+.listNameWrapper {
+  margin: 0 8px;
 }
