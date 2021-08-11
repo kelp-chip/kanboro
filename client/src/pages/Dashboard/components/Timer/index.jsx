@@ -13,7 +13,7 @@ export default function Timer({
   longBreakTime,
 }) {
   const timerOptions = {
-    pomodoro: 0.05,
+    pomodoro: intervalTime,
     short: shortBreakTime,
     long: longBreakTime,
   };
