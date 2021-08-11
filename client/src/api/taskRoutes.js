@@ -33,7 +33,6 @@ const patchTask = async (updatedTask) => {
 const deleteTask = async (taskId) => {
   const URL = `${process.env.REACT_APP_SERVER_URL}/tasks/${taskId}`;
   let message = await axios.delete(URL);
-  console.log(message);
 };
 
 const taskRoutes = {

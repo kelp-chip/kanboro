@@ -29,7 +29,6 @@ export default function Pomodoro({
               setCycles(newCycles);
               handleTimerOption("short");
             }
-            console.log("incrementing");
             incrementInterval();
           }
           return prevTime - 1;

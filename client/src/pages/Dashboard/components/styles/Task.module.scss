@@ -47,7 +47,8 @@
     padding: 0.5em;
     color: rgb(71, 71, 71);
     font-size: 14px;
-    white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-all;
   }
 
   img {

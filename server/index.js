@@ -184,11 +184,6 @@ app.get("/tasks", async (req, res) => {
 app.post("/tasks", async (req, res) => {
   const { listId, name, intervals, notes, intervals_completed } = req.body;
   let task;
-  console.log("--------------------");
-  console.log("ADDING COMPLETED");
-  console.log("--------------------");
-  console.log(intervals_completed);
-  console.log(!!intervals_completed);
   if (!!intervals_completed) {
     const order = await getTaskTopOrder(listId);
     task = await Task.create({
@@ -200,9 +195,6 @@ app.post("/tasks", async (req, res) => {
       notes: notes,
     });
   } else {
-    console.log("--------------------");
-    console.log("ADDING");
-    console.log("--------------------");
     const order = await getTaskOrder(listId);
     task = await Task.create({
       name: name,

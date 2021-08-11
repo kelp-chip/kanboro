@@ -14,15 +14,17 @@ function Landing({ isLoggedIn, setUserWelcome }) {
   const [serverAwake, setServerAwake] = useState(false);
 
   async function wakeServer() {
-    // try {
-    let res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/wakeserver`);
-    if (res) {
-      await setServerAwake(true);
-      await isLoggedIn();
+    try {
+      let res = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/wakeserver`
+      );
+      if (res) {
+        await setServerAwake(true);
+        await isLoggedIn();
+      }
+    } catch {
+      console.log("Sorry, something went wrong :(");
     }
-    // } catch {
-    //   console.log("something went wrong");
-    // }
   }
   useEffect(() => {
     wakeServer();
