@@ -25,7 +25,7 @@ export default function Header() {
     <nav className={styles.wrapper}>
       <div className={styles.container}>
         <Link to={user ? "/dashboard" : "/"}>
-          <h1> kanboro</h1>
+          <h1>kanboro</h1>
         </Link>
         {user ? (
           <ul className={styles.navItems}>

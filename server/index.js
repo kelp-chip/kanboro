@@ -149,6 +149,14 @@ app.get("/user", authenticateToken, async (req, res) => {
   res.send({ success: false, user: user });
 });
 
+app.patch("/user/:userId", async (req, res) => {
+  const { userId: id } = req.params;
+  const updatedAttributes = req.body;
+  await User.update(updatedAttributes, { where: { id } });
+  const user = await User.findOne({ where: { id } });
+  res.send({ success: true, user: user });
+});
+
 //LIST ROUTES------------------
 app.get("/lists/:userId", async (req, res) => {
   const { userId } = req.params;

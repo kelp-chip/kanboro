@@ -6,8 +6,8 @@ function UserSettings() {
   return (
     <main className={styles.container}>
       <h2>User Settings</h2>
-      <form>
-        {/* <h4>timer</h4> */}
+      <div className={styles.sign}>COMING SOON</div>
+      {/* <form>
         <div>
           <label for="intervalTime">pomodoro</label>
           <input type="text"></input>
@@ -32,7 +32,7 @@ function UserSettings() {
           <label for="intervalTime">new password</label>
           <input type="text"></input>
         </div>
-      </form>
+      </form> */}
     </main>
   );
 }
