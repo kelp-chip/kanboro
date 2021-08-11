@@ -8,6 +8,7 @@ const getUser = async (token) => {
 };
 
 const createUser = async (username, password) => {
+  username = username.toLowerCase();
   const URL = `${process.env.REACT_APP_SERVER_URL}/user`;
   const DATA = { username, password };
   const { data } = await axios.post(URL, DATA);
@@ -21,6 +22,7 @@ const patchUser = async (id, updatedAttributes) => {
 };
 
 const login = async (username, password) => {
+  username = username.toLowerCase();
   const URL = `${process.env.REACT_APP_SERVER_URL}/login`;
   const DATA = { username, password };
   try {
@@ -38,6 +40,6 @@ const logout = async () => {
   return;
 };
 
-const userRoutes = { getUser, createUser, login, logout };
+const userRoutes = { getUser, createUser, login, logout, patchUser };
 
 export default userRoutes;
