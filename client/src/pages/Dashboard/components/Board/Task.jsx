@@ -5,6 +5,7 @@ import edit from "images/edit.svg";
 import clock from "images/clock.svg";
 import check from "images/check.svg";
 import checked from "images/checked.svg";
+import pop from "sounds/pop.mp3";
 
 function Task({
   task,
@@ -16,11 +17,14 @@ function Task({
   setToggleEditTask,
   finishTask,
 }) {
+  const popSound = new Audio(pop);
+
   const deleteTask = async () => {
     const boardCopy = JSON.parse(JSON.stringify(board));
     boardCopy[listIndex].Tasks.splice(index, 1);
     setBoard(boardCopy);
     await taskRoutes.deleteTask(task.id);
+    popSound.play();
   };
 
   const editTask = async () => {

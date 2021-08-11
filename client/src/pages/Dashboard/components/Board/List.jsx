@@ -6,7 +6,8 @@ import EditTaskForm from "./EditTaskForm";
 import moveTask from "helpers/moveTask";
 import getOrder from "helpers/getOrder";
 import taskRoutes from "api/taskRoutes";
-import click from "sounds/click.wav";
+import click from "sounds/click.mp3";
+import pop from "sounds/pop.mp3";
 // import { UserContext } from "context/UserContext";
 import styles from "../styles/List.module.scss";
 
@@ -18,6 +19,7 @@ function List({ list, board, index, setBoard, setTimer }) {
   const [intervals, setIntervals] = useState(0);
   const [toggleEditTask, setToggleEditTask] = useState(false);
   const [clickSound] = useState(new Audio(click));
+  const [popSound] = useState(new Audio(pop));
 
   const openAddTaskForm = async () => {
     await setTaskName("");
@@ -55,6 +57,7 @@ function List({ list, board, index, setBoard, setTimer }) {
     await setBoard(boardCopy);
     await setTaskName("");
     await setAddingTask(false);
+    clickSound.play();
   };
 
   const startTask = async (e, taskIndex) => {
@@ -85,6 +88,17 @@ function List({ list, board, index, setBoard, setTimer }) {
 
     // backend changes
     await taskRoutes.patchTask(task);
+  };
+
+  const clearList = async () => {
+    let boardCopy = JSON.parse(JSON.stringify(board));
+    let tasks = boardCopy[2].Tasks;
+    for (let task of tasks) {
+      await taskRoutes.deleteTask(task.id);
+    }
+    boardCopy[2].Tasks = [];
+    await setBoard(boardCopy);
+    popSound.play();
   };
 
   return (
@@ -146,6 +160,7 @@ function List({ list, board, index, setBoard, setTimer }) {
                       <button
                         className={styles.clearListBtn}
                         style={{ color: list.length < 1 && "#e0e0e0" }}
+                        onClick={clearList}
                       >
                         clear list
                       </button>
