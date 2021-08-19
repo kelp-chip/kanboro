@@ -283,7 +283,7 @@ app.patch("/tasks/:taskId", async (req, res) => {
 
 //START SERVER
 app.listen(process.env.PORT || PORT, async () => {
-  sequelize.sync({ force: true }); //drops all db tables before recreating them
+  // sequelize.sync({ force: true }); //drops all db tables before recreating them
   console.log(`server now running on http://localhost:${PORT}!`);
   await sequelize.authenticate();
   console.log("Database connected!");
