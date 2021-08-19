@@ -130,6 +130,14 @@ app.post("/user", async (req, res) => {
           order: 100,
           intervals: 1,
         });
+        await Task.create({
+          name: "Complete your first timed task",
+          listId: todoList.id,
+          order: 50,
+          notes:
+            "- click the clock icon on this card - click start demo - hit the check mark that has now appeared on this card",
+          intervals: 1,
+        });
         await List.create({
           name: "in progress",
           userId: newUser.id,
@@ -174,10 +182,6 @@ app.patch("/user/:userId", async (req, res) => {
     avatar_url,
     alarm_sound,
   } = user;
-  console.log("=====================");
-  console.log("=====================");
-  console.log("=====================");
-  console.log(`image changed? : ${org !== avatar_url}`);
   const token = createToken(
     id,
     username,
@@ -279,7 +283,7 @@ app.patch("/tasks/:taskId", async (req, res) => {
 
 //START SERVER
 app.listen(process.env.PORT || PORT, async () => {
-  // sequelize.sync({ force: true }); //drops all db tables before recreating them
+  sequelize.sync({ force: true }); //drops all db tables before recreating them
   console.log(`server now running on http://localhost:${PORT}!`);
   await sequelize.authenticate();
   console.log("Database connected!");

@@ -21,16 +21,6 @@ if (config.use_env_variable) {
   );
 }
 
-// module.exports = new Sequelize(
-//   process.env.DB_NAME,
-//   process.env.DB_USERNAME,
-//   process.env.DB_PASSWORD,
-//   {
-//     host: process.env.DB_HOST,
-//     dialect: "mysql",
-//   }
-// );
-
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (

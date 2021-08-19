@@ -51,7 +51,8 @@ module.exports = (sequelize, DataTypes) => {
       background_url: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "https://image.flaticon.com/icons/png/512/149/149071.png",
+        defaultValue:
+          "https://images.unsplash.com/photo-1615552713642-73c367c8915c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1681&q=80",
       },
       interval_time: {
         type: DataTypes.INTEGER,
