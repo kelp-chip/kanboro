@@ -110,7 +110,6 @@ function UserSettings() {
 
   return (
     <main className={styles.container}>
-      {console.log(user.avatar_url)}
       <h2>User Settings</h2>
       <form className={styles.settingsForm} onSubmit={handleFormSubmit}>
         {/* <div>

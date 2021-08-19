@@ -36,7 +36,6 @@ function Dashboard() {
         <title>Kanboro</title>
       </Helmet>
       <div className="dashboard">
-        {console.log(user)}
         {timer && (
           <Timer
             incrementInterval={incrementInterval}
