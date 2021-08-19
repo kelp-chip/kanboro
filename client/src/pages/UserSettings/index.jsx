@@ -19,7 +19,6 @@ function UserSettings() {
   const [fileInputState, setFileInputState] = useState("");
   const [previewSrc, setPreviewSrc] = useState(user.avatar_url);
   const [avatarUrl, setAvatarUrl] = useState(user.avatar_url);
-  const [successMessage, setSuccessMessage] = useState("");
 
   const backgroundPreviews = Object.keys(backgrounds).map((key) => {
     return (
@@ -35,7 +34,7 @@ function UserSettings() {
     const file = e.target.files[0];
     await previewImage(file);
     await setSelectedFile(file);
-    await setFileInputState(e.target.value);
+    await setFileInputState(file);
   };
 
   const previewImage = (file) => {
@@ -101,7 +100,6 @@ function UserSettings() {
 
       const res = await userRoutes.patchUser(user.id, updatedAttributes);
       await setUser(res.user);
-      await setSuccessMessage("Changes saved!");
       history.push("/dashboard");
       localStorage.setItem("accessToken", res.accessToken);
     }
@@ -112,38 +110,6 @@ function UserSettings() {
     <main className={styles.container}>
       <h2>User Settings</h2>
       <form className={styles.settingsForm} onSubmit={handleFormSubmit}>
-        {/* <div>
-          <label htmlFor="alarm">alarm sound</label>
-          <input
-            id="alarm"
-            type="text"
-            value={alarmSound}
-            onChange={(e) => {
-              setAlarmSound(e.target.value);
-            }}
-          ></input>
-        </div> */}
-        <article>
-          <h4 className={styles.sectionTitle}>upload an avatar image</h4>
-          <div>
-            <input
-              className={styles.avatarInput}
-              id="avatar"
-              alt="upload an avatar"
-              type="file"
-              value={fileInputState}
-              onChange={handleFileInputChange}
-            ></input>
-            {previewSrc && (
-              <section>
-                <div className="avatarContainer">
-                  <img src={previewSrc} alt="chosenImage" width="30px" />
-                </div>
-              </section>
-            )}
-          </div>
-        </article>
-        <h4 className={styles.sectionTitle}>change interval times</h4>
         <article className={styles.timerSection}>
           <div>
             <label htmlFor="intervalTime">pomodoro time</label>
@@ -185,13 +151,40 @@ function UserSettings() {
             ></input>
           </div>
         </article>
+        {/* <div>
+          <label htmlFor="alarm">alarm sound</label>
+          <input
+            id="alarm"
+            type="text"
+            value={alarmSound}
+            onChange={(e) => {
+              setAlarmSound(e.target.value);
+            }}
+          ></input>
+        </div> */}
 
+        <article>
+          <h4 className={styles.sectionTitle}>upload custom avatar</h4>
+          <div className={styles.avatarSection}>
+            <div className="avatarContainer">
+              <img src={previewSrc} alt="chosenImage" width="30px" />
+            </div>
+            <input
+              className={styles.avatarInput}
+              id="avatar"
+              alt="upload an avatar"
+              type="file"
+              file={fileInputState}
+              onChange={handleFileInputChange}
+            ></input>
+          </div>
+        </article>
         <article>
           <h4 className={styles.sectionTitle}>choose a background image</h4>
           <div className={styles.bgPreviews}>{backgroundPreviews}</div>
         </article>
+
         <input type="submit" value="Save Changes"></input>
-        <article>{successMessage && successMessage}</article>
       </form>
     </main>
   );

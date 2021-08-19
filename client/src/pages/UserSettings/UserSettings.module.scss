@@ -1,6 +1,6 @@
 .container {
-  background-color: white;
-  width: 50%;
+  background-color: rgba(255, 255, 255, 0.904);
+  width: 45%;
   margin: 2em auto;
   text-align: center;
   padding: 1em 3em;
@@ -22,6 +22,7 @@
     article {
       padding: 20px 0;
       width: 100%;
+      border-top: rgb(167, 167, 167) solid 1px;
 
       div {
         display: flex;
@@ -34,19 +35,18 @@
     }
 
     .timerSection {
-      background-color: rgba(218, 218, 218, 0.438);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      padding: 20px 10px;
-      border: 1px #bebebe solid;
       border-radius: 2px;
+      border-top: none;
 
       div {
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-bottom: 10px;
       }
     }
 
@@ -54,6 +54,10 @@
       font-weight: 600;
       white-space: nowrap;
       margin-right: 10px;
+    }
+
+    input {
+      cursor: pointer;
     }
 
     input[type="number"] {
@@ -78,12 +82,11 @@
   justify-content: space-between;
   width: 100%;
   flex-wrap: wrap;
-  background-color: rgba(218, 218, 218, 0.438);
-  padding: 10px;
-  border: 1px #bebebe solid;
+  margin: 0 -5px;
+
   border-radius: 2px;
   img {
-    width: 65px;
+    width: 80px;
     cursor: pointer;
     margin: 10px 5px;
     margin-top: 0;
@@ -101,5 +104,14 @@
 }
 
 .avatarInput {
-  background-color: rgba(218, 218, 218, 0.438);
+  padding: 0;
+  width: 230px;
+  margin: 10px 0;
+  border: none;
+}
+
+.avatarSection {
+  div {
+    margin-right: 1rem;
+  }
 }
