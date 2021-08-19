@@ -9,6 +9,9 @@ import LoadingServer from "components/LoadingServer";
 import edit from "images/edit.svg";
 import clock from "images/clock.svg";
 
+const backgroundUrl =
+  "https://images.unsplash.com/photo-1615552713642-73c367c8915c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1681&q=80";
+
 function Landing({ isLoggedIn, setUserWelcome }) {
   const [registered, setRegistered] = useState(true);
   const [serverAwake, setServerAwake] = useState(false);
@@ -28,6 +31,7 @@ function Landing({ isLoggedIn, setUserWelcome }) {
   }
   useEffect(() => {
     wakeServer();
+    document.body.style.backgroundImage = `url(${backgroundUrl})`;
   }, []);
 
   return (
