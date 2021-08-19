@@ -130,14 +130,6 @@ app.post("/user", async (req, res) => {
           order: 100,
           intervals: 1,
         });
-        await Task.create({
-          name: "Complete your first timed task",
-          listId: todoList.id,
-          order: 50,
-          notes:
-            "- click the clock icon on this card - click start demo - hit the check mark that has now appeared on this card",
-          intervals: 1,
-        });
         await List.create({
           name: "in progress",
           userId: newUser.id,
