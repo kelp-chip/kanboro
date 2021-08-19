@@ -27,7 +27,8 @@ function Dashboard() {
       setBoard(boardData);
     }
     getBoardData();
-  }, [user.id]);
+    document.body.style.backgroundImage = `url(${user.background_url})`;
+  }, [user.id, user.background_url]);
 
   return (
     <>
@@ -35,11 +36,12 @@ function Dashboard() {
         <title>Kanboro</title>
       </Helmet>
       <div className="dashboard">
+        {console.log(user)}
         {timer && (
           <Timer
             incrementInterval={incrementInterval}
             setTimer={setTimer}
-            intervalTime={user.interval_time}
+            intervalTime={user.username === "guest" ? 0.05 : user.interval_time}
             shortBreakTime={user.short_break_time}
             longBreakTime={user.long_break_time}
             alarmSound={user.alarm_sound}

@@ -1,9 +1,9 @@
 .container {
   background-color: white;
-  width: 60%;
+  width: 50%;
   margin: 2em auto;
   text-align: center;
-  padding: 1em 2em;
+  padding: 1em 3em;
 
   font-size: 16px;
   border-radius: 3px;
@@ -12,28 +12,54 @@
 
   h2 {
     margin: 1em 0;
+    margin-top: 0.5em;
   }
 
   form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 10px;
-    row-gap: 1em;
-    div {
+    display: flex;
+    flex-wrap: wrap;
+
+    article {
+      padding: 20px 0;
+      width: 100%;
+
+      div {
+        display: flex;
+        justify-content: left;
+        section {
+          margin-left: 1rem;
+          flex-grow: 1;
+        }
+      }
+    }
+
+    .timerSection {
+      background-color: rgba(218, 218, 218, 0.438);
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    label {
-      font-weight: 600;
-      //   margin: 0.8em;
-      width: 100px;
+      flex-wrap: wrap;
+      padding: 20px 10px;
+      border: 1px #bebebe solid;
+      border-radius: 2px;
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
-    input {
-      //   width: 80%;
+    label {
+      font-weight: 600;
+      white-space: nowrap;
+      margin-right: 10px;
+    }
+
+    input[type="number"] {
       height: 30px;
       flex: 2 1 auto;
+      -moz-appearance: textfield;
     }
   }
 }
@@ -45,4 +71,35 @@
   width: max-content;
   margin: 2rem auto;
   transform: rotate(-6deg);
+}
+
+.bgPreviews {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  background-color: rgba(218, 218, 218, 0.438);
+  padding: 10px;
+  border: 1px #bebebe solid;
+  border-radius: 2px;
+  img {
+    width: 65px;
+    cursor: pointer;
+    margin: 10px 5px;
+    margin-top: 0;
+  }
+}
+
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionTitle {
+  text-align: left;
+  margin: 10px 0;
+}
+
+.avatarInput {
+  background-color: rgba(218, 218, 218, 0.438);
 }

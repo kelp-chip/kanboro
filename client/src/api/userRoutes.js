@@ -16,9 +16,9 @@ const createUser = async (username, password) => {
 };
 
 const patchUser = async (id, updatedAttributes) => {
-  const URL = `${process.env.REACT_APP_SERVER_URL}/user/:${id}`;
-  const { user } = await axios.patch(URL, updatedAttributes);
-  return user;
+  const URL = `${process.env.REACT_APP_SERVER_URL}/user/${id}`;
+  const { data } = await axios.patch(URL, updatedAttributes);
+  return data;
 };
 
 const login = async (username, password) => {
@@ -40,6 +40,12 @@ const logout = async () => {
   return;
 };
 
-const userRoutes = { getUser, createUser, login, logout, patchUser };
+const userRoutes = {
+  getUser,
+  createUser,
+  login,
+  logout,
+  patchUser,
+};
 
 export default userRoutes;

@@ -7,14 +7,15 @@ const path = require("path");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const { cloudinary } = require("./helpers/cloudinary");
 require("dotenv").config({ path: path.join(__dirname, "../", ".env") });
 
 const { sequelize, User, List, Task } = require("./database/models");
 const { getTaskOrder, getTaskTopOrder } = require("./helpers/getOrder");
 
 //MIDDLEWARE
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors(process.env.CLIENT_URL));
 
 function authenticateToken(req, res, next) {
@@ -36,7 +37,9 @@ const createToken = (
   interval_time,
   short_break_time,
   long_break_time,
-  background_url
+  background_url,
+  avatar_url,
+  alarm_sound
 ) => {
   return jwt.sign(
     {
@@ -47,6 +50,8 @@ const createToken = (
       short_break_time,
       long_break_time,
       background_url,
+      avatar_url,
+      alarm_sound,
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
@@ -77,6 +82,8 @@ app.post("/login", async (req, res) => {
         short_break_time,
         long_break_time,
         background_url,
+        avatar_url,
+        alarm_sound,
       } = user;
       const token = createToken(
         id,
@@ -85,7 +92,9 @@ app.post("/login", async (req, res) => {
         interval_time,
         short_break_time,
         long_break_time,
-        background_url
+        background_url,
+        avatar_url,
+        alarm_sound
       );
       res.send({ success: true, user: user, accessToken: token });
     } else {
@@ -152,9 +161,54 @@ app.get("/user", authenticateToken, async (req, res) => {
 app.patch("/user/:userId", async (req, res) => {
   const { userId: id } = req.params;
   const updatedAttributes = req.body;
+  let { avatar_url: org } = await User.findOne({ where: { id } });
   await User.update(updatedAttributes, { where: { id } });
-  const user = await User.findOne({ where: { id } });
-  res.send({ success: true, user: user });
+  let user = await User.findOne({ where: { id } });
+  const {
+    username,
+    newUser,
+    interval_time,
+    short_break_time,
+    long_break_time,
+    background_url,
+    avatar_url,
+    alarm_sound,
+  } = user;
+  console.log("=====================");
+  console.log("=====================");
+  console.log("=====================");
+  console.log(`image changed? : ${org !== avatar_url}`);
+  const token = createToken(
+    id,
+    username,
+    newUser,
+    interval_time,
+    short_break_time,
+    long_break_time,
+    background_url,
+    avatar_url,
+    alarm_sound
+  );
+
+  res.send({ success: true, user: user, accessToken: token });
+});
+
+app.post("/api/upload", async (req, res) => {
+  const { data: file, id } = req.body;
+  try {
+    const uploadedRes = await cloudinary.uploader.upload(file, {
+      upload_preset: "kanboro",
+      transformation: [{ width: 100 }],
+      public_id: id,
+      overwrite: true,
+      invalidate: true,
+      folder: "kanboro",
+    });
+    res.send(uploadedRes.secure_url);
+  } catch (err) {
+    console.log(err);
+    res.send("something went wrong", err);
+  }
 });
 
 //LIST ROUTES------------------

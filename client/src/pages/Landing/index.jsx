@@ -52,10 +52,12 @@ function Landing({ isLoggedIn, setUserWelcome }) {
                   <div className={taskStyle.notes}>
                     kanban board + pomodoro timer
                     <p>
-                      Plan daily tasks and consider how long each
-                      <br />
-                      task should take you to get a better handle on <br />
-                      your day.
+                      <strong>To get a better handle on your day:</strong>
+                    </p>
+                    <p>
+                      Use this handy tool to split your work into tasks and
+                      consider how long each should take to <br />
+                      complete.
                     </p>
                   </div>
                   <div className={taskStyle.options}>
@@ -77,7 +79,7 @@ function Landing({ isLoggedIn, setUserWelcome }) {
                         ></img>
                       </button>
                     </div>
-                    <span className={taskStyle.intervals}>0/1</span>
+                    <span className={taskStyle.intervals}>0/12</span>
                   </div>
                 </div>
               </div>

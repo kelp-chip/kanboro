@@ -82,7 +82,7 @@ export default function Timer({
               className={`${styles.timerBtn} ${styles.raisedBtn}`}
               onClick={() => setTimerOn(true)}
             >
-              start
+              {intervalTime === 0.05 ? "start demo" : "start"}
             </button>
           )}
         </div>

@@ -49,6 +49,11 @@ export default function Header() {
                 settings
               </Link>
             </li>
+            <li>
+              <div className="avatarContainer">
+                <img src={user.avatar_url} alt="avatar"></img>
+              </div>
+            </li>
             <li onClick={logout}>
               <span className={styles.navLink}>logout</span>
             </li>
