@@ -15,11 +15,9 @@
   color: rgb(32, 32, 32);
   flex-direction: column;
   padding: 1em 2em;
-  background-color: white;
+  // background-color: white;
   box-sizing: content-box;
   border-radius: 3px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 
   button {
     margin-top: 1em;
@@ -37,8 +35,8 @@
   right: 3px;
   top: -13px;
   padding: 0 5px;
-  color: gray;
   box-shadow: none;
+  color: rgb(116, 116, 116);
 
   &:hover {
     background: none;

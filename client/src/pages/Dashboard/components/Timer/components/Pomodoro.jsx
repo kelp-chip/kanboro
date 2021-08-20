@@ -61,7 +61,7 @@ export default function Pomodoro({
           }`}
         </title>
       </Helmet>
-      <h2>
+      <h2 className="clock">
         {Math.floor(timeInSeconds / 60)}:
         {timeInSeconds % 60 < 10
           ? `0${timeInSeconds % 60}`

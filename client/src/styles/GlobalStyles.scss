@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
 @import "./theme.scss";
+@import url("https://fonts.googleapis.com/css2?family=Orbitron&display=swap");
 
 $avatarDimensions: 30px;
 
@@ -125,4 +126,12 @@ textarea {
     min-width: $avatarDimensions;
     min-height: $avatarDimensions;
   }
+}
+
+.clock {
+  font-family: "Orbitron", sans-serif;
+}
+
+#visible {
+  display: block;
 }

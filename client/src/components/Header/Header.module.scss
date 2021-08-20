@@ -41,20 +41,10 @@
     .navLink,
     a {
       text-decoration: none;
-      cursor: pointer;
-      transition: color 0.5s;
-      padding: 5px 3px;
-      color: rgb(255, 255, 255);
-
       &:hover {
         color: rgba(255, 255, 255, 0.753);
       }
     }
-  }
-
-  li:last-child {
-    margin-right: 0;
-    margin-left: 2rem;
   }
 }
 
@@ -73,4 +63,31 @@
 }
 .period {
   font-family: "Rubik", sans-serif;
+}
+
+.dropDown {
+  position: relative;
+  margin-right: 0;
+  margin-left: 2rem;
+}
+.dropDownMenu {
+  display: none;
+  position: absolute;
+  margin-top: 10px;
+  background-color: white;
+  border-radius: 3px;
+  border: rgb(168, 168, 168) solid 1px;
+  ul {
+    list-style-type: none;
+    li {
+      color: rgb(42, 42, 42);
+      margin: 1rem 1.5rem;
+      display: flex;
+      cursor: pointer;
+      img {
+        margin-right: 10px;
+        width: 20px;
+      }
+    }
+  }
 }

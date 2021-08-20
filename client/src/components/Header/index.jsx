@@ -1,11 +1,15 @@
 import styles from "./Header.module.scss";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../../context/UserContext";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import gear from "images/gear.svg";
+import logoutImg from "images/logout.svg";
 
 export default function Header() {
   const { user, setUser } = useContext(UserContext);
   const [path, setPath] = useState();
+  const [dropDownVisible, setDropDownVisible] = useState(false);
+  const dropDownRef = useRef();
 
   const history = useHistory();
   const location = useLocation();
@@ -19,6 +23,11 @@ export default function Header() {
   useEffect(() => {
     let loc = location.pathname.slice(1, location.pathname.length);
     setPath(loc);
+    document.addEventListener("mousedown", async (event) => {
+      if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
+        await setDropDownVisible(false);
+      }
+    });
   }, [location.pathname]);
 
   return (
@@ -32,32 +41,29 @@ export default function Header() {
         {user ? (
           <ul className={styles.navItems}>
             <li className={styles.liFlex}>welcome {user.username}!</li>
-            <li>
-              <Link
-                to="/dashboard"
-                className={`${styles.navLink} ${
-                  path === "dashboard" && styles.focus
-                }`}
-              >
-                dashboard
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/settings"
-                className={`${styles.navLink} ${
-                  path === "settings" && styles.focus
-                }`}
-              >
-                settings
-              </Link>
-            </li>
-            <li onClick={logout}>
-              <span className={styles.navLink}>logout</span>
-            </li>
-            <li>
+
+            <li
+              className={styles.dropDown}
+              onClick={() => setDropDownVisible(!dropDownVisible)}
+            >
               <div className="avatarContainer">
                 <img src={user.avatar_url} alt="avatar"></img>
+              </div>
+              <div
+                className={styles.dropDownMenu}
+                ref={dropDownRef}
+                style={{ display: dropDownVisible ? "block" : "none" }}
+              >
+                <ul>
+                  <Link to="/settings">
+                    <li>
+                      <img src={gear} alt="settings"></img>settings
+                    </li>
+                  </Link>
+                  <li onClick={logout}>
+                    <img src={logoutImg} width="20px" alt="logout"></img>logout
+                  </li>
+                </ul>
               </div>
             </li>
           </ul>

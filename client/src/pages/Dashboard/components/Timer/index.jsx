@@ -1,5 +1,5 @@
 import styles from "../styles/Timer.module.scss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import chime from "sounds/taps.mp3";
 import click from "sounds/click.mp3";
 import Pomodoro from "./components/Pomodoro";
