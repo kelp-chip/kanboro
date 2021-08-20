@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import Board from "./components/Board";
+import LoadingMessage from "../../components/LoadingMessage";
 import Timer from "./components/Timer";
 import { withRouter } from "react-router-dom";
 import listRoutes from "api/listRoutes";
@@ -35,19 +36,27 @@ function Dashboard() {
       <Helmet>
         <title>Kanboro</title>
       </Helmet>
-      <div className="dashboard">
-        {timer && (
-          <Timer
-            incrementInterval={incrementInterval}
-            setTimer={setTimer}
-            intervalTime={user.username === "guest" ? 0.05 : user.interval_time}
-            shortBreakTime={user.short_break_time}
-            longBreakTime={user.long_break_time}
-            alarmSound={user.alarm_sound}
-          />
-        )}
-        <Board board={board} setBoard={setBoard} setTimer={setTimer} />
-      </div>
+      {board.length !== 0 ? (
+        <div className="dashboard">
+          {timer && (
+            <Timer
+              incrementInterval={incrementInterval}
+              setTimer={setTimer}
+              intervalTime={
+                user.username === "guest" ? 0.05 : user.interval_time
+              }
+              shortBreakTime={user.short_break_time}
+              longBreakTime={user.long_break_time}
+              alarmSound={user.alarm_sound}
+            />
+          )}
+          <Board board={board} setBoard={setBoard} setTimer={setTimer} />
+        </div>
+      ) : (
+        <div className="loadingContainer">
+          <LoadingMessage />
+        </div>
+      )}
     </>
   );
 }

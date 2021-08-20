@@ -9,7 +9,7 @@ export default function Login({ setRegistered }) {
   const [password, setPassword] = useState("");
   const [warning, setWarning] = useState(null);
   const history = useHistory();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   async function loginUser(e) {
     e.preventDefault();

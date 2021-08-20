@@ -71,6 +71,7 @@ function Task({
                       src={clock}
                       className={styles.edit}
                       alt="clock"
+                      title
                       onClick={(e) => startTask(e, index)}
                     ></img>
                   </button>

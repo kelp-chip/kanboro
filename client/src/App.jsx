@@ -46,9 +46,6 @@ export default function App() {
       ) : (
         <UserContext.Provider value={providerUser}>
           <Header />
-          {/* {userWelcome && (
-            <div className="welcomePopup">Welcome, {user.username}!</div>
-          )} */}
           <Route
             path="/"
             exact
@@ -61,5 +58,3 @@ export default function App() {
     </>
   );
 }
-
-//1090

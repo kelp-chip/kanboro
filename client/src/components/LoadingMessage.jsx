@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Timer() {
+export default function LoadingMessage() {
   const [loadingMessage, setLoadingMessage] = useState(false);
 
   useEffect(() => {
@@ -11,14 +11,14 @@ export default function Timer() {
   return (
     <>
       {loadingMessage && (
-        <>
+        <div className="loadingMessage">
           <h4>Server is waking up.</h4>
           <img
             src="https://media.tenor.com/images/0dcb73b26623579cc110fc7269992898/tenor.gif"
             alt="loading gif"
           ></img>
           <h4>Thank you for your patience!</h4>
-        </>
+        </div>
       )}
     </>
   );

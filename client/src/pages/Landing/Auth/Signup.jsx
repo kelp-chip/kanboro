@@ -1,6 +1,6 @@
 import styles from "./Auth.module.scss";
 import { useState } from "react";
-import validateNewUser from "../../helpers/validateUserInputs";
+import validateNewUser from "../../../helpers/validateUserInputs";
 import userRoutes from "api/userRoutes";
 
 export default function Signup({ setRegistered }) {

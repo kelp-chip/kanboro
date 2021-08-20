@@ -1,11 +1,11 @@
-import Login from "components/Auth/Login";
-import Signup from "components/Auth/Signup";
+import Login from "./Auth/Login";
+import Signup from "./Auth/Signup";
 import styles from "./Landing.module.scss";
 import taskStyle from "../Dashboard/components/styles/Task.module.scss";
 import { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
-import LoadingServer from "components/LoadingServer";
+import LoadingMessage from "components/LoadingMessage";
 import edit from "images/edit.svg";
 import clock from "images/clock.svg";
 
@@ -96,8 +96,8 @@ function Landing({ isLoggedIn }) {
           </div>
         </main>
       ) : (
-        <div className={styles.loadingContainer}>
-          <LoadingServer />
+        <div className="loadingContainer">
+          <LoadingMessage />
         </div>
       )}
     </>
