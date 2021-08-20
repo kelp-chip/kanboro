@@ -40,50 +40,58 @@ function Landing({ isLoggedIn }) {
         <main>
           <div className={styles.wrapper}>
             <div className={styles.container}>
+              <div className={styles.taskWrapper}>
+                <div className={styles.taskContainer}>
+                  <div className={taskStyle.taskbox}>
+                    <div className={taskStyle.header}>
+                      <div className={taskStyle.title}>
+                        Make things happen 🚀
+                      </div>
+                    </div>
+                    <div className={taskStyle.notes}>
+                      kanban board + pomodoro timer
+                      <p>
+                        <strong>To get a better handle on your day:</strong>
+                      </p>
+                      <p>🎯 Use this tool to plan out your daily tasks.</p>
+                      <p>
+                        ⏱️ Use the interval timer to help you focus and
+                        accomplish deep work.
+                      </p>
+                      <p>🏖 Take frequent breaks to refresh!</p>
+                      <p>
+                        <strong>Thanks for visiting!</strong>
+                      </p>
+                    </div>
+                    <div className={taskStyle.options}>
+                      <button className={taskStyle.optionBtn}>
+                        <img
+                          src={edit}
+                          className={taskStyle.edit}
+                          alt="edit"
+                        ></img>
+                      </button>
+                      <button className={taskStyle.delete}>✕</button>
+
+                      <div className={styles.time}>
+                        <button>
+                          <img
+                            src={clock}
+                            className={taskStyle.edit}
+                            alt="clock"
+                          ></img>
+                        </button>
+                      </div>
+                      <span className={taskStyle.intervals}>0/12</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
               {registered ? (
                 <Login setRegistered={setRegistered} />
               ) : (
                 <Signup setRegistered={setRegistered} />
               )}
-              <div className={styles.taskContainer}>
-                <div className={taskStyle.taskbox}>
-                  <div className={taskStyle.header}>
-                    <div className={taskStyle.title}>Make things happen</div>
-                  </div>
-                  <div className={taskStyle.notes}>
-                    kanban board + pomodoro timer
-                    <p>
-                      <strong>To get a better handle on your day:</strong>
-                    </p>
-                    <p>
-                      Use this handy tool to split your work into tasks and
-                      consider how long each should take to <br />
-                      complete.
-                    </p>
-                  </div>
-                  <div className={taskStyle.options}>
-                    <button className={taskStyle.optionBtn}>
-                      <img
-                        src={edit}
-                        className={taskStyle.edit}
-                        alt="edit"
-                      ></img>
-                    </button>
-                    <button className={taskStyle.delete}>✕</button>
-
-                    <div className={styles.time}>
-                      <button>
-                        <img
-                          src={clock}
-                          className={taskStyle.edit}
-                          alt="clock"
-                        ></img>
-                      </button>
-                    </div>
-                    <span className={taskStyle.intervals}>0/12</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </main>

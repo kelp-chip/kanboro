@@ -73,6 +73,11 @@ export default function Header() {
                 source code
               </a>
             </li>
+            <li className={styles.navLink}>
+              <a href="https://lexyk.io" alt="github repo">
+                developer
+              </a>
+            </li>
           </ul>
         )}
       </div>
