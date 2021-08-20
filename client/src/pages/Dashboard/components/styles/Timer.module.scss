@@ -12,7 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgb(32, 32, 32);
+  color: rgb(255, 255, 255);
   flex-direction: column;
   padding: 1em 2em;
   // background-color: white;
@@ -24,7 +24,12 @@
   }
 
   h2 {
-    font-size: 45px;
+    font-size: 65px;
+    padding: 5px 0;
+    width: 100%;
+    text-align: center;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.664); /* width and color */
   }
 }
 
@@ -36,7 +41,7 @@
   top: -13px;
   padding: 0 5px;
   box-shadow: none;
-  color: rgb(116, 116, 116);
+  color: rgb(255, 255, 255);
 
   &:hover {
     background: none;
@@ -75,6 +80,11 @@
   justify-content: space-between;
   button {
     padding: 5px 8px;
-    border-color: rgb(209, 209, 209);
+    border-color: rgba(209, 209, 209, 0);
+    background-color: #b4b4b459;
+    &:hover {
+      background-color: #d6d6d6a2;
+      border-color: rgba(184, 184, 184, 0.014);
+    }
   }
 }

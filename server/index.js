@@ -118,6 +118,8 @@ app.post("/user", async (req, res) => {
         const newUser = await User.create({
           username: username,
           password: hashedPassword,
+          avatar_url:
+            "https://res.cloudinary.com/dli6sknqy/image/upload/v1629420818/kanboro/aad193df-6e0d-40e2-b9c7-91d79e202317.png",
         });
         const todoList = await List.create({
           name: "todo",

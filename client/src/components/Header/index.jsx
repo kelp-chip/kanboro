@@ -10,7 +10,6 @@ export default function Header() {
   const [path, setPath] = useState();
   const [dropDownVisible, setDropDownVisible] = useState(false);
   const dropDownRef = useRef();
-
   const history = useHistory();
   const location = useLocation();
 
@@ -40,7 +39,7 @@ export default function Header() {
         </Link>
         {user ? (
           <ul className={styles.navItems}>
-            <li className={styles.liFlex}>welcome {user.username}!</li>
+            <li className={styles.liFlex}>you got this, {user.username}!</li>
 
             <li
               className={styles.dropDown}

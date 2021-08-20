@@ -69,6 +69,7 @@
   position: relative;
   margin-right: 0;
   margin-left: 2rem;
+  cursor: pointer;
 }
 .dropDownMenu {
   display: none;
@@ -77,6 +78,7 @@
   background-color: white;
   border-radius: 3px;
   border: rgb(168, 168, 168) solid 1px;
+  box-shadow: rgba(0, 0, 0, 0.322) 0px 4px 10px 3px;
   ul {
     list-style-type: none;
     li {

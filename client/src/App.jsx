@@ -14,7 +14,6 @@ export default function App() {
   const [width, setWidth] = useState(false);
   const providerUser = useMemo(() => ({ user, setUser }), [user, setUser]);
   const history = useHistory();
-  const [userWelcome, setUserWelcome] = useState(window.innerWidth);
 
   async function isLoggedIn() {
     let token = localStorage.getItem("accessToken");

@@ -87,13 +87,30 @@ export default function Timer({
           )}
         </div>
         <section className={styles.btnWrapper}>
-          <button onClick={() => handleTimerOption("pomodoro")}>
+          <button
+            onClick={() => handleTimerOption("pomodoro")}
+            style={{
+              backgroundColor: currentTimer === "pomodoro" && "#efefef",
+            }}
+          >
             pomodoro
           </button>
-          <button onClick={() => handleTimerOption("short")}>
+          <button
+            onClick={() => handleTimerOption("short")}
+            style={{
+              backgroundColor: currentTimer === "short" && "#efefef",
+            }}
+          >
             short break
           </button>
-          <button onClick={() => handleTimerOption("long")}>long break</button>
+          <button
+            onClick={() => handleTimerOption("long")}
+            style={{
+              backgroundColor: currentTimer === "long" && "#efefef",
+            }}
+          >
+            long break
+          </button>
         </section>
       </div>
     </div>
