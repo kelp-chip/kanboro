@@ -4,7 +4,7 @@ import userRoutes from "api/userRoutes";
 import { UserContext } from "context/UserContext";
 import { useHistory } from "react-router-dom";
 
-export default function Login({ setRegistered, setUserWelcome }) {
+export default function Login({ setRegistered }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [warning, setWarning] = useState(null);
@@ -31,9 +31,7 @@ export default function Login({ setRegistered, setUserWelcome }) {
     if (res.success) {
       localStorage.setItem("accessToken", res.accessToken);
       await setUser(res.user);
-      await setUserWelcome(true);
       history.push("/dashboard");
-      await setTimeout(() => setUserWelcome(false), 4000);
     } else {
       setWarning([res.message]);
     }

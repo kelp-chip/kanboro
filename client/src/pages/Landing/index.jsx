@@ -12,7 +12,7 @@ import clock from "images/clock.svg";
 const backgroundUrl =
   "https://images.unsplash.com/photo-1615552713642-73c367c8915c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1681&q=80";
 
-function Landing({ isLoggedIn, setUserWelcome }) {
+function Landing({ isLoggedIn }) {
   const [registered, setRegistered] = useState(true);
   const [serverAwake, setServerAwake] = useState(false);
 
@@ -41,10 +41,7 @@ function Landing({ isLoggedIn, setUserWelcome }) {
           <div className={styles.wrapper}>
             <div className={styles.container}>
               {registered ? (
-                <Login
-                  setRegistered={setRegistered}
-                  setUserWelcome={setUserWelcome}
-                />
+                <Login setRegistered={setRegistered} />
               ) : (
                 <Signup setRegistered={setRegistered} />
               )}

@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
 @import "./theme.scss";
 
+$avatarDimensions: 30px;
+
 *,
 *::before,
 *::after {
@@ -112,15 +114,15 @@ textarea {
 }
 
 .avatarContainer {
-  width: 45px;
-  height: 45px;
+  width: $avatarDimensions;
+  height: $avatarDimensions;
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
   img {
-    min-width: 45px;
-    min-height: 45px;
+    min-width: $avatarDimensions;
+    min-height: $avatarDimensions;
   }
 }

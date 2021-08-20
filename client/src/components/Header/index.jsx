@@ -25,10 +25,13 @@ export default function Header() {
     <nav className={styles.wrapper}>
       <div className={styles.container}>
         <Link to={user ? "/dashboard" : "/"}>
-          <h1>kanboro</h1>
+          <h1>
+            kanboro<span className={styles.period}>.</span>
+          </h1>
         </Link>
         {user ? (
           <ul className={styles.navItems}>
+            <li className={styles.liFlex}>welcome {user.username}!</li>
             <li>
               <Link
                 to="/dashboard"
@@ -49,13 +52,13 @@ export default function Header() {
                 settings
               </Link>
             </li>
+            <li onClick={logout}>
+              <span className={styles.navLink}>logout</span>
+            </li>
             <li>
               <div className="avatarContainer">
                 <img src={user.avatar_url} alt="avatar"></img>
               </div>
-            </li>
-            <li onClick={logout}>
-              <span className={styles.navLink}>logout</span>
             </li>
           </ul>
         ) : (

@@ -85,6 +85,7 @@ function List({ list, board, index, setBoard, setTimer }) {
     task.listId = boardCopy[2].id;
     const editedList = moveTask(boardCopy, 2, index, 0, taskIndex, task);
     await setBoard(editedList);
+    if (editedList[1].Tasks <= 0) setTimer(false);
 
     // backend changes
     await taskRoutes.patchTask(task);

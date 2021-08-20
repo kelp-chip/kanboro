@@ -31,6 +31,7 @@ function Board({ board, setBoard, setTimer }) {
       listId: destination.droppableId,
       order: order,
     });
+    if (editedList[1].Tasks <= 0) await setTimer(false);
   };
 
   return (

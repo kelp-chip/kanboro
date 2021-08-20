@@ -53,13 +53,7 @@ export default function App() {
           <Route
             path="/"
             exact
-            render={(props) => (
-              <Landing
-                {...props}
-                isLoggedIn={isLoggedIn}
-                setUserWelcome={setUserWelcome}
-              />
-            )}
+            render={(props) => <Landing {...props} isLoggedIn={isLoggedIn} />}
           />
           <ProtectedRoute path="/dashboard" component={Dashboard} />
           <ProtectedRoute path="/settings" component={UserSettings} />

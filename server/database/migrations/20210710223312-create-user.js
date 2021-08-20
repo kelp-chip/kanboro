@@ -27,7 +27,8 @@ module.exports = {
       avatar_url: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "https://image.flaticon.com/icons/png/512/149/149071.png",
+        defaultValue:
+          "https://res.cloudinary.com/dli6sknqy/image/upload/v1629420726/kanboro/Screen_Shot_2021-08-19_at_8.13.25_PM_u5aayc.png",
       },
       background_url: {
         type: DataTypes.STRING,

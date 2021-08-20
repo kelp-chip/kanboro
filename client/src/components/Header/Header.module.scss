@@ -1,12 +1,19 @@
 @import "../../styles/theme.scss";
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
 
 .wrapper {
-  padding: 1em 10em;
-  background-color: rgba(255, 255, 255, 0.644);
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 1em 0;
+  // background-color: rgba(0, 0, 0, 0.644);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.452), rgba(0, 0, 0, 0));
+  background-repeat: no-repeat;
+
+  // background-color: rgba(255, 255, 255, 0.644);
+  // box-shadow: rgba(0, 0, 0, 0.02) 0px -10px 16px 20px;
 }
 
 .container {
+  width: 1075px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,9 +21,10 @@
 
   h1 {
     font-size: 40px;
-    color: black;
+    color: rgb(255, 255, 255);
     cursor: pointer;
     text-decoration: none;
+    margin-right: 5rem;
   }
 }
 
@@ -28,21 +36,41 @@
 
   li {
     margin: 0 1em;
+    color: rgb(255, 255, 255);
 
-    .navLink {
+    .navLink,
+    a {
       text-decoration: none;
-      color: black;
       cursor: pointer;
       transition: color 0.5s;
       padding: 5px 3px;
+      color: rgb(255, 255, 255);
 
       &:hover {
-        color: rgb(39, 39, 39);
+        color: rgba(255, 255, 255, 0.753);
       }
     }
+  }
+
+  li:last-child {
+    margin-right: 0;
+    margin-left: 2rem;
   }
 }
 
 .focus {
-  border-bottom: 3px #0000002c solid;
+  border-bottom: 3px #bcbcbc2c solid;
+}
+
+.liFlex {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+
+  div {
+    margin-left: 1rem;
+  }
+}
+.period {
+  font-family: "Rubik", sans-serif;
 }
