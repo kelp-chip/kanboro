@@ -7,7 +7,6 @@ import logoutImg from "images/logout.svg";
 
 export default function Header() {
   const { user, setUser } = useContext(UserContext);
-  const [path, setPath] = useState();
   const [dropDownVisible, setDropDownVisible] = useState(false);
   const dropDownRef = useRef();
   const history = useHistory();
@@ -20,14 +19,12 @@ export default function Header() {
   }
 
   useEffect(() => {
-    let loc = location.pathname.slice(1, location.pathname.length);
-    setPath(loc);
     document.addEventListener("mousedown", async (event) => {
       if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
         await setDropDownVisible(false);
       }
     });
-  }, [location.pathname]);
+  }, []);
 
   return (
     <nav className={styles.wrapper}>

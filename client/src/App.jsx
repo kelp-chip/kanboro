@@ -5,22 +5,33 @@ import Landing from "./pages/Landing";
 import ProtectedRoute from "components/ProtectedRoute";
 import userRoutes from "api/userRoutes";
 import { useState, useMemo, useEffect } from "react";
-import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
-import axios from "axios";
+// import { AlertContext } from "./context/AlertContext";
+// import AlertMessage from "components/AlertMessage";
 
 export default function App() {
   const [user, setUser] = useState("checking");
+  // const [alert, setAlert] = useState(null);
   const [width, setWidth] = useState(false);
   const providerUser = useMemo(() => ({ user, setUser }), [user, setUser]);
+  // const providerAlert = useMemo(() => ({ alert, setAlert }), [alert, setAlert]);
   const history = useHistory();
 
   async function isLoggedIn() {
-    let token = localStorage.getItem("accessToken");
-    if (token) {
-      const res = await userRoutes.getUser(token);
-      await setUser(res.user);
-      history.push("/dashboard");
+    const now = new Date();
+    let itemStr = localStorage.getItem("accessToken");
+    if (itemStr) {
+      const item = JSON.parse(itemStr);
+      if (now.getTime() > item.expiry) {
+        localStorage.removeItem("accessToken");
+        await setUser(null);
+        history.push("/");
+      } else {
+        const res = await userRoutes.getUser(item.token);
+        await setUser(res.user);
+        history.push("/dashboard");
+      }
     } else {
       await setUser(null);
     }
@@ -55,6 +66,9 @@ export default function App() {
           <ProtectedRoute path="/settings" component={UserSettings} />
         </UserContext.Provider>
       )}
+      {/* <AlertContext.Provider value={providerAlert}>
+        <AlertMessage />
+      </AlertContext.Provider> */}
     </>
   );
 }

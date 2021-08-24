@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 
 function UserSettings() {
   const history = useHistory();
+  const MINS = 10;
   const { user, setUser } = useContext(UserContext);
   const [img, setImg] = useState(user.background_url);
   const [intervalTime, setIntervalTime] = useState(user.interval_time);
@@ -72,6 +73,7 @@ function UserSettings() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    const now = new Date();
     if (selectedFile) {
       await handleImageSubmit(e, async (avatar) => {
         let updatedAttributes = {
@@ -85,7 +87,12 @@ function UserSettings() {
 
         const res = await userRoutes.patchUser(user.id, updatedAttributes);
         await setUser(res.user);
-        localStorage.setItem("accessToken", res.accessToken);
+
+        let item = {
+          token: res.accessToken,
+          expiry: now.getTime() + MINS * 60000,
+        };
+        localStorage.setItem("accessToken", JSON.stringify(item));
         await setSelectedFile("");
         history.push("/dashboard");
       });
@@ -101,7 +108,11 @@ function UserSettings() {
       const res = await userRoutes.patchUser(user.id, updatedAttributes);
       await setUser(res.user);
       history.push("/dashboard");
-      localStorage.setItem("accessToken", res.accessToken);
+      let item = {
+        token: res.accessToken,
+        expiry: now.getTime() + MINS * 60000,
+      };
+      localStorage.setItem("accessToken", JSON.stringify(item));
     }
     //changing user in server but not applying changes unless you logout and log back in
   };

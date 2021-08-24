@@ -5,6 +5,7 @@ import { UserContext } from "context/UserContext";
 import { useHistory } from "react-router-dom";
 
 export default function Login({ setRegistered }) {
+  const MINS = 10;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [warning, setWarning] = useState(null);
@@ -13,10 +14,15 @@ export default function Login({ setRegistered }) {
 
   async function loginUser(e) {
     e.preventDefault();
+    const now = new Date();
     await setWarning(null);
     const res = await userRoutes.login(username, password);
     if (res.success) {
-      localStorage.setItem("accessToken", res.accessToken);
+      let item = {
+        token: res.accessToken,
+        expiry: now.getTime() + MINS * 60000,
+      };
+      localStorage.setItem("accessToken", JSON.stringify(item));
       await setUser(res.user);
       history.push("/dashboard");
     } else {
@@ -26,10 +32,15 @@ export default function Login({ setRegistered }) {
 
   async function loginGuest(e) {
     e.preventDefault();
+    const now = new Date();
     await setWarning(null);
     const res = await userRoutes.login("guest", "Password11!");
     if (res.success) {
-      localStorage.setItem("accessToken", res.accessToken);
+      let item = {
+        token: res.accessToken,
+        expiry: now.getTime() + MINS * 60000,
+      };
+      localStorage.setItem("accessToken", JSON.stringify(item));
       await setUser(res.user);
       history.push("/dashboard");
     } else {

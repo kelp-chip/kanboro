@@ -1,0 +1,48 @@
+.wrapper {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: rgba(0, 0, 0, 0.63);
+  width: 300px;
+  height: 100px;
+  color: white;
+  font-size: 18px;
+  padding: 2rem;
+  transition: visibility 0.5s all;
+}
+@keyframes slide {
+  0% {
+    opacity: 0;
+    right: -400px;
+  }
+  100% {
+    opacity: 1;
+    right: 1rem;
+  }
+}
+@keyframes slideAway {
+  0% {
+    opacity: 1;
+    right: 1rem;
+  }
+  100% {
+    opacity: 0;
+    right: -400px;
+  }
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  //   animation: slide 1s ease 0s forwards;
+  transition-delay: 0s;
+}
+
+.hidden {
+  right: -400px;
+  //   display: none;
+  visibility: hidden;
+  opacity: 0;
+  //   animation: slideAway 1s ease 0s forwards;
+  transition: visibility 0s linear 0.33s, opacity 0.33s linear;
+}
