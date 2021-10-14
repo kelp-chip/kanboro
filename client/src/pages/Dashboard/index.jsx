@@ -42,9 +42,7 @@ function Dashboard() {
             <Timer
               incrementInterval={incrementInterval}
               setTimer={setTimer}
-              intervalTime={
-                user.username === "guest" ? 0.05 : user.interval_time
-              }
+              intervalTime={user.interval_time}
               shortBreakTime={user.short_break_time}
               longBreakTime={user.long_break_time}
               alarmSound={user.alarm_sound}
